@@ -1,0 +1,87 @@
+/* 背景遮罩 */
+.popup-overlay {
+    position: fixed;
+    inset: 0; /* 簡化 top, left, width, height */
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 彈跳視窗 */
+.popup {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column; /* ✅ 垂直排列 */
+    gap: 15px; /* ✅ 每個元素間距 */
+}
+
+/* 標題 */
+.popup h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* 表單欄位 */
+.form-group {
+    display: flex;
+    flex-direction: column; /* ✅ 讓 label 跟 input 垂直排列 */
+    gap: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+/* 按鈕群組 */
+.buttons {
+    display: flex;
+    justify-content: space-between; /* ✅ 返回在左、確認在右 */
+    margin-top: 15px;
+}
+
+/* 確認按鈕 */
+.save-btn {
+    background: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 120px; /* ✅ 固定按鈕大小 */
+    text-align: center;
+}
+
+/* 確認按鈕懸停 */
+.save-btn:hover {
+    background: #218838;
+}
+
+/* 取消按鈕 */
+.cancel-btn {
+    background: #6c757d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 120px; /* ✅ 固定按鈕大小 */
+    text-align: center;
+}
+
+/* 取消按鈕懸停 */
+.cancel-btn:hover {
+    background: #5a6268;
+}

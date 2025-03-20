@@ -1,0 +1,75 @@
+/* 設定 SignIn 頁面全屏佈局 */
+.SignIn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* 讓內容充滿整個視窗高度 */
+  background-color: #f8f9fa;
+  font-family: Arial, sans-serif;
+}
+
+/* 標題樣式 */
+.SignIn h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* 輸入框通用樣式 */
+.SignIn input {
+  width: 80%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* 按鈕通用樣式 */
+.SignIn button {
+  width: 85%;
+  padding: 12px;
+  margin: 10px 0;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* 登入按鈕樣式 */
+.SUbt {
+  background-color: #007bff;
+  color: white;
+}
+
+.SUbt:hover {
+  background-color: #0056b3;
+}
+
+/* 註冊按鈕樣式 */
+.SIbt {
+  background-color: #28a745;
+  color: white;
+}
+
+.SIbt:hover {
+  background-color: #218838;
+}
+
+/* 錯誤訊息樣式 */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+
+/* 確保按鈕在小螢幕上顯示良好 */
+@media (max-width: 480px) {
+  .SignIn input,
+  .SignIn button {
+      width: 90%;
+  }
+}
