@@ -39,16 +39,21 @@ input {
 }
 
 .password-container input {
-    flex: 1;
+    flex-grow: 1; 
+    width: 100%;
+    max-width: 320px; 
+    padding-right: 40px; 
+    box-sizing: border-box; 
 }
 
 .password-container button {
     position: absolute;
-    right: 1px;
+    right: 10px;
     background: none;
     border: none;
     cursor: pointer;
     font-size: 18px;
+    padding: 5px;
 }
 
 .error {

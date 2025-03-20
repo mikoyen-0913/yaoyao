@@ -53,8 +53,14 @@ const SignUp = () => {
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    className="password-input" // ✅ 改為使用 className 來統一管理樣式
                 />
-                <button type="button" onClick={togglePasswordVisibility}>
+                <button 
+                    type="button" 
+                    onClick={togglePasswordVisibility} 
+                    className="password-toggle-btn"
+                    aria-label="切換密碼顯示"
+                > 
                     {showPassword ? '👁️' : '🙈'}
                 </button>
             </div>
@@ -87,8 +93,8 @@ const SignUp = () => {
                 註冊
             </button>
 
-            {/* 新增 "返回登入畫面" 按鈕 */}
-            <button className="back-btn" onClick={() => navigate('/')}>
+            {/* "返回登入畫面" 按鈕 */}
+            <button className="back-btn" onClick={() => navigate('/')}> 
                 返回登入畫面
             </button>
         </div>
