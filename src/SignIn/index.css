@@ -4,7 +4,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* 讓內容充滿整個視窗高度 */
+  height: 100vh;
+  /* 讓內容充滿整個視窗高度 */
   background-color: #f8f9fa;
   font-family: Arial, sans-serif;
 }
@@ -15,6 +16,8 @@
   color: #333;
   margin-bottom: 20px;
 }
+
+
 
 /* 輸入框通用樣式 */
 .SignIn input {
@@ -28,7 +31,7 @@
 
 /* 按鈕通用樣式 */
 .SignIn button {
-  width: 85%;
+  width: 200px;
   padding: 12px;
   margin: 10px 0;
   font-size: 16px;
@@ -68,8 +71,9 @@
 
 /* 確保按鈕在小螢幕上顯示良好 */
 @media (max-width: 480px) {
+
   .SignIn input,
   .SignIn button {
-      width: 90%;
+    width: 90%;
   }
 }
