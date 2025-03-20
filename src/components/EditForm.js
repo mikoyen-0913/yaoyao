@@ -2,30 +2,35 @@ import React, { useState, useEffect } from "react";
 import "../style/components/EditForm.css";
 
 const EditForm = ({ onClose, onSave, data }) => {
+    const [id, setId] = useState(null);
     const [itemName, setItemName] = useState("");
     const [quantity, setQuantity] = useState("");
     const [unit, setUnit] = useState("");
     const [price, setPrice] = useState("");
-    const [index, setIndex] = useState(null);
 
     // **確保 `data` 存在時才更新 `useState`**
     useEffect(() => {
         if (data) {
+            setId(data.id || null);  // ✅ 確保 `id` 被存入
             setItemName(data.name || "");
             setQuantity(data.quantity || "");
             setUnit(data.unit || "");
             setPrice(data.price || "");
-            setIndex(data.index || null);
         }
     }, [data]);
 
     const handleSave = () => {
+        if (!id) {
+            alert("更新失敗：找不到 ID");
+            return;
+        }
+
         if (!itemName || !quantity || !unit || !price) {
             alert("請填寫完整資訊");
             return;
         }
 
-        onSave({ name: itemName, quantity: Number(quantity), unit, price: Number(price), index });
+        onSave({ id, name: itemName, quantity: Number(quantity), unit, price: Number(price) });
     };
 
     return (
