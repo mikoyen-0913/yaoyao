@@ -86,26 +86,33 @@ const Home = () => {
       <table>
         <thead>
           <tr>
-            <th>操作</th>
             <th>品項</th>
             <th>庫存數量</th>
             <th>單位</th>
             <th>價格</th>
-            <th>操作</th>
+            <th>操作</th> 
           </tr>
         </thead>
         <tbody>
           {inventory.map((item) => (
             <tr key={item.id}>
-              <td>
-                <button onClick={() => handleEditItem(item)}>編輯</button>
-              </td>
               <td>{item.name}</td>
               <td>{item.quantity}</td>
               <td>{item.unit}</td>
               <td>{item.price}</td>
               <td>
-                <button onClick={() => handleDeleteItem(item.id)}>刪除</button>
+                <button onClick={() => handleEditItem(item)} className="edit-button">編輯</button>
+                &nbsp;
+                <button
+                  onClick={() => {
+                    if (window.confirm("你確定要刪除這筆資料嗎？")) {
+                      handleDeleteItem(item.id);
+                    }
+                  }}
+                  className="delete-button"
+                >
+                  刪除
+                </button>
               </td>
             </tr>
           ))}
