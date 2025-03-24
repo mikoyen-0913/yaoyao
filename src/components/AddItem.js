@@ -30,8 +30,7 @@ const AddItem = ({ onClose, onSave }) => {
   return (
     <div className="popup-overlay">
       <div className="popup">
-        <button className="close-btn" onClick={onClose}>X</button>
-
+  
         <div className="item-form">
           <h2>新增食材</h2>
           <div className="form-group">

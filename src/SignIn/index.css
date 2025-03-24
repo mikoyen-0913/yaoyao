@@ -5,75 +5,87 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  /* 讓內容充滿整個視窗高度 */
-  background-color: #f8f9fa;
+  background-color: #fef7e0;
   font-family: Arial, sans-serif;
 }
 
 /* 標題樣式 */
 .SignIn h1 {
   font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
+  color: #4e342e;
+  margin-bottom: 50px;
 }
-
-
 
 /* 輸入框通用樣式 */
 .SignIn input {
   width: 80%;
   padding: 10px;
   margin: 5px 0;
-  border: 1px solid #ccc;
+  border: 1px solid #a1887f;
   border-radius: 5px;
   font-size: 16px;
-}
-
-/* 按鈕通用樣式 */
-.SignIn button {
-  width: 200px;
-  padding: 12px;
-  margin: 10px 0;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-/* 登入按鈕樣式 */
-.SUbt {
-  background-color: #007bff;
-  color: white;
-}
-
-.SUbt:hover {
-  background-color: #0056b3;
-}
-
-/* 註冊按鈕樣式 */
-.SIbt {
-  background-color: #28a745;
-  color: white;
-}
-
-.SIbt:hover {
-  background-color: #218838;
 }
 
 /* 錯誤訊息樣式 */
 .error {
-  color: red;
+  color: #d32f2f;
   font-size: 14px;
   margin-top: 5px;
 }
 
+/* 按鈕通用設定（排版用） */
+.button-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 50px;
+}
 
-/* 確保按鈕在小螢幕上顯示良好 */
+/* ✅ 登入按鈕*/
+.SUbt {
+  background-color: #6cc1fa;
+  color: #ffffff;
+  border: 3px solid #135887;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 20px;
+  width: 200px;
+  padding: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.SUbt:hover {
+  background-color: #1d9cf0; 
+}
+
+/* ✅ 註冊按鈕 */
+.SIbt {
+  background-color: #ffe38a;
+  color: #4b2e1f;
+  border: 3px solid #c49a6c;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 20px;
+  width: 200px;
+  padding: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.SIbt:hover {
+  background-color: #f9d14d; 
+}
+
+/* 響應式 */
 @media (max-width: 480px) {
-
   .SignIn input,
   .SignIn button {
     width: 90%;
+  }
+
+  .button-row {
+    flex-direction: column;
+    align-items: center;
   }
 }

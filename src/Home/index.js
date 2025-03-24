@@ -119,7 +119,10 @@ const Home = () => {
         </tbody>
       </table>
 
-      <button onClick={() => setIsAddPopupOpen(true)}>新增食材</button>
+      {/* ✅ 新增 className="add-button" 來套用綠色圓角樣式 */}
+      <button onClick={() => setIsAddPopupOpen(true)} className="add-button">
+        新增食材
+      </button>
 
       {/* 彈跳視窗：新增食材 */}
       {isAddPopupOpen && <AddItem onClose={() => setIsAddPopupOpen(false)} onSave={handleAddItem} />}

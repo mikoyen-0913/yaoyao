@@ -1,7 +1,8 @@
 /* 背景遮罩 */
 .popup-overlay {
     position: fixed;
-    inset: 0; /* 簡化 top, left, width, height */
+    inset: 0;
+    /* 簡化 top, left, width, height */
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
@@ -17,8 +18,11 @@
     width: 90%;
     max-width: 400px;
     display: flex;
-    flex-direction: column; /* ✅ 垂直排列 */
-    gap: 15px; /* ✅ 每個元素間距 */
+    flex-direction: column;
+    /* ✅ 垂直排列 */
+    gap: 15px;
+    /* ✅ 每個元素間距 */
+
 }
 
 /* 標題 */
@@ -30,7 +34,8 @@
 /* 表單欄位 */
 .form-group {
     display: flex;
-    flex-direction: column; /* ✅ 讓 label 跟 input 垂直排列 */
+    flex-direction: column;
+    /* ✅ 讓 label 跟 input 垂直排列 */
     gap: 5px;
 }
 
@@ -46,42 +51,45 @@
 /* 按鈕群組 */
 .buttons {
     display: flex;
-    justify-content: space-between; /* ✅ 返回在左、確認在右 */
+    justify-content: space-between;
+    /* ✅ 返回在左、確認在右 */
     margin-top: 15px;
 }
 
 /* 確認按鈕 */
 .save-btn {
-    background: #28a745;
+    background: #6cc1fa;
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 6px;
     font-size: 16px;
     cursor: pointer;
-    width: 120px; /* ✅ 固定按鈕大小 */
+    width: 120px;
+    /* ✅ 固定按鈕大小 */
     text-align: center;
 }
 
 /* 確認按鈕懸停 */
 .save-btn:hover {
-    background: #218838;
+    background: #1d9cf0;
 }
 
 /* 取消按鈕 */
 .cancel-btn {
-    background: #6c757d;
-    color: white;
+    background: #ffe38a;
+    color: #4b2e1f;
     padding: 10px 20px;
     border: none;
     border-radius: 6px;
     font-size: 16px;
     cursor: pointer;
-    width: 120px; /* ✅ 固定按鈕大小 */
+    width: 120px;
+    /* ✅ 固定按鈕大小 */
     text-align: center;
 }
 
 /* 取消按鈕懸停 */
 .cancel-btn:hover {
-    background: #5a6268;
+    background: #f9d14d;
 }

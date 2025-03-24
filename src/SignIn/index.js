@@ -25,29 +25,33 @@ const SignIn = () => {
 
     return (
         <div className="SignIn">
-            <h1>候場小幫手</h1>
+            <h1>後場小幫手</h1>
 
-            <p>帳號:</p>
+            {/* ✅ 修改 1：改為輸入框內提示文字 */}
             <input 
                 type="text" 
                 value={username} 
                 onChange={(e) => setUsername(e.target.value)}
+                placeholder="請輸入帳號"
                 required
             />
 
-            <p>密碼:</p>
             <input 
                 type="password" 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="請輸入密碼"
                 required
             />
 
             {/* 錯誤訊息 */}
             {error && <p className="error">{error}</p>}
 
-            <button className="SUbt" onClick={handleLogin}>登入</button>
-            <button className="SIbt" onClick={() => navigate('/signup')}>註冊</button>
+            {/* ✅ 修改 2：將兩個按鈕放在一個 div 中並設 class 排成水平 */}
+            <div className="button-row">
+                <button className="SUbt" onClick={handleLogin}>登入</button>
+                <button className="SIbt" onClick={() => navigate('/signup')}>註冊</button>
+            </div>
         </div>
     );
 };

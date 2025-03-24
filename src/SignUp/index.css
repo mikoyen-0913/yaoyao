@@ -1,4 +1,4 @@
-/* 確保畫面適應手機裝置 */
+/* 主容器樣式 */
 .SignUp {
     display: flex;
     flex-direction: column;
@@ -6,21 +6,18 @@
     justify-content: center;
     height: 100vh;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #fffbe2;
     font-family: Arial, sans-serif;
 }
 
+/* 🔧 修改 h1 標題顏色為 #4e342e */
 h1 {
     font-size: 24px;
     margin-bottom: 20px;
+    color: #4e342e; /* ✅ 新增這行：更改標題顏色 */
 }
 
-p {
-    align-self: flex-start;
-    font-size: 14px;
-    margin: 10px 0 5px;
-}
-
+/* ✅ 每個輸入欄位都加底部間距 */
 input {
     width: 100%;
     max-width: 320px;
@@ -28,27 +25,32 @@ input {
     border: 1px solid #cccccc;
     border-radius: 5px;
     font-size: 16px;
+    margin-bottom: 16px;
 }
 
+/* ✅ 🔧 拆開密碼欄位容器樣式，方便獨立修改 */
 .password-container {
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 320px;
+    max-width: 342px;
     position: relative;
 }
 
+/* ✅ 🔧 密碼欄位的 input 样式（嵌套在 .password-container 裡） */
 .password-container input {
-    flex-grow: 1; 
+    flex-grow: 1;
     width: 100%;
-    max-width: 320px; 
-    padding-right: 40px; 
-    box-sizing: border-box; 
+    max-width: 342px;
+    padding-right: 40px;
+    box-sizing: border-box;
 }
 
+/* ✅ 🔧 密碼欄位右側的按鈕樣式 */
 .password-container button {
     position: absolute;
     right: 10px;
+    top: 5%;
     background: none;
     border: none;
     cursor: pointer;
@@ -56,58 +58,63 @@ input {
     padding: 5px;
 }
 
+/* 錯誤訊息 */
 .error {
     color: red;
     font-size: 14px;
     margin-top: 5px;
 }
 
+/* 🔧 註冊按鈕樣式*/
 .register-btn {
     width: 100%;
     max-width: 320px;
     padding: 12px;
-    margin-top: 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
+    background-color: #6cc1fa;
+    color: #ffffff;
+    border: 3px solid #135887;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 20px;         
+    font-weight: bold;    
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 10px;
 }
 
 .register-btn:hover {
-    background-color: #45a049;
+    background-color:  #1d9cf0;
 }
-/* "返回登入畫面" 按鈕 */
+
+/* 返回登入按鈕 */
 .back-btn {
     width: 100%;
     max-width: 320px;
     padding: 12px;
-    margin-top: 20px;
-    color: rgb(0, 0, 0);
-    border: none;
+    background-color: #ffe38a;
+    color: #4b2e1f;
+    border: 3px solid #c49a6c;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 20px;         
+    font-weight: bold; 
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 10px;       
 }
 
-/* 按鈕懸停效果 */
 .back-btn:hover {
-    background-color: #5a6268;
+    background-color:  #deb427;
 }
 
-
+/* 手機螢幕適應 */
 @media (max-width: 400px) {
     .SignUp {
         padding: 15px;
     }
-    
+
     h1 {
         font-size: 20px;
     }
-    
+
     input, .register-btn {
         font-size: 14px;
     }

@@ -12,12 +12,10 @@ const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
 
-    // 切換密碼可視性
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
-    // 處理註冊邏輯
     const handleSignUp = () => {
         const users = JSON.parse(localStorage.getItem('users')) || [];
 
@@ -31,29 +29,31 @@ const SignUp = () => {
         localStorage.setItem('users', JSON.stringify(users));
 
         alert('註冊成功！請登入');
-        navigate('/'); // 跳轉回登入頁面
+        navigate('/'); // 返回登入頁
     };
 
     return (
         <div className="SignUp">
             <h1>註冊頁面</h1>
 
-            <p>請輸入用戶名稱:</p>
+            {/* ✅ 改為 placeholder 提示「請輸入帳號」 */}
             <input 
                 type="text" 
                 value={username} 
                 onChange={(e) => setUsername(e.target.value)}
+                placeholder="請輸入帳號"
                 required
             />
 
-            <p>密碼:</p>
+            {/* ✅ 密碼也改為 placeholder */}
             <div className="password-container">
                 <input 
                     type={showPassword ? 'text' : 'password'} 
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="password-input" // ✅ 改為使用 className 來統一管理樣式
+                    className="password-input"
+                    placeholder="請輸入密碼"
                 />
                 <button 
                     type="button" 
@@ -65,26 +65,27 @@ const SignUp = () => {
                 </button>
             </div>
 
-            <p>請輸入店名:</p>
+            {/* ✅ 其餘欄位也改為 placeholder */}
             <input 
                 type="text" 
                 value={storeName} 
                 onChange={(e) => setStoreName(e.target.value)}
+                placeholder="請輸入店名"
             />
 
-            <p>請輸入 email:</p>
             <input 
                 type="email" 
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)}
+                placeholder="請輸入 email"
                 required
             />
 
-            <p>請輸入手機號碼:</p>
             <input 
                 type="text" 
                 value={phone} 
                 onChange={(e) => setPhone(e.target.value)}
+                placeholder="請輸入手機號碼"
             />
 
             {error && <p className="error">{error}</p>}
@@ -93,12 +94,11 @@ const SignUp = () => {
                 註冊
             </button>
 
-            {/* "返回登入畫面" 按鈕 */}
             <button className="back-btn" onClick={() => navigate('/')}> 
                 返回登入畫面
             </button>
         </div>
     );
-}
+};
 
 export default SignUp;
