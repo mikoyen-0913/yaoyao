@@ -36,8 +36,7 @@ const EditForm = ({ onClose, onSave, data }) => {
     return (
         <div className="popup-overlay">
             <div className="popup">
-                <button className="close-btn" onClick={onClose}>X</button>
-
+                {/* 移除了原本在此處的關閉按鈕 */}
                 <div className="item-form">
                     <h2>編輯食材</h2>
                     <div className="form-group">
