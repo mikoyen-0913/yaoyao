@@ -1,0 +1,100 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.inventory-container {
+    background-color: #fffbe2; /* ✅ 背景米黃色 */
+    padding: 20px;             /* ✅ 建議加點內距讓內容不緊貼邊緣 */
+    min-height: 100vh;         /* ✅ 讓背景撐滿整頁 */
+  }
+
+  /* 讓整個表格列背景變成白色 */
+table tr {
+    background-color: white;
+}
+
+/* 表頭背景變成白色 */
+th {
+    background-color: rgb(231, 231, 230);
+}
+
+  
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.table-container {
+    position: relative;
+}
+
+/* 新增食材按鈕樣式 */
+.add-button,
+.add-item-button {
+    background-color: #5cb85c;     
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 6px;            
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.add-button:hover,
+.add-item-button:hover {
+    background-color: #2b9d2b;      
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1.2px solid #c9a27e;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+/* ✅ 編輯按鈕：加上圓角與 hover 效果 */
+.edit-button {
+    background-color: #f0ad4e;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 6px; /* ✅ 新增圓角 */
+    transition: background-color 0.3s ease; /* ✅ 平滑 hover 效果 */
+}
+
+.edit-button:hover {
+    background-color: #e1860e; /* ✅ 稍微深一點，舒服的 hover 色 */
+}
+
+/* ✅ 刪除按鈕：加上圓角與 hover 效果 */
+.delete-button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 6px; /* ✅ 新增圓角 */
+    transition: background-color 0.3s ease; /* ✅ 平滑 hover 效果 */
+}
+
+.delete-button:hover {
+    background-color: #b92c27; /* ✅ 稍微深紅一點，符合風格 */
+}
+
+.icon {
+    font-size: 24px;
+    margin: 0 10px;
+    cursor: pointer;
+  }

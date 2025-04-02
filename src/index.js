@@ -1,19 +1,13 @@
+// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App'; // 👉 改為導入 App 組件
 import './index.css';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import Home from './Home';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
 root.render(
   <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<SignIn />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/home" element={<Home />} />
-    </Routes>
+    <App />
   </BrowserRouter>
 );

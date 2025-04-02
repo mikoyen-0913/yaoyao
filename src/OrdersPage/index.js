@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react";
-import "./OrdersPage.css";
+import "./index.css";
 
-const API_URL = "http://127.0.0.1:5000"; // Flask server 路徑
+const API_URL = "http://127.0.0.1:5000";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
 
-  // 🚀 取得訂單資料
   const fetchOrders = async () => {
     try {
       const response = await fetch(`${API_URL}/get_orders`);
       if (!response.ok) throw new Error("取得訂單失敗");
       const data = await response.json();
-      setOrders(data.orders); // 假設後端傳回 { orders: [...] }
+      setOrders(data.orders);
     } catch (error) {
       console.error("讀取訂單錯誤:", error);
     }
   };
 
-  // 🚀 單筆完成（刪除）
   const handleDone = async (id) => {
     try {
       const response = await fetch(`${API_URL}/delete_order/${id}`, {
@@ -31,7 +29,6 @@ const OrdersPage = () => {
     }
   };
 
-  // 🚀 一次刪除五筆
   const handleDeleteFive = async () => {
     const idsToDelete = orders.slice(0, 5).map((order) => order.id);
     try {
@@ -62,17 +59,26 @@ const OrdersPage = () => {
       </div>
 
       <div className="orders-list">
-        {orders.slice(0, 5).map((order) => (
+        {orders.slice(0, 5).map((order, index) => (
           <div key={order.id} className="order-card">
-            <pre className="order-items">{order.items}</pre>
+            <div className="order-items">
+              {order.items.map((item, idx) => (
+                <div key={idx}>{item.menu_name} x{item.quantity}</div>
+              ))}
+            </div>
+            <div className="order-number">{index + 1}</div>
             <div className="order-price">${order.total_price}</div>
+            <div className="order-actions">
+              <button className="edit-button">編輯</button>
+              <button className="delete-button" onClick={() => handleDone(order.id)}>刪除</button>
+            </div>
             <button className="done-button" onClick={() => handleDone(order.id)}>完成</button>
           </div>
         ))}
       </div>
 
       <button className="delete-all-button" onClick={handleDeleteFive}>
-        一次刪除五筆訂單
+        一次清除五筆訂單
       </button>
     </div>
   );
