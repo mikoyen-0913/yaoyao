@@ -1,100 +1,116 @@
+/* 整體 body 樣式：設定字型與四周間距 */
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
 }
 
+/* 整體庫存頁面的容器樣式：米黃色背景、內距、撐滿整頁高度 */
 .inventory-container {
-    background-color: #fffbe2; /* ✅ 背景米黃色 */
-    padding: 20px;             /* ✅ 建議加點內距讓內容不緊貼邊緣 */
-    min-height: 100vh;         /* ✅ 讓背景撐滿整頁 */
-  }
+    background-color: #fffbe2;
+    padding: 20px;
+    min-height: 100vh;
+}
 
-  /* 讓整個表格列背景變成白色 */
+/* 表格每一列背景白色（主要內容區塊） */
 table tr {
     background-color: white;
 }
 
-/* 表頭背景變成白色 */
+/* 表格的表頭欄背景灰色 */
 th {
     background-color: rgb(231, 231, 230);
 }
 
-  
+/* 中央容器最大寬度限制為 600px 並置中（目前未使用） */
 .container {
     max-width: 600px;
     margin: auto;
 }
 
+/* 表格外層容器可使用絕對定位（目前未使用） */
 .table-container {
     position: relative;
 }
 
-/* 新增食材按鈕樣式 */
+/* 共用按鈕樣式：統一外觀與大小設定 */
+.add-button,
+.add-item-button,
+.home-button,
+.edit-button,
+.delete-button {
+    background-color: #ccc;                   /* 預設背景色（會被各自覆蓋） */
+    color: white;                             /* 白色文字 */
+    border: none;                             /* 無邊框 */
+    padding: 5px 10px;                        /* 內距保持原高度 */
+    width: 100px;                             /* 統一寬度 */
+    font-size: 16px;                          /* 統一字體大小 */
+    border-radius: 6px;                       /* 圓角邊框 */
+    cursor: pointer;                          /* 滑鼠變手指 */
+    transition: background-color 0.3s ease;   /* hover 效果 */
+    margin-top: 20px;                         /* 與上方間距 */
+}
+
+/* 新增按鈕樣式：新增食材，綠色背景＋hover 深綠 */
 .add-button,
 .add-item-button {
-    background-color: #5cb85c;     
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 6px;            
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
+    background-color: #5cb85c;
 }
 
 .add-button:hover,
 .add-item-button:hover {
-    background-color: #2b9d2b;      
+    background-color: #2b9d2b;
 }
 
+/* 回首頁按鈕樣式：跳轉首頁，藍色背景＋hover 深藍 */
+.home-button {
+    background-color: #4faeea;
+    margin-left: 10px;
+}
+
+.home-button:hover {
+    background-color: #248fd4;
+}
+
+/* 編輯按鈕樣式：編輯資料，橘色背景＋hover 深橘 */
+.edit-button {
+    background-color: #f0ad4e;
+}
+
+.edit-button:hover {
+    background-color: #e1860e;
+}
+
+/* 刪除按鈕樣式：刪除資料，紅色背景＋hover 深紅 */
+.delete-button {
+    background-color: #d9534f;
+}
+
+.delete-button:hover {
+    background-color: #b92c27;
+}
+
+/* 表格樣式設定：滿版寬度、合併邊框、與上方元素間距 */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
+/* 表格欄位樣式：邊框、內距、靠左對齊 */
 th, td {
     border: 1.2px solid #c9a27e;
     padding: 8px;
     text-align: left;
 }
 
+/* 表格表頭顏色統一處理 */
 th {
     background-color: #f4f4f4;
 }
 
-/* ✅ 編輯按鈕：加上圓角與 hover 效果 */
-.edit-button {
-    background-color: #f0ad4e;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 6px; /* ✅ 新增圓角 */
-    transition: background-color 0.3s ease; /* ✅ 平滑 hover 效果 */
-}
-
-.edit-button:hover {
-    background-color: #e1860e; /* ✅ 稍微深一點，舒服的 hover 色 */
-}
-
-/* ✅ 刪除按鈕：加上圓角與 hover 效果 */
-.delete-button {
-    background-color: #d9534f;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 6px; /* ✅ 新增圓角 */
-    transition: background-color 0.3s ease; /* ✅ 平滑 hover 效果 */
-}
-
-.delete-button:hover {
-    background-color: #b92c27; /* ✅ 稍微深紅一點，符合風格 */
-}
-
+/* icon 圖示樣式 */
 .icon {
     font-size: 24px;
     margin: 0 10px;
     cursor: pointer;
-  }
+}
