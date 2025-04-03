@@ -1,20 +1,23 @@
+/* === 整體容器 === */
 .homepage-container {
   background-color: #fff9e6;
-  border: 2px solid #caa9ff;
   padding: 30px;
-  border-radius: 12px;
+  border-radius: 0px; /* 滿版不用邊框圓角 */
   text-align: center;
-  max-width: 800px;
-  margin: 30px auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100vw; /* 滿版寬度 */
+  min-height: 100vh; /* 滿版高度 */
+  box-sizing: border-box;
 }
 
+/* === 歡迎文字 === */
 .welcome-text {
   font-size: 24px;
   font-weight: bold;
+  color: #4b2e1f; 
   margin-bottom: 20px;
 }
 
+/* === 按鈕區塊 === */
 .button-group {
   display: flex;
   justify-content: center;
@@ -22,11 +25,14 @@
   margin-bottom: 30px;
 }
 
+/* === 導航按鈕樣式 === */
 .nav-button {
   background-color: #ffd966;
-  border: 2px solid #e6b800;
+  border: 2px solid #a47551; 
   padding: 10px 20px;
   font-size: 16px;
+  font-weight: bold; /* 加粗文字 */
+  color: #4b2e1f; 
   border-radius: 16px;
   cursor: pointer;
   transition: 0.2s;
@@ -36,16 +42,19 @@
   background-color: #ffcc00;
 }
 
+/* === 圖片容器（已移除白底） === */
 .image-box {
-  background-color: white;
-  border: 2px solid black;
-  border-radius: 16px;
   padding: 20px;
+  border: none;
+  border-radius: 0px; /* 移除圓角背景視覺 */
+  background-color: transparent; /* 拿掉白色背景 */
 }
 
+/* === 主圖設定 === */
 .hero-image {
   width: 100%;
   max-width: 500px;
   border-radius: 12px;
   object-fit: cover;
+  opacity: 0.75; /* 圖片透明度調整為 75% */
 }
