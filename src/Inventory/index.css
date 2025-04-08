@@ -114,3 +114,43 @@ th {
     margin: 0 10px;
     cursor: pointer;
 }
+
+/* ✅ 新增欄位寬度設定：讓表格更合理分配空間 */
+.col-name {
+    width: 30%;
+  }
+  
+  .col-qty {
+    width: 15%;
+  }
+  
+  .col-unit {
+    width: 15%;
+  }
+  
+  .col-price {
+    width: 20%;
+  }
+  
+  .col-actions {
+    width: 20%;
+    text-align: center;
+  }
+
+  /* ✅ 讓編輯 + 刪除按鈕可以置中顯示 */
+  .action-buttons {
+    display: flex;
+    justify-content: center;   /* 水平置中 */
+    align-items: center;       /* 垂直置中 */
+    gap: 10px;
+    height: 100%;
+    width: 100%; 
+  }
+  
+  td {
+    border: 1.2px solid #c9a27e;
+    padding: 12px;
+    vertical-align: middle; /* ✅ 加上垂直置中 */
+  }
+  
+

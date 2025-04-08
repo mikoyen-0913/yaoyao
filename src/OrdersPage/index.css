@@ -1,134 +1,174 @@
+/* 整體訂單區塊容器樣式設定 */
 .orders-container {
-  background-color: #fff9e6;
-  padding: 30px;
-  max-width: 900px;
-  margin: 30px auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fff9e6; /* 淡黃色背景 */
+  padding: 30px; /* 內邊距 */
+  max-width: 1000px; /* 最大寬度限制 */
+  margin: 30px auto; /* 上下30px間距、自動置中 */
 }
 
-.orders-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.orders-header h2 {
-  font-size: 24px;
-  font-weight: bold;
-  color: #4b2e1f; /* ← 顯示訂單字顏色 */
-}
-
-.icon-group {
-  font-size: 24px;
-}
-
-.icon {
-  margin: 0 10px;
-  cursor: pointer;
-}
-
+/* 訂單列表使用 CSS Grid 呈現 */
 .orders-list {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-top: 20px;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 一排五個訂單卡片，每個卡片等寬 */
+  gap: 16px; /* 卡片間距 */
+  margin-top: 20px; /* 上方邊距 */
+  justify-items: center; /* 卡片置中對齊 */
 }
 
+/* 單張訂單卡片樣式 */
 .order-card {
-  border: 2px solid #000;
-  border-radius: 12px;
-  width: 150px;
-  padding: 10px;
+  border: 2px solid #000; /* 黑色外框 */
+  border-radius: 0;
+  width: 130px; /* 固定寬度 */
+  padding: 8px 6px; /* 卡片內部空間 */
   background-color: white;
-  text-align: center;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
-  position: relative;
+  text-align: center; /* 文字置中 */
 }
 
+/* 訂單內餐點項目清單 */
 .order-items {
-  white-space: pre-wrap;
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-
-.order-number {
-  font-size: 28px;
+  white-space: pre-wrap; /* 保持換行格式 */
+  font-size: 17px;
   font-weight: bold;
-  color: #d4a017;
-  margin-bottom: 8px;
+  line-height: 1.4; /* 行高 */
+  color: #000;
+  margin-bottom: 8px; /* 下方間距 */
+  margin-top: 2px; /* 上方間距 */
 }
 
+/* 卡片內的訂單編號和價格區域 */
+.order-meta {
+  display: flex;
+  justify-content: space-between; /* 編號和價格左右對齊 */
+  align-items: center; /* 垂直置中 */
+  margin-bottom: 10px; /* 下方間距 */
+  padding: 0 4px; /* 左右內邊距 */
+}
+
+/* 訂單編號字體樣式 */
+.order-number {
+  font-size: 60px; /* 超大字體 */
+  font-weight: 1000; /* 極粗字體 */
+  color: #f5b971; /* 淡咖啡色 */
+  -webkit-text-stroke: 3px #a0652e; /* 咖啡色邊框 */
+}
+
+/* 訂單價格文字樣式 */
 .order-price {
-  color: #ff5e57;
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 10px;
+  color: #e74c3c; /* 紅色 */
 }
 
+/* 卡片內動作按鈕容器 */
 .order-actions {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  flex-direction: column; /* 垂直排列按鈕 */
+  gap: 6px; /* 按鈕間距 */
+  margin-bottom: 10px; /* 與下方按鈕間距 */
 }
 
-.edit-button,
-.delete-button {
-  flex: 1;
-  margin: 0 3px;
-  padding: 4px;
-  font-size: 12px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-}
-
-.edit-button {
-  background-color: #ffe599;
-}
-
-.delete-button {
-  background-color: #ff5e57;
-  color: white;
-}
-
+/* 共用按鈕基本樣式（編輯、刪除、完成） */
+.modify-button,
+.remove-button,
 .done-button {
-  background-color: #ffcc80;
-  border: none;
-  width: 100%;
-  padding: 6px 0;
-  border-radius: 0 0 10px 10px;
+  font-size: 16px;
   font-weight: bold;
+  padding: 5px 0;
+  border-radius: 10px; /* 圓角 */
+  border: 2px solid #4b2e1f; /* 深咖啡色邊框 */
   cursor: pointer;
+  margin: 0 auto; /* 水平置中 */
+  width: 80%; /* 寬度為容器80% */
 }
 
+/* 編輯按鈕特殊樣式 */
+.modify-button {
+  background-color: #ffe38a; /* 淡黃色背景 */
+  color: #4b2e1f; /* 深咖啡色文字 */
+}
+
+/* 編輯按鈕滑鼠懸停樣式 */
+.modify-button:hover {
+  background-color: #e8ad61;
+}
+
+/* 刪除按鈕特殊樣式 */
+.remove-button {
+  background-color: #e74c3c; /* 紅色背景 */
+  color: #ffffff; /* 白色文字 */
+}
+
+/* 刪除按鈕滑鼠懸停樣式 */
+.remove-button:hover {
+  background-color: #b92c27;
+}
+
+/* 完成按鈕特殊樣式 */
+.done-button {
+  background-color: #f5b971; /* 淡咖啡色背景 */
+  color: #4b2e1f;
+  width: 100%; /* 滿版寬度 */
+}
+
+/* 完成按鈕滑鼠懸停樣式 */
+.done-button:hover {
+  background-color: #f29e5b;
+}
+
+/* 一次完成五筆訂單按鈕樣式 */
 .delete-all-button {
-  margin: 30px auto 0;
+  margin: 30px auto 0; /* 上方30px，水平置中 */
   display: block;
-  background-color: #ffeaea;
-  color: #e74c3c;
-  border: 3px solid #e74c3c;
+  background-color: #ffeaea; /* 淡紅色背景 */
+  color: #e74c3c; /* 紅色文字 */
+  border: 3px solid #e74c3c; /* 紅色邊框 */
   padding: 12px 24px;
   font-size: 18px;
-  border-radius: 16px;
+  border-radius: 16px; /* 大圓角 */
   font-weight: bold;
   cursor: pointer;
   text-align: center;
 }
 
+/* 回首頁按鈕樣式 */
 .go-home-button {
-  background-color: #fdf1f1;
-  border: 2px solid #e74c3c;
-  color: #e74c3c;
-  padding: 8px 16px;
+  background-color: #4faeea; /* 藍色背景 */
+  color: #ffffff; /* 白色文字 */
   font-weight: bold;
+  border: 3px solid #248fd4; /* 深藍色邊框 */
+  margin-left: 10px;
+  padding: 8px 16px;
   font-size: 14px;
   border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease; /* 平滑轉場效果 */
 }
 
+/* 回首頁按鈕滑鼠懸停樣式 */
 .go-home-button:hover {
-  background-color: #ffecec;
+  background-color: #248fd4;
+}
+
+/* 標題區域樣式 */
+.orders-header h2 {
+  color: #4b2e1f; /* 深咖啡色文字 */
+}
+
+/* 頂部圖示群按鈕樣式 */
+.icon-group button {
+  font-weight: bold;
+  background-color: #4faeea;
+  color: #ffffff;
+  border: 3px solid #248fd4;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 5px; /* 左側間距 */
+}
+
+/* 頂部圖示群按鈕滑鼠懸停樣式 */
+.icon-group button:hover {
+  background-color: #248fd4;
 }

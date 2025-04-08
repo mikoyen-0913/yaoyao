@@ -95,19 +95,19 @@ const Inventory = () => {
       </button>
 
       <button className="home-button" onClick={() => window.location.href = 'http://localhost:3000/home'}>
-  回首頁
-</button>
+        回首頁
+      </button>
 
 
       {/* 顯示食材清單表格 */}
       <table>
         <thead>
           <tr>
-            <th>品項</th>
-            <th>庫存數量</th>
-            <th>單位</th>
-            <th>價格</th>
-            <th>操作</th> 
+            <th className="col-name">品項</th>           {/* ✅ 欄寬調整 */}
+            <th className="col-qty">庫存數量</th>
+            <th className="col-unit">單位</th>
+            <th className="col-price">價格</th>
+            <th className="col-actions">操作</th>        {/* ✅ 欄寬調整 */}
           </tr>
         </thead>
         <tbody>
@@ -117,25 +117,26 @@ const Inventory = () => {
               <td>{item.quantity}</td>
               <td>{item.unit}</td>
               <td>{item.price}</td>
-              <td>
-                {/* 編輯按鈕 */}
-                <button onClick={() => handleEditItem(item)} className="edit-button">編輯</button>
-                &nbsp;
-                {/* 刪除按鈕（含確認對話框） */}
-                <button
-                  onClick={() => {
-                    if (window.confirm("您確定要刪除這筆資料嗎？")) {
-                      handleDeleteItem(item.id);
-                    }
-                  }}
-                  className="delete-button"
-                >
-                  刪除
-                </button>
+              <td className="col-actions">
+                <div className="action-buttons"> {/* ✅ 新增容器，讓按鈕置中 */}
+                  <button onClick={() => handleEditItem(item)} className="edit-button">編輯</button>
+                  &nbsp;
+                  <button
+                    onClick={() => {
+                      if (window.confirm("您確定要刪除這筆資料嗎？")) {
+                        handleDeleteItem(item.id);
+                      }
+                    }}
+                    className="delete-button"
+                  >
+                    刪除
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
+
       </table>
 
       {/* 新增食材彈窗 */}
