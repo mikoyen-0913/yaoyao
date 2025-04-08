@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
+import OrderEditForm from "../components/OrderEditForm";
+import "../style/components/OrderEditForm.css";
 
 const HOME_PATH = "/home";
 const API_URL = "http://127.0.0.1:5000";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
+  const [editingOrder, setEditingOrder] = useState(null);
+  const [showEditForm, setShowEditForm] = useState(false);
   const navigate = useNavigate();
 
   const fetchOrders = async () => {
@@ -47,6 +51,23 @@ const OrdersPage = () => {
     }
   };
 
+  const handleSaveEdit = async (updatedOrder) => {
+    try {
+      const response = await fetch(`${API_URL}/update_order/${updatedOrder.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedOrder),
+      });
+      if (!response.ok) throw new Error("更新失敗");
+      setShowEditForm(false);
+      setEditingOrder(null);
+      fetchOrders();
+    } catch (error) {
+      alert("更新失敗");
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -69,34 +90,62 @@ const OrdersPage = () => {
 
       {/* 全部訂單卡片顯示於此 */}
       <div className="orders-list">
-  {orders.map((order, index) => (
-    <React.Fragment key={order.id}>
-      <div className="order-card">
-        <div className="order-items">
-          {order.items.map((item, idx) => (
-            <div key={idx}>{item.menu_name} x{item.quantity}</div>
-          ))}
-        </div>
-        <div className="order-meta">
-          <div className="order-number">{index + 1}</div>
-          <div className="order-price">${order.total_price}</div>
-        </div>
-        <div className="order-actions">
-          <button className="modify-button">編輯</button>
-          <button className="remove-button" onClick={() => handleDone(order.id)}>刪除</button>
-        </div>
-        <button className="done-button" onClick={() => handleDone(order.id)}>完成</button>
+        {orders.map((order, index) => (
+          <React.Fragment key={order.id}>
+            <div className="order-card">
+              <div className="order-items">
+                {order.items.map((item, idx) => (
+                  <div key={idx}>
+                    {item.menu_name} x{item.quantity}
+                  </div>
+                ))}
+              </div>
+              <div className="order-meta">
+                <div className="order-number">{index + 1}</div>
+                <div className="order-price">${order.total_price}</div>
+              </div>
+              <div className="order-actions">
+                <button
+                  className="modify-button"
+                  onClick={() => {
+                    setEditingOrder(order);
+                    setShowEditForm(true);
+                  }}
+                >
+                  編輯
+                </button>
+                <button className="remove-button" onClick={() => handleDone(order.id)}>
+                  刪除
+                </button>
+              </div>
+              <button className="done-button" onClick={() => handleDone(order.id)}>
+                完成
+              </button>
+            </div>
+
+            {index === 4 && (
+              <button
+                className="delete-all-button"
+                style={{ gridColumn: "1 / -1" }}
+                onClick={handleDeleteFive}
+              >
+                一次完成五筆訂單
+              </button>
+            )}
+          </React.Fragment>
+        ))}
       </div>
 
-      {index === 4 && ( // 索引從0開始，因此4為第5筆
-        <button className="delete-all-button" style={{ gridColumn: '1 / -1' }} onClick={handleDeleteFive}>
-          一次完成五筆訂單
-        </button>
+      {showEditForm && (
+        <OrderEditForm
+          orderData={editingOrder}
+          onClose={() => {
+            setShowEditForm(false);
+            setEditingOrder(null);
+          }}
+          onSave={handleSaveEdit}
+        />
       )}
-    </React.Fragment>
-  ))}
-</div>
-
     </div>
   );
 };
