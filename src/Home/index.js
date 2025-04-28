@@ -13,7 +13,7 @@ const Home = () => {
       <div className="button-group">
         <button className="nav-button" onClick={() => navigate('/orders')}>顯示訂單</button>
         <button className="nav-button" onClick={() => navigate('/inventory')}>查看庫存</button>
-        <button className="nav-button">查看營業狀態</button> {/* 你可以之後再補這個導頁 */}
+        <button className="nav-button" onClick={() => navigate('/businessstatus')}>查看營業狀態</button>
       </div>
 
       <div className="image-box">

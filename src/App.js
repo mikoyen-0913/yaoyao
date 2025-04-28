@@ -6,6 +6,7 @@ import SignUp from './SignUp';
 import Home from './Home';
 import Inventory from './Inventory';
 import OrdersPage from './OrdersPage';
+import BusinessStatus from './BusinessStatus'; // ✅ 加這行
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
       <Route path="/inventory" element={<Inventory />} />
       <Route path="/orders" element={<OrdersPage />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/businessstatus" element={<BusinessStatus />} /> 
     </Routes>
   );
 };

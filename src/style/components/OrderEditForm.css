@@ -6,9 +6,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .order-edit-popup {
+}
+
+.order-edit-popup {
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -17,42 +17,41 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-  }
-  
-  .item-row {
+}
+
+.item-row {
     display: flex;
     gap: 10px;
-  }
-  
-  .item-row input {
+}
+
+.item-row input {
     flex: 1;
     padding: 8px;
     font-size: 16px;
-  }
-  
-  .edit-buttons {
+}
+
+.edit-buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-  }
-  
-  .save-btn,
-  .cancel-btn {
+}
+
+.save-btn,
+.cancel-btn {
     padding: 10px 20px;
     font-weight: bold;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     width: 48%;
-  }
-  
-  .save-btn {
+}
+
+.save-btn {
     background-color: #28a745;
     color: white;
-  }
-  
-  .cancel-btn {
+}
+
+.cancel-btn {
     background-color: #6c757d;
     color: white;
-  }
-  
+}
