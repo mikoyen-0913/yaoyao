@@ -26,25 +26,37 @@ const OrdersPage = () => {
 
   const handleDone = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/delete_order/${id}`, {
-        method: "DELETE",
+      const response = await fetch(`${API_URL}/complete_order/${id}`, {
+        method: "POST",
       });
-      if (!response.ok) throw new Error("刪除訂單失敗");
+      if (!response.ok) throw new Error("標記完成失敗");
       fetchOrders();
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleDeleteFive = async () => {
-    const idsToDelete = orders.slice(0, 5).map((order) => order.id);
+  const handleCompleteFive = async () => {  // 🟠改名，且邏輯修改
+    const idsToComplete = orders.slice(0, 5).map((order) => order.id);
     try {
-      const response = await fetch(`${API_URL}/delete_multiple_orders`, {
+      const response = await fetch(`${API_URL}/complete_multiple_orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids: idsToDelete }),
+        body: JSON.stringify({ ids: idsToComplete }),
       });
-      if (!response.ok) throw new Error("批次刪除失敗");
+      if (!response.ok) throw new Error("批次標記完成失敗");
+      fetchOrders();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`${API_URL}/delete_order/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("刪除訂單失敗");
       fetchOrders();
     } catch (error) {
       console.error(error);
@@ -56,7 +68,10 @@ const OrdersPage = () => {
       const response = await fetch(`${API_URL}/update_order/${updatedOrder.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedOrder),
+        body: JSON.stringify({
+          items: updatedOrder.items,
+          total_price: updatedOrder.total_price,
+        }),
       });
       if (!response.ok) throw new Error("更新失敗");
       setShowEditForm(false);
@@ -64,6 +79,18 @@ const OrdersPage = () => {
       fetchOrders();
     } catch (error) {
       alert("更新失敗");
+      console.error(error);
+    }
+  };
+
+  const handleRevertCompleted = async () => {
+    try {
+      const response = await fetch(`${API_URL}/revert_all_completed_orders`, {
+        method: "POST",
+      });
+      if (!response.ok) throw new Error("復原失敗");
+      fetchOrders();
+    } catch (error) {
       console.error(error);
     }
   };
@@ -77,8 +104,7 @@ const OrdersPage = () => {
       <div className="orders-header">
         <h2>顯示訂單</h2>
         <div className="icon-group">
-          <button onClick={() => window.history.back()}>取消完成訂單</button>
-          <button onClick={fetchOrders}>復原完成訂單</button>
+          <button onClick={handleRevertCompleted}>復原完成訂單</button>
         </div>
       </div>
 
@@ -88,7 +114,6 @@ const OrdersPage = () => {
         </button>
       </div>
 
-      {/* 全部訂單卡片顯示於此 */}
       <div className="orders-list">
         {orders.map((order, index) => (
           <React.Fragment key={order.id}>
@@ -114,11 +139,17 @@ const OrdersPage = () => {
                 >
                   編輯
                 </button>
-                <button className="remove-button" onClick={() => handleDone(order.id)}>
+                <button
+                  className="remove-button"
+                  onClick={() => handleDelete(order.id)}
+                >
                   刪除
                 </button>
               </div>
-              <button className="done-button" onClick={() => handleDone(order.id)}>
+              <button
+                className="done-button"
+                onClick={() => handleDone(order.id)}
+              >
                 完成
               </button>
             </div>
@@ -127,7 +158,7 @@ const OrdersPage = () => {
               <button
                 className="delete-all-button"
                 style={{ gridColumn: "1 / -1" }}
-                onClick={handleDeleteFive}
+                onClick={handleCompleteFive} 
               >
                 一次完成五筆訂單
               </button>
