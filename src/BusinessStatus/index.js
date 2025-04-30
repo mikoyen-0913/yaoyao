@@ -2,11 +2,22 @@ import React, { useState } from "react";
 import "./index.css";
 import AddToInventoryModal from "../components/AddToInventoryModal";
 
+// ✅ 圖片路徑（從 src 資料夾匯入）
+import chartWeek from "./chart-week.png";
+import chart14days from "./chart-14days.png";
+import chartMonth from "./chart-month.png";
+
 const BusinessStatus = () => {
   const [chart, setChart] = useState("week");
   const [showRestockModal, setShowRestockModal] = useState(false);
 
   const API_URL = "http://127.0.0.1:5000";
+
+  const getChartImage = () => {
+    if (chart === "week") return chartWeek;
+    if (chart === "14days") return chart14days;
+    if (chart === "month") return chartMonth;
+  };
 
   const handleRestockSubmit = async (restockData) => {
     try {
@@ -36,20 +47,21 @@ const BusinessStatus = () => {
     }
   };
 
-  const getChartImage = () => {
-    if (chart === "week") return "./chart-week.png";
-    if (chart === "14days") return "./chart-14days.png";
-    if (chart === "month") return "./chart-month.png";
-  };
-
   return (
     <div className="homepage-container">
-      {/* 回首頁按鈕 */}
-      <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "10px", marginRight: "20px" }}>
-        <button className="go-home-button" onClick={() => window.location.href = "/home"}>回首頁</button>
+      {/* 🔵 回首頁按鈕 - 方案一：右上角但內縮 */}
+      <div style={{
+        display: "flex",
+        justifyContent: "flex-end",
+        marginTop: "30px",
+        marginRight: "50px"
+      }}>
+        <button className="go-home-button" onClick={() => window.location.href = "/home"}>
+          回首頁
+        </button>
       </div>
 
-      {/* 提醒框 */}
+      {/* 🔴 庫存提醒框 */}
       <div className="alert-box">
         <strong className="alert-title">提醒！</strong><br />
         雞蛋庫存告急！請盡速叫貨2箱<br />
@@ -62,7 +74,7 @@ const BusinessStatus = () => {
         </div>
       </div>
 
-      {/* 營業狀態 */}
+      {/* 🟡 營業狀態圖表 */}
       <div className="status-section">
         <h2 className="section-title">查看營業狀態</h2>
         <div className="chart-container">
@@ -75,7 +87,7 @@ const BusinessStatus = () => {
         </div>
       </div>
 
-      {/* 今日營業總覽 */}
+      {/* 🟢 今日總覽區塊 */}
       <div className="summary-section">
         <h2 className="section-title">今日營業總覽</h2>
         <div className="sales-amount">
@@ -97,7 +109,7 @@ const BusinessStatus = () => {
         </table>
       </div>
 
-      {/* 彈窗元件 */}
+      {/* 🔘 補貨視窗 */}
       {showRestockModal && (
         <AddToInventoryModal
           onClose={() => setShowRestockModal(false)}

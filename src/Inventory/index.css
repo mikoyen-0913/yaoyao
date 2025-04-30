@@ -4,21 +4,13 @@ body {
     margin: 20px;
 }
 
+/* === 區塊一：容器樣式 === */
+
 /* 整體庫存頁面的容器樣式：米黃色背景、內距、撐滿整頁高度 */
 .inventory-container {
     background-color: #fffbe2;
     padding: 20px;
     min-height: 100vh;
-}
-
-/* 表格每一列背景白色（主要內容區塊） */
-table tr {
-    background-color: white;
-}
-
-/* 表格的表頭欄背景灰色 */
-th {
-    background-color: rgb(231, 231, 230);
 }
 
 /* 中央容器最大寬度限制為 600px 並置中（目前未使用） */
@@ -32,6 +24,28 @@ th {
     position: relative;
 }
 
+
+/* === 區塊二：標題樣式 === */
+
+/* 庫存管理頁的標題樣式 */
+.inventory-container h1 {
+    color: #4b2e1f;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* 顯示訂單頁的標題樣式 */
+.orders-header h2 {
+    color: #4b2e1f;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+/* === 區塊三：按鈕樣式 === */
+
 /* 共用按鈕樣式：統一外觀與大小設定 */
 .add-button,
 .add-item-button,
@@ -39,28 +53,18 @@ th {
 .edit-button,
 .delete-button {
     background-color: #ccc;
-    /* 預設背景色（會被各自覆蓋） */
     color: white;
-    /* 白色文字 */
     border: none;
-    /* 無邊框 */
     padding: 5px 10px;
-    /* 內距保持原高度 */
     width: 100px;
-    /* 統一寬度 */
     font-size: 16px;
-    /* 統一字體大小 */
     border-radius: 6px;
-    /* 圓角邊框 */
     cursor: pointer;
-    /* 滑鼠變手指 */
     transition: background-color 0.3s ease;
-    /* hover 效果 */
     margin-top: 20px;
-    /* 與上方間距 */
 }
 
-/* 新增按鈕樣式：新增食材，綠色背景＋hover 深綠 */
+/* 新增按鈕樣式 */
 .add-button,
 .add-item-button {
     background-color: #5cb85c;
@@ -71,7 +75,7 @@ th {
     background-color: #2b9d2b;
 }
 
-/* 回首頁按鈕樣式：跳轉首頁，藍色背景＋hover 深藍 */
+/* 回首頁按鈕樣式 */
 .home-button {
     background-color: #4faeea;
     margin-left: 10px;
@@ -81,7 +85,7 @@ th {
     background-color: #248fd4;
 }
 
-/* 編輯按鈕樣式：編輯資料，橘色背景＋hover 深橘 */
+/* 編輯按鈕樣式 */
 .edit-button {
     background-color: #f0ad4e;
 }
@@ -90,7 +94,7 @@ th {
     background-color: #e1860e;
 }
 
-/* 刪除按鈕樣式：刪除資料，紅色背景＋hover 深紅 */
+/* 刪除按鈕樣式 */
 .delete-button {
     background-color: #d9534f;
 }
@@ -98,6 +102,9 @@ th {
 .delete-button:hover {
     background-color: #b92c27;
 }
+
+
+/* === 區塊四：表格樣式 === */
 
 /* 表格樣式設定：滿版寬度、合併邊框、與上方元素間距 */
 table {
@@ -114,16 +121,14 @@ td {
     text-align: left;
 }
 
-/* 表格表頭顏色統一處理 */
-th {
-    background-color: #f4f4f4;
+/* 表格每一列背景白色（主要內容區塊） */
+table tr {
+    background-color: white;
 }
 
-/* icon 圖示樣式 */
-.icon {
-    font-size: 24px;
-    margin: 0 10px;
-    cursor: pointer;
+/* 表格表頭顏色統一處理 */
+th {
+    background-color: rgb(231, 231, 230);
 }
 
 /* ✅ 新增欄位寬度設定：讓表格更合理分配空間 */
@@ -149,22 +154,28 @@ th {
 }
 
 
+/* === 區塊五：特殊元素樣式 === */
+
+/* icon 圖示樣式 */
+.icon {
+    font-size: 24px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
 /* ✅ 讓編輯 + 刪除按鈕可以置中顯示 */
 .action-buttons {
     display: flex;
     justify-content: center;
-    /* 水平置中 */
     align-items: center;
-    /* 垂直置中 */
     gap: 10px;
     height: 100%;
     width: 100%;
 }
 
+/* 表格內容垂直置中 */
 td {
     border: 1.2px solid #c9a27e;
     padding: 12px;
     vertical-align: middle;
-    /* ✅ 加上垂直置中 */
 }
-

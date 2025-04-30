@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./../style/components/AddToInventoryModal.css";
 
-const AddToInventoryModal = ({ onClose, onSubmit }) => {
+const AddToInventoryModal = ({ onClose }) => {
   const [ingredients, setIngredients] = useState([]);
   const [restockData, setRestockData] = useState({});
 
@@ -36,8 +36,20 @@ const AddToInventoryModal = ({ onClose, onSubmit }) => {
     }));
   };
 
-  const handleConfirm = () => {
-    onSubmit(restockData);
+  const handleConfirm = async () => {
+    try {
+      const response = await fetch(`${API_URL}/restock_ingredients`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(restockData),
+      });
+      if (!response.ok) throw new Error("叫貨失敗");
+      alert("庫存已成功補貨！");
+      onClose();
+    } catch (err) {
+      console.error(err);
+      alert("補貨發生錯誤");
+    }
   };
 
   return (

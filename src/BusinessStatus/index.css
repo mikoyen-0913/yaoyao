@@ -1,122 +1,9 @@
-/* === 提醒框區塊（全部集中）=== */
-
-/* 外層提醒框 */
-.alert-box {
-    background-color: #fff0f0; /* ✅ 背景改淺粉 */
-    border: 2px solid #ff6666; /* ✅ 紅色邊框 */
-    border-radius: 12px;        /* ✅ 圓角 */
-    padding: 20px;
-    margin: 30px auto;          /* ✅ 自動左右置中 */
-    text-align: left;
-    font-size: 18px;
-    color: #4b2e1f;
-    width: 80%;                 /* ✅ 寬度佔畫面80% */
-    box-sizing: border-box;     /* ✅ 包含 padding 的設定 */
-    position: relative;
-}
-
-/* 提醒標題 */
-.alert-title {
-    font-size: 28px;   /* 放大提醒字體 */
-    color: #ff0000;    /* 紅色 */
-    font-weight: bold;
-    display: inline-block;
-    margin-bottom: 10px;
-}
-
-/* 到期日文字 */
-.alert-date {
-    color: #ff6666;
-    font-weight: bold;
-}
-
-/* 提醒內的按鈕容器 */
-.alert-button-container {
-    margin-top: 15px;
-    text-align: right;
-}
-
-/* 提醒用的按鈕 */
-.alert-box .nav-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    font-size: 18px;
-    padding: 14px 30px; /* ✅ 上下 padding 14px，左右 30px */
-    max-width: none;
-    min-width: 250px;
-    border: 3px solid #a47551; /* 按鈕本身的外框線 */
-    background-color: #ffd966; /* 按鈕底色黃色 */
-    color: #4b2e1f; /* 字體顏色 */
-    font-weight: bold; /* 字加粗 */
-    border-radius: 12px; /* 圓角 */
-    cursor: pointer;
-    transition: 0.3s; /* 滑鼠移過去平滑效果 */
-}
-.alert-box .nav-button:hover {
-    background-color: #ffcc00; /* 比原本亮一點的黃色 */
-}
-
-/* === 其他區塊 === */
-
-/* 營業狀態區塊 */
-.status-section {
-    margin-top: 40px;
-}
-
-.section-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #4b2e1f;
-    margin-bottom: 20px;
-}
-
-.chart-container {
-    display: flex;
-    justify-content: center;
-}
-
-.chart-image {
-    width: 100%;
-    max-width: 600px;
-}
-
-/* 今日總覽區塊 */
-.summary-section {
-    margin-top: 50px;
-}
-
-.sales-amount {
-    font-size: 20px;
-    margin-bottom: 20px;
-}
-
-.sales-amount-number {
-    color: #ff0000;
-    font-weight: bold;
-}
-
-.sales-table {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    border-collapse: collapse;
-}
-
-.sales-table th, .sales-table td {
-    border: 1px solid #000;
-    padding: 10px;
-    text-align: center;
-    font-size: 18px;
-}
-
-/* === 回首頁按鈕樣式 === */
+/* === 🔵 回首頁按鈕樣式區塊 === */
 .go-home-button {
-    background-color: #4faeea;   /* 藍色背景 */
-    color: #ffffff;              /* 白色文字 */
+    background-color: #4faeea;
+    color: #ffffff;
     font-weight: bold;
-    border: 3px solid #248fd4;   /* 深藍色邊框 */
+    border: 3px solid #248fd4;
     margin-left: 10px;
     padding: 8px 16px;
     font-size: 14px;
@@ -125,8 +12,152 @@
     transition: background-color 0.2s ease;
   }
   
-  /* === 滑鼠懸停變色 === */
   .go-home-button:hover {
     background-color: #248fd4;
+  }
+  
+  
+  /* === 🔴 提醒框區塊 === */
+  .alert-box {
+    background-color: #fff0f0;
+    border: 2px solid #ff6666;
+    border-radius: 12px;
+    padding: 16px 30px;        /* ✅ 減少上下 padding */
+    margin: 30px auto;
+    text-align: left;
+    font-size: 22px;
+    color: #4b2e1f;
+    max-width: 700px;
+    width: 90%;
+    box-sizing: border-box;
+    position: relative;
+    line-height: 1.6;          /* ✅ 行距變小 */
+  }
+  
+  .alert-title {
+    font-size: 36px;
+    color: #ff0000;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 10px;       /* ✅ 減少標題與內文間距 */
+  }
+  
+  
+  .alert-date {
+    color: #ff6666;
+    font-weight: bold;
+    font-size: 22px;
+  }
+  
+  .alert-button-container {
+    margin-top: 25px;
+    text-align: right;
+  }
+  
+  .alert-box .nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    font-size: 18px;
+    padding: 14px 30px;
+    max-width: none;
+    min-width: 250px;
+    border: 3px solid #a47551;
+    background-color: #ffd966;
+    color: #4b2e1f;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .alert-box .nav-button:hover {
+    background-color: #ffcc00;
+  }
+  
+  
+  /* === 🟡 圖表區塊 === */
+  .status-section {
+    margin-top: 50px;
+    text-align: center;
+  }
+  
+  .section-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4b2e1f;
+    margin-bottom: 20px;
+  }
+  
+  .chart-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .chart-image {
+    width: 100%;
+    max-width: 700px;
+  }
+  
+  .button-group {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    min-width: 120px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 12px;
+    padding: 8px 20px;
+    border: 3px solid #a47551;
+    background-color: #ffd966;
+    color: #4b2e1f;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .nav-button:hover {
+    background-color: #ffcc00;
+  }
+  
+  
+  /* === 🟢 今日總覽區塊 === */
+  .summary-section {
+    margin-top: 50px;
+    text-align: center;
+  }
+  
+  .sales-amount {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .sales-amount-number {
+    color: #ff0000;
+    font-weight: bold;
+  }
+  
+  .sales-table {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    border-collapse: collapse;
+  }
+  
+  .sales-table th,
+  .sales-table td {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
   }
   

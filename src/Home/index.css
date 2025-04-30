@@ -2,61 +2,72 @@
 .homepage-container {
   background-color: #fff9e6;
   padding: 30px;
-  border-radius: 0px; /* 滿版不用邊框圓角 */
+  border-radius: 0px;
   text-align: center;
-  width: 100vw; /* 滿版寬度 */
-  min-height: 100vh; /* 滿版高度 */
+  width: 100vw;
+  min-height: 100vh;
   box-sizing: border-box;
 }
+
 
 /* === 歡迎文字 === */
 .welcome-text {
   font-size: 24px;
   font-weight: bold;
-  color: #4b2e1f; 
+  color: #4b2e1f;
   margin-bottom: 20px;
 }
 
+
 /* === 按鈕區塊 === */
 .button-group {
-  display: flex;               /* ✅ 使用 Flex 排版 */
-  justify-content: center;     /* ✅ 置中排列 */
-  gap: 10px;                   /* ✅ 按鈕間距調整為 10px（統一格式） */
-  margin-top: 50px;            /* ✅ 與上方拉出空間 */
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 50px;
 }
+
 
 /* === 導航按鈕樣式 === */
 .nav-button {
-  background-color: #ffd966;   /* 保留原本背景色 */
-  border: 3px solid #a47551;   /* ✅ 邊框粗度改為 3px */
-  padding: 8px;                /* ✅ 四邊留白統一為 8px */
-  font-size: 20px;             /* ✅ 字體大小調整為 20px */
-  font-weight: bold;           /* ✅ 保持粗體 */
-  color: #4b2e1f;              /* 保留原字色 */
-  border-radius: 15px;         /* ✅ 圓角改為 15px */
-  width: 160px;                /* ✅ 固定寬度為 160px */
-  cursor: pointer;             /* ✅ 滑鼠指標變手指 */
-  transition: 0.3s;            /* ✅ 滑過變化時使用 0.3s 平滑過渡 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 60px;
+  line-height: 60px;        /* ✅ 讓文字在垂直方向真正居中 */
+  text-align: center;
+
+  background-color: #ffd966;
+  border: 3px solid #a47551;
+  padding: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #4b2e1f;
+  border-radius: 15px;
+  width: 160px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-/* 滑過變色 */
+
 .nav-button:hover {
-  background-color: #ffcc00;   /* 保留原本的 hover 背景色 */
+  background-color: #ffcc00;
 }
 
-/* === 圖片容器（已移除白底） === */
+
+/* === 圖片區塊 === */
 .image-box {
   padding: 20px;
   border: none;
-  border-radius: 0px; /* 移除圓角背景視覺 */
-  background-color: transparent; /* 拿掉白色背景 */
+  border-radius: 0px;
+  background-color: transparent;
 }
 
-/* === 主圖設定 === */
 .hero-image {
   width: 100%;
   max-width: 500px;
   border-radius: 12px;
-  object-fit: cover;
-  opacity: 0.75; /* 圖片透明度調整為 75% */
+  object-fit: co  ver;
+  opacity: 0.75;
 }
