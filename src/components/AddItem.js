@@ -20,7 +20,6 @@ const AddItem = ({ onClose, onSave }) => {
       price: Number(price),
     });
 
-    // 清空輸入欄位
     setItemName("");
     setQuantity("");
     setUnit("");
@@ -30,28 +29,47 @@ const AddItem = ({ onClose, onSave }) => {
   return (
     <div className="popup-overlay">
       <div className="popup">
-  
         <div className="item-form">
           <h2>新增食材</h2>
           <div className="form-group">
             <label>品項</label>
-            <input type="text" value={itemName} onChange={(e) => setItemName(e.target.value)} />
+            <input
+              type="text"
+              value={itemName}
+              onChange={(e) => setItemName(e.target.value)}
+            />
           </div>
           <div className="form-group">
             <label>數量</label>
-            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+            <input
+              type="number"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+            />
           </div>
           <div className="form-group">
             <label>單位</label>
-            <input type="text" value={unit} onChange={(e) => setUnit(e.target.value)} />
+            <input
+              type="text"
+              value={unit}
+              onChange={(e) => setUnit(e.target.value)}
+            />
           </div>
           <div className="form-group">
             <label>價格</label>
-            <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+            <input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
           </div>
-          <div className="buttons">
-            <button className="save-btn" onClick={handleSave}>確認</button>
-            <button className="cancel-btn" onClick={onClose}>返回</button>
+          <div className="additem-buttons">
+            <button className="additem-cancel-btn" onClick={onClose}>
+              返回
+            </button>
+            <button className="additem-confirm-btn" onClick={handleSave}>
+              送出
+            </button>
           </div>
         </div>
       </div>

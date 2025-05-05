@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./index.css";
 import OrderEditForm from "../components/OrderEditForm";
 import "../style/components/OrderEditForm.css";
+import OrderAddForm from "../components/OrderAddForm";
+
 
 const HOME_PATH = "/home";
 const API_URL = "http://127.0.0.1:5000";
@@ -11,6 +13,7 @@ const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [editingOrder, setEditingOrder] = useState(null);
   const [showEditForm, setShowEditForm] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
   const navigate = useNavigate();
 
   const fetchOrders = async () => {
@@ -26,17 +29,18 @@ const OrdersPage = () => {
 
   const handleDone = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/complete_order/${id}`, {
+      const response = await fetch(`${API_URL}/move_to_completed/${id}`, {
         method: "POST",
       });
-      if (!response.ok) throw new Error("標記完成失敗");
-      fetchOrders();
+      if (!response.ok) throw new Error("完成失敗");
+      fetchOrders(); // 重新抓未完成訂單 → 已完成的就會自動消失
     } catch (error) {
-      console.error(error);
+      console.error("完成訂單錯誤:", error);
     }
   };
+  
 
-  const handleCompleteFive = async () => {  // 🟠改名，且邏輯修改
+  const handleCompleteFive = async () => {
     const idsToComplete = orders.slice(0, 5).map((order) => order.id);
     try {
       const response = await fetch(`${API_URL}/complete_multiple_orders`, {
@@ -104,7 +108,10 @@ const OrdersPage = () => {
       <div className="orders-header">
         <h2>顯示訂單</h2>
         <div className="icon-group">
-          <button onClick={handleRevertCompleted}>復原完成訂單</button>
+          <button onClick={() => setShowAddForm(true)}>新增訂單</button>
+          <button onClick={handleRevertCompleted} style={{ marginLeft: "10px" }}>
+            復原完成訂單
+          </button>
         </div>
       </div>
 
@@ -158,7 +165,7 @@ const OrdersPage = () => {
               <button
                 className="delete-all-button"
                 style={{ gridColumn: "1 / -1" }}
-                onClick={handleCompleteFive} 
+                onClick={handleCompleteFive}
               >
                 一次完成五筆訂單
               </button>
@@ -177,6 +184,15 @@ const OrdersPage = () => {
           onSave={handleSaveEdit}
         />
       )}
+
+      {showAddForm && (
+        <OrderAddForm
+          onClose={() => setShowAddForm(false)}
+          onOrderCreated={fetchOrders}
+        />
+      )}
+
+
     </div>
   );
 };

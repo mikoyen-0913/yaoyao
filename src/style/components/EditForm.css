@@ -1,87 +1,85 @@
-/* 背景遮罩 */
 .popup-overlay {
   position: fixed;
-  inset: 0; /* 簡化 top, left, width, height */
+  inset: 0;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
-/* 彈跳視窗 */
 .popup {
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background: #fff9e6;
+  padding: 30px 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
   width: 90%;
-  max-width: 400px;
+  max-width: 480px;
   display: flex;
-  flex-direction: column; /* ✅ 垂直排列 */
-  gap: 15px; /* ✅ 每個元素間距 */
+  flex-direction: column;
+  font-family: "Segoe UI", sans-serif;
 }
 
-/* 標題 */
-.popup h2 {
+.item-form h2 {
+  font-size: 24px;
+  color: #4b2e1f;
+  font-weight: bold;
   text-align: center;
-  margin-bottom: 10px;
+  margin: 0 0 15px 0;
 }
 
-/* 表單欄位 */
 .form-group {
   display: flex;
-  flex-direction: column; /* ✅ 讓 label 跟 input 垂直排列 */
-  gap: 5px;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+.form-group input {
+  padding: 10px 12px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
   font-size: 16px;
+  height: 44px;
+  box-sizing: border-box;
 }
 
-/* 按鈕群組 */
 .buttons {
   display: flex;
-  justify-content: space-between; /* ✅ 返回在左、確認在右 */
-  margin-top: 15px;
+  justify-content: space-between;
+  margin-top: 10px;
 }
 
-/* 確認按鈕 */
-.save-btn {
-  background: #28a745;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  width: 120px; /* ✅ 固定按鈕大小 */
-  text-align: center;
-}
-
-/* 確認按鈕懸停 */
-.save-btn:hover {
-  background: #218838;
-}
-
-/* 取消按鈕 */
+/* 返回按鈕：保留灰色 */
 .cancel-btn {
-  background: #6c757d;
-  color: white;
+  background-color: #f2f2f2;
+  color: #333;
+  border: 2px solid #bbb;
   padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
   font-size: 16px;
+  border-radius: 10px;
+  font-weight: bold;
   cursor: pointer;
-  width: 120px; /* ✅ 固定按鈕大小 */
-  text-align: center;
+  width: 120px;
 }
 
-/* 取消按鈕懸停 */
 .cancel-btn:hover {
-  background: #5a6268;
+  background-color: #e0e0e0;
+}
+
+/* 送出按鈕：藍色風格 */
+.edit-submit-btn {
+  background-color: #4faeea;
+  color: #ffffff;
+  border: 3px solid #248fd4;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+}
+
+.edit-submit-btn:hover {
+  background-color: #248fd4;
 }

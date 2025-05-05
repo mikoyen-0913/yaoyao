@@ -1,0 +1,145 @@
+/* 背景遮罩 */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* 彈窗區塊 */
+.popup {
+  background-color: #fff9e6;
+  padding: 30px 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.popup h2 {
+  font-size: 24px;
+  color: #4b2e1f;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
+
+/* 表單群組 */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.form-group select,
+.form-group input {
+  height: 44px;
+  padding: 10px 12px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  flex: 1;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+}
+
+/* 下拉選單的箭頭 */
+.form-group select {
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+}
+
+/* 移除品項按鈕 */
+.order-add-remove-btn {
+  background-color: #e74c3c;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  height: 44px;
+}
+
+.order-add-remove-btn:hover {
+  background-color: #c0392b;
+}
+
+/* 新增品項按鈕 */
+.order-add-action-btn {
+  background-color: #4faeea;
+  color: #ffffff;
+  border: 3px solid #248fd4;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+/* 預估總價 */
+.total-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #e74c3c;
+  text-align: right;
+  margin-top: 10px;
+}
+
+/* 按鈕群組 */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+/* 取消按鈕 */
+.order-add-cancel-btn {
+  background-color: #f2f2f2;
+  color: #333;
+  border: 2px solid #bbb;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+}
+
+.order-add-cancel-btn:hover {
+  background-color: #e0e0e0;
+}
+
+/* 送出訂單按鈕 */
+.order-add-submit-btn {
+  background-color: #4faeea;
+  color: #ffffff;
+  border: 3px solid #248fd4;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+}
+
+.order-add-submit-btn:hover {
+  background-color: #248fd4;
+}

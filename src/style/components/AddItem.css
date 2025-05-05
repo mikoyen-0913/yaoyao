@@ -1,95 +1,87 @@
-/* 背景遮罩 */
 .popup-overlay {
     position: fixed;
     inset: 0;
-    /* 簡化 top, left, width, height */
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-/* 彈跳視窗 */
-.popup {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .popup {
+    background: #fff9e6;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 400px;
+    max-width: 480px;
     display: flex;
     flex-direction: column;
-    /* ✅ 垂直排列 */
-    gap: 15px;
-    /* ✅ 每個元素間距 */
-
-}
-
-/* 標題 */
-.popup h2 {
+    gap: 18px;
+    font-family: "Segoe UI", sans-serif;
+  }
+  
+  .popup h2 {
+    font-size: 24px;
+    color: #4b2e1f;
+    font-weight: bold;
     text-align: center;
-    margin-bottom: 10px;
-}
-
-/* 表單欄位 */
-.form-group {
+    margin: 0;
+  }
+  
+  .form-group {
     display: flex;
     flex-direction: column;
-    /* ✅ 讓 label 跟 input 垂直排列 */
-    gap: 5px;
-}
-
-.form-group input,
-.form-group textarea {
+    gap: 8px;
+  }
+  
+  .form-group input,
+  .form-group textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    padding: 10px 12px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
     font-size: 16px;
-}
-
-/* 按鈕群組 */
-.buttons {
+    height: 44px;
+    box-sizing: border-box;
+  }
+  
+  .additem-buttons {
     display: flex;
     justify-content: space-between;
-    /* ✅ 返回在左、確認在右 */
     margin-top: 15px;
-}
-
-/* 確認按鈕 */
-.save-btn {
-    background: #6cc1fa;
-    color: white;
+  }
+  
+  /* 藍色送出按鈕 */
+  .additem-confirm-btn {
+    background-color: #4faeea;
+    color: #ffffff;
+    border: 3px solid #248fd4;
     padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
     font-size: 16px;
+    border-radius: 10px;
+    font-weight: bold;
     cursor: pointer;
     width: 120px;
-    /* ✅ 固定按鈕大小 */
-    text-align: center;
-}
-
-/* 確認按鈕懸停 */
-.save-btn:hover {
-    background: #1d9cf0;
-}
-
-/* 取消按鈕 */
-.cancel-btn {
-    background: #ffe38a;
-    color: #4b2e1f;
+  }
+  
+  .additem-confirm-btn:hover {
+    background-color: #248fd4;
+  }
+  
+  /* 灰色返回按鈕 */
+  .additem-cancel-btn {
+    background-color: #f2f2f2;
+    color: #333;
+    border: 2px solid #bbb;
     padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
     font-size: 16px;
+    border-radius: 10px;
+    font-weight: bold;
     cursor: pointer;
     width: 120px;
-    /* ✅ 固定按鈕大小 */
-    text-align: center;
-}
-
-/* 取消按鈕懸停 */
-.cancel-btn:hover {
-    background: #f9d14d;
-}
+  }
+  
+  .additem-cancel-btn:hover {
+    background-color: #e0e0e0;
+  }
+  
