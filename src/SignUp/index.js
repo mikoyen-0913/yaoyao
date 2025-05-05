@@ -17,26 +17,34 @@ const SignUp = () => {
     };
 
     const handleSignUp = () => {
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-
-        if (users.some(user => user.username === username)) {
-            setError('用戶名稱已被使用，請選擇其他名稱');
-            return;
-        }
-
-        const newUser = { username, password, storeName, email, phone };
-        users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
-
-        alert('註冊成功！請登入');
-        navigate('/'); // 返回登入頁
+        setError(''); // 清除之前的錯誤
+        fetch('http://localhost:5000/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username,
+                password,
+                storeName,
+                email,
+                phone
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.message === '註冊成功') {
+                alert('註冊成功！請登入');
+                navigate('/');
+            } else {
+                setError(data.error || '註冊失敗，請重新輸入');
+            }
+        })
+        .catch(() => setError('伺服器連線失敗，請稍後再試'));
     };
 
     return (
         <div className="SignUp">
             <h1>註冊頁面</h1>
 
-            {/* ✅ 改為 placeholder 提示「請輸入帳號」 */}
             <input 
                 type="text" 
                 value={username} 
@@ -45,7 +53,6 @@ const SignUp = () => {
                 required
             />
 
-            {/* ✅ 密碼也改為 placeholder */}
             <div className="password-container">
                 <input 
                     type={showPassword ? 'text' : 'password'} 
@@ -65,7 +72,6 @@ const SignUp = () => {
                 </button>
             </div>
 
-            {/* ✅ 其餘欄位也改為 placeholder */}
             <input 
                 type="text" 
                 value={storeName} 
