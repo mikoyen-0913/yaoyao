@@ -5,7 +5,6 @@ import OrderEditForm from "../components/OrderEditForm";
 import "../style/components/OrderEditForm.css";
 import OrderAddForm from "../components/OrderAddForm";
 
-
 const HOME_PATH = "/home";
 const API_URL = "http://127.0.0.1:5000";
 
@@ -28,12 +27,15 @@ const OrdersPage = () => {
   };
 
   const handleDone = async (id) => {
+    const confirmed = window.confirm("確定要將此訂單標記為完成嗎？此操作無法復原！");
+    if (!confirmed) return;
+  
     try {
       const response = await fetch(`${API_URL}/move_to_completed/${id}`, {
         method: "POST",
       });
       if (!response.ok) throw new Error("完成失敗");
-      fetchOrders(); // 重新抓未完成訂單 → 已完成的就會自動消失
+      fetchOrders();
     } catch (error) {
       console.error("完成訂單錯誤:", error);
     }
@@ -56,6 +58,9 @@ const OrdersPage = () => {
   };
 
   const handleDelete = async (id) => {
+    const confirmed = window.confirm("確定要刪除這筆訂單嗎？此動作無法復原！");
+    if (!confirmed) return;
+
     try {
       const response = await fetch(`${API_URL}/delete_order/${id}`, {
         method: "DELETE",
@@ -87,18 +92,6 @@ const OrdersPage = () => {
     }
   };
 
-  const handleRevertCompleted = async () => {
-    try {
-      const response = await fetch(`${API_URL}/revert_all_completed_orders`, {
-        method: "POST",
-      });
-      if (!response.ok) throw new Error("復原失敗");
-      fetchOrders();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -109,9 +102,6 @@ const OrdersPage = () => {
         <h2>顯示訂單</h2>
         <div className="icon-group">
           <button onClick={() => setShowAddForm(true)}>新增訂單</button>
-          <button onClick={handleRevertCompleted} style={{ marginLeft: "10px" }}>
-            復原完成訂單
-          </button>
         </div>
       </div>
 
@@ -191,8 +181,6 @@ const OrdersPage = () => {
           onOrderCreated={fetchOrders}
         />
       )}
-
-
     </div>
   );
 };

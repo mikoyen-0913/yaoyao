@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import AddToInventoryModal from "../components/AddToInventoryModal";
 
@@ -7,11 +7,12 @@ import chartWeek from "./chart-week.png";
 import chart14days from "./chart-14days.png";
 import chartMonth from "./chart-month.png";
 
+const API_URL = "http://127.0.0.1:5000";
+
 const BusinessStatus = () => {
   const [chart, setChart] = useState("week");
   const [showRestockModal, setShowRestockModal] = useState(false);
-
-  const API_URL = "http://127.0.0.1:5000";
+  const [completedOrders, setCompletedOrders] = useState([]);
 
   const getChartImage = () => {
     if (chart === "week") return chartWeek;
@@ -47,19 +48,23 @@ const BusinessStatus = () => {
     }
   };
 
+  // ✅ 取得已完成訂單
+  useEffect(() => {
+    fetch(`${API_URL}/get_completed_orders`)
+      .then((res) => res.json())
+      .then((data) => setCompletedOrders(data.orders || []))
+      .catch((err) => console.error("讀取已完成訂單失敗", err));
+  }, []);
+
   return (
     <div className="homepage-container">
-      {/* 🔵 回首頁按鈕 - 方案一：右上角但內縮 */}
-      <div style={{
-        display: "flex",
-        justifyContent: "flex-end",
-        marginTop: "30px",
-        marginRight: "50px"
-      }}>
+      {/* 🔵 回首頁按鈕 */}
+      <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "30px", marginRight: "50px" }}>
         <button className="go-home-button" onClick={() => window.location.href = "/home"}>
           回首頁
         </button>
       </div>
+      
 
       {/* 🔴 庫存提醒框 */}
       <div className="alert-box">
@@ -107,6 +112,28 @@ const BusinessStatus = () => {
             <tr><td>巧克力餅</td><td>60個</td><td>1200元</td></tr>
           </tbody>
         </table>
+      </div>
+
+      {/* 🟣 已完成訂單區塊 */}
+      <div className="summary-section">
+        <h2 className="section-title">已完成訂單</h2>
+        {completedOrders.length === 0 ? (
+          <p>尚無完成訂單紀錄。</p>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px", alignItems: "center" }}>
+            {completedOrders.map((order) => (
+              <div key={order.id} className="completed-order-card">
+                <div><strong>金額：</strong>${order.total_price}</div>
+                <div><strong>完成時間：</strong>{new Date(order.timestamp.seconds * 1000).toLocaleString()}</div>
+                <div>
+                  {order.items.map((item, idx) => (
+                    <div key={idx}>{item.menu_name} x{item.quantity}</div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* 🔘 補貨視窗 */}

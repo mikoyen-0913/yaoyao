@@ -161,3 +161,15 @@
     font-size: 18px;
   }
   
+  .completed-order-card {
+    background-color: #fff6e5;
+    padding: 16px 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #4b2e1f;
+    line-height: 1.6;
+  }
+  
