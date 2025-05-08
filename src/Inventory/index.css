@@ -6,12 +6,16 @@ body {
 
 /* === 區塊一：容器樣式 === */
 
-/* 整體庫存頁面的容器樣式：米黃色背景、內距、撐滿整頁高度 */
+/* 整體庫存頁面的容器樣式：米黃色背景 */
 .inventory-container {
     background-color: #fffbe2;
     padding: 20px;
     min-height: 100vh;
-}
+    max-width: 1000px;   
+    margin: 30px auto; 
+    box-sizing: border-box;
+  }
+  
 
 /* 中央容器最大寬度限制為 600px 並置中（目前未使用） */
 .container {
@@ -133,23 +137,17 @@ th {
 
 /* ✅ 新增欄位寬度設定：讓表格更合理分配空間 */
 .col-name {
-    width: 30%;
+    width: 23%;
 }
 
-.col-qty {
-    width: 15%;
-}
-
-.col-unit {
-    width: 15%;
-}
-
+.col-qty,
+.col-unit,
 .col-price {
-    width: 20%;
+    width: 18%;
 }
 
 .col-actions {
-    width: 20%;
+    width: 23%;
     text-align: left;
 }
 

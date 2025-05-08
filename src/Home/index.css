@@ -4,10 +4,12 @@
   padding: 30px;
   border-radius: 0px;
   text-align: center;
-  width: 100vw;
+  max-width: 1000px;         /* ✅ 固定寬度上限 */
+  margin: 30px auto;         /* ✅ 水平置中 */
   min-height: 100vh;
   box-sizing: border-box;
 }
+
 
 
 /* === 歡迎文字 === */
