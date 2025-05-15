@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import OrderEditForm from "../components/OrderEditForm";
@@ -15,24 +15,34 @@ const OrdersPage = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const navigate = useNavigate();
 
-  const fetchOrders = async () => {
+  const token = localStorage.getItem("token");
+
+  // ✅ 用 useCallback 包 fetchOrders，讓 useEffect 不再跳警告
+  const fetchOrders = useCallback(async () => {
     try {
-      const response = await fetch(`${API_URL}/get_orders`);
+      const response = await fetch(`${API_URL}/get_orders`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) throw new Error("取得訂單失敗");
       const data = await response.json();
       setOrders(data.orders);
     } catch (error) {
       console.error("讀取訂單錯誤:", error);
     }
-  };
+  }, [token]);
 
   const handleDone = async (id) => {
     const confirmed = window.confirm("確定要將此訂單標記為完成嗎？此操作無法復原！");
     if (!confirmed) return;
-  
+
     try {
       const response = await fetch(`${API_URL}/move_to_completed/${id}`, {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       if (!response.ok) throw new Error("完成失敗");
       fetchOrders();
@@ -40,14 +50,16 @@ const OrdersPage = () => {
       console.error("完成訂單錯誤:", error);
     }
   };
-  
 
   const handleCompleteFive = async () => {
     const idsToComplete = orders.slice(0, 5).map((order) => order.id);
     try {
       const response = await fetch(`${API_URL}/complete_multiple_orders`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ ids: idsToComplete }),
       });
       if (!response.ok) throw new Error("批次標記完成失敗");
@@ -64,6 +76,9 @@ const OrdersPage = () => {
     try {
       const response = await fetch(`${API_URL}/delete_order/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       if (!response.ok) throw new Error("刪除訂單失敗");
       fetchOrders();
@@ -76,7 +91,10 @@ const OrdersPage = () => {
     try {
       const response = await fetch(`${API_URL}/update_order/${updatedOrder.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           items: updatedOrder.items,
           total_price: updatedOrder.total_price,
@@ -94,7 +112,7 @@ const OrdersPage = () => {
 
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [fetchOrders]);
 
   return (
     <div className="orders-container">

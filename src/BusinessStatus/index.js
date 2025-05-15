@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./index.css";
 import AddToInventoryModal from "../components/AddToInventoryModal";
 
-// ✅ 圖片路徑（從 src 資料夾匯入）
 import chartWeek from "./chart-week.png";
 import chart14days from "./chart-14days.png";
 import chartMonth from "./chart-month.png";
@@ -13,6 +12,8 @@ const BusinessStatus = () => {
   const [chart, setChart] = useState("week");
   const [showRestockModal, setShowRestockModal] = useState(false);
   const [completedOrders, setCompletedOrders] = useState([]);
+
+  const token = localStorage.getItem("token"); // ✅ 取得 token
 
   const getChartImage = () => {
     if (chart === "week") return chartWeek;
@@ -28,7 +29,10 @@ const BusinessStatus = () => {
 
         const response = await fetch(`${API_URL}/update_ingredient/${id}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`, // ✅ 加入 token
+          },
           body: JSON.stringify({
             quantity: restockData[id].current + amount,
           }),
@@ -48,13 +52,17 @@ const BusinessStatus = () => {
     }
   };
 
-  // ✅ 取得已完成訂單
+  // ✅ 取得已完成訂單（加上 token）
   useEffect(() => {
-    fetch(`${API_URL}/get_completed_orders`)
+    fetch(`${API_URL}/get_completed_orders`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => setCompletedOrders(data.orders || []))
       .catch((err) => console.error("讀取已完成訂單失敗", err));
-  }, []);
+  }, [token]);
 
   return (
     <div className="homepage-container">
@@ -64,7 +72,6 @@ const BusinessStatus = () => {
           回首頁
         </button>
       </div>
-      
 
       {/* 🔴 庫存提醒框 */}
       <div className="alert-box">
