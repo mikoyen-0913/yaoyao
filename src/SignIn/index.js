@@ -9,7 +9,7 @@ const SignIn = () => {
     const [error, setError] = useState('');
 
     const handleLogin = () => {
-        setError(''); // 清除之前的錯誤
+        setError('');
         fetch('http://localhost:5000/signin', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -18,6 +18,12 @@ const SignIn = () => {
         .then(res => res.json())
         .then(data => {
             if (data.message === '登入成功') {
+                // ✅ 儲存登入資訊到 localStorage
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('username', data.username);
+                localStorage.setItem('role', data.role);
+                localStorage.setItem('store_name', data.store_name || '');
+    
                 alert('登入成功！');
                 navigate('/home');
             } else {
@@ -26,6 +32,7 @@ const SignIn = () => {
         })
         .catch(() => setError('伺服器連線失敗，請稍後再試'));
     };
+    
 
     return (
         <div className="SignIn">
