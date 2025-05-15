@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
-import "../style/components/OrderAddForm.css";
+import "../style/components/OrderEditForm.css";
 
-const OrderAddForm = ({ onClose, onOrderCreated }) => {
+const OrderEditForm = ({ orderData, onClose, onSave }) => {
+  const [items, setItems] = useState(orderData.items);
   const [menus, setMenus] = useState([]);
-  const [items, setItems] = useState([{ menu_id: "", quantity: 1 }]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:5000/get_menus")
       .then((res) => res.json())
-      .then((data) => setMenus(data.menus));
+      .then((data) => setMenus(data.menus))
+      .catch((err) => console.error("無法載入菜單資料", err));
   }, []);
 
-  const addItem = () => {
-    setItems([...items, { menu_id: "", quantity: 1 }]);
+  const updateItem = (index, field, value) => {
+    const updated = [...items];
+    updated[index][field] = value;
+    setItems(updated);
   };
 
   const removeItem = (index) => {
@@ -21,48 +24,50 @@ const OrderAddForm = ({ onClose, onOrderCreated }) => {
     setItems(updated);
   };
 
-  const updateItem = (index, field, value) => {
+  const handleAddItem = () => {
+    setItems([...items, { menu_id: "", menu_name: "", quantity: 1, unit_price: 0 }]);
+  };
+
+  const handleMenuChange = (index, menuId) => {
+    const menu = menus.find((m) => m.id === menuId);
+    if (!menu) return;
     const updated = [...items];
-    updated[index][field] = value;
+    updated[index] = {
+      ...updated[index],
+      menu_id: menu.id,
+      menu_name: menu.name,
+      unit_price: menu.price,
+    };
     setItems(updated);
   };
 
   const totalPrice = items.reduce((sum, item) => {
-    const menu = menus.find((m) => m.id === item.menu_id);
-    const price = menu ? menu.price : 0;
+    const price = item.unit_price || item.price || 0;
     return sum + price * item.quantity;
   }, 0);
 
-  const handleSubmit = async () => {
-    const validItems = items.filter((i) => i.menu_id && i.quantity > 0);
-    if (validItems.length === 0) return alert("請填入至少一筆有效品項");
-
-    const res = await fetch("http://127.0.0.1:5000/place_order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: validItems }),
-    });
-
-    if (res.ok) {
-      onOrderCreated();
-      onClose();
-    } else {
-      alert("送出失敗");
-    }
+  const handleSave = () => {
+    const validItems = items.filter((item) => item.menu_name && item.quantity > 0);
+    const updatedOrder = {
+      ...orderData,
+      items: validItems,
+      total_price: totalPrice,
+    };
+    onSave(updatedOrder);
   };
 
   return (
-    <div className="popup-overlay">
-      <div className="popup">
-        <h2>新增訂單</h2>
+    <div className="order-edit-overlay">
+      <div className="order-edit-popup">
+        <h2>編輯訂單</h2>
 
         {items.map((item, idx) => (
           <div className="form-group" key={idx}>
             <label>品項</label>
             <div className="row-group">
               <select
-                value={item.menu_id}
-                onChange={(e) => updateItem(idx, "menu_id", e.target.value)}
+                value={item.menu_id || ""}
+                onChange={(e) => handleMenuChange(idx, e.target.value)}
               >
                 <option value="">請選擇</option>
                 {menus.map((m) => (
@@ -71,7 +76,6 @@ const OrderAddForm = ({ onClose, onOrderCreated }) => {
                   </option>
                 ))}
               </select>
-
               <input
                 type="number"
                 min="1"
@@ -80,9 +84,8 @@ const OrderAddForm = ({ onClose, onOrderCreated }) => {
                   updateItem(idx, "quantity", parseInt(e.target.value))
                 }
               />
-
               <button
-                className="order-add-remove-btn"
+                className="remove-btn"
                 onClick={() => removeItem(idx)}
                 title="移除此品項"
               >
@@ -92,18 +95,18 @@ const OrderAddForm = ({ onClose, onOrderCreated }) => {
           </div>
         ))}
 
-        <button onClick={addItem} className="order-add-action-btn">
+        <button className="order-edit-add-btn" onClick={handleAddItem}>
           新增品項
         </button>
 
         <div className="total-price">預估總金額：${totalPrice}</div>
 
-        <div className="buttons">
-          <button className="order-add-cancel-btn" onClick={onClose}>
-            取消
+        <div className="edit-buttons">
+          <button className="order-edit-cancel-btn" onClick={onClose}>
+            返回
           </button>
-          <button className="order-add-submit-btn" onClick={handleSubmit}>
-            送出訂單
+          <button className="order-edit-submit-btn" onClick={handleSave}>
+            送出
           </button>
         </div>
       </div>
@@ -111,4 +114,4 @@ const OrderAddForm = ({ onClose, onOrderCreated }) => {
   );
 };
 
-export default OrderAddForm;
+export default OrderEditForm;

@@ -1,6 +1,6 @@
-/* === 區塊一：容器樣式 === */
+/* ==== 1. 主要容器與訂單列表 ==== */
 
-/* 整體訂單區塊容器樣式設定 */
+/* 整體訂單頁面容器 */
 .orders-container {
   background-color: #fff9e6;
   padding: 30px;
@@ -8,7 +8,7 @@
   margin: 30px auto;
 }
 
-/* 訂單列表使用 CSS Grid 呈現 */
+/* 訂單卡片列表（每排5張） */
 .orders-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -18,9 +18,9 @@
 }
 
 
-/* === 區塊二：標題與頂部按鈕樣式 === */
+/* ==== 2. 標題與頂部按鈕 ==== */
 
-/* 顯示訂單頁的標題樣式 */
+/* 訂單頁標題文字樣式 */
 .orders-header h2 {
   color: #4b2e1f;
   font-size: 32px;
@@ -28,7 +28,7 @@
   margin-bottom: 20px;
 }
 
-/* 頂部圖示群按鈕樣式 */
+/* 頂部按鈕群（例如：取消完成訂單等） */
 .icon-group button {
   font-weight: bold;
   background-color: #4faeea;
@@ -46,19 +46,35 @@
 }
 
 
-/* === 區塊三：卡片樣式 === */
+/* ==== 3. 訂單卡片內容樣式 ==== */
 
-/* 單張訂單卡片樣式 */
+/* 單一訂單卡片外框與背景 */
+/* 調整訂單卡片使用 Flexbox 佈局，讓內容置頂，按鈕固定底部 */
 .order-card {
   border: 2px solid #000;
-  border-radius: 0;
   width: 130px;
   padding: 8px 6px;
   background-color: white;
   text-align: center;
+
+  /* 新增以下三行 */
+  display: flex;          /* 開啟Flexbox佈局 */
+  flex-direction: column; /* 內部元素垂直排列 */
+  justify-content: space-between; /* 讓內部元素上下貼齊 */
 }
 
-/* 訂單內餐點項目清單 */
+/* 設定餐點名稱區塊自動伸縮，確保按鈕貼底 */
+.order-items {
+  flex-grow: 1; /* 自動占滿可用空間 */
+}
+
+/* 調整動作按鈕容器，不自動伸縮但保持緊貼底部 */
+.order-actions {
+  margin-top: auto; /* 按鈕群組貼到容器最底部 */
+}
+
+
+/* 訂單內的餐點項目文字 */
 .order-items {
   white-space: pre-wrap;
   font-size: 17px;
@@ -69,7 +85,7 @@
   margin-bottom: 8px;
 }
 
-/* 卡片內的訂單編號和價格區域 */
+/* 卡片內編號與價格的水平排列區塊 */
 .order-meta {
   display: flex;
   justify-content: space-between;
@@ -78,7 +94,7 @@
   padding: 0 4px;
 }
 
-/* 訂單編號字體樣式 */
+/* 訂單編號特殊字體與邊框效果 */
 .order-number {
   font-size: 60px;
   font-weight: 1000;
@@ -86,7 +102,7 @@
   -webkit-text-stroke: 3px #a0652e;
 }
 
-/* 訂單價格文字樣式 */
+/* 訂單價格文字 */
 .order-price {
   font-size: 18px;
   font-weight: bold;
@@ -94,9 +110,9 @@
 }
 
 
-/* === 區塊四：卡片內部按鈕樣式 === */
+/* ==== 4. 卡片內部按鈕 ==== */
 
-/* 卡片內動作按鈕容器 */
+/* 卡片內動作按鈕群組（編輯、刪除） */
 .order-actions {
   display: flex;
   flex-direction: column;
@@ -104,7 +120,7 @@
   margin-bottom: 10px;
 }
 
-/* 共用按鈕基本樣式（編輯、刪除、完成） */
+/* 三種主要按鈕共用樣式 */
 .modify-button,
 .remove-button,
 .done-button {
@@ -118,7 +134,7 @@
   width: 80%;
 }
 
-/* 編輯按鈕特殊樣式 */
+/* 編輯按鈕（黃色） */
 .modify-button {
   background-color: #ffe38a;
   color: #4b2e1f;
@@ -128,7 +144,7 @@
   background-color: #e8ad61;
 }
 
-/* 刪除按鈕特殊樣式 */
+/* 刪除按鈕（紅色） */
 .remove-button {
   background-color: #e74c3c;
   color: #ffffff;
@@ -138,7 +154,7 @@
   background-color: #b92c27;
 }
 
-/* 完成按鈕特殊樣式 */
+/* 完成按鈕（橘色） */
 .done-button {
   background-color: #f5b971;
   color: #4b2e1f;
@@ -150,9 +166,9 @@
 }
 
 
-/* === 區塊五：其他按鈕樣式 === */
+/* ==== 5. 其他功能按鈕 ==== */
 
-/* 一次完成五筆訂單按鈕樣式 */
+/* 一次完成五筆訂單的特殊按鈕 */
 .delete-all-button {
   margin: 30px auto 0;
   display: block;
@@ -167,7 +183,7 @@
   text-align: center;
 }
 
-/* 回首頁按鈕樣式 */
+/* 回首頁按鈕（藍色） */
 .go-home-button {
   background-color: #4faeea;
   color: #ffffff;

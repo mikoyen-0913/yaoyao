@@ -114,9 +114,9 @@ const BusinessStatus = () => {
             </tr>
           </thead>
           <tbody>
-            <tr><td>原味紅豆餅</td><td>100個</td><td>1500元</td></tr>
-            <tr><td>奶油餅</td><td>45個</td><td>675元</td></tr>
-            <tr><td>巧克力餅</td><td>60個</td><td>1200元</td></tr>
+            <tr><td>原味紅豆餅</td><td>100個</td><td>$1500</td></tr>
+            <tr><td>奶油餅</td><td>45個</td><td>$675</td></tr>
+            <tr><td>巧克力餅</td><td>60個</td><td>$1200</td></tr>
           </tbody>
         </table>
       </div>
@@ -127,21 +127,31 @@ const BusinessStatus = () => {
         {completedOrders.length === 0 ? (
           <p>尚無完成訂單紀錄。</p>
         ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px", alignItems: "center" }}>
-            {completedOrders.map((order) => (
-              <div key={order.id} className="completed-order-card">
-                <div><strong>金額：</strong>${order.total_price}</div>
-                <div><strong>完成時間：</strong>{new Date(order.timestamp.seconds * 1000).toLocaleString()}</div>
-                <div>
-                  {order.items.map((item, idx) => (
-                    <div key={idx}>{item.menu_name} x{item.quantity}</div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+          <table className="sales-table">
+            <thead>
+              <tr>
+                <th className="col-wide">餐點內容</th>
+                <th className="col-wide">完成時間</th>
+                <th className="col-narrow">金額</th>
+              </tr>
+            </thead>
+            <tbody>
+              {completedOrders.map((order) => (
+                <tr key={order.id}>
+                  <td>
+                    {order.items.map((item, idx) => (
+                      <div key={idx}>{item.menu_name} x{item.quantity}</div>
+                    ))}
+                  </td>
+                  <td>{new Date(order.timestamp.seconds * 1000).toLocaleString()}</td>
+                  <td>${order.total_price}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
+
 
       {/* 🔘 補貨視窗 */}
       {showRestockModal && (
