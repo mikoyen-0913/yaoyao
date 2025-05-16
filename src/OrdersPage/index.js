@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "./index.css";
 import OrderEditForm from "../components/OrderEditForm";
 import "../style/components/OrderEditForm.css";
-import OrderAddForm from "../components/OrderAddForm";
 
 const HOME_PATH = "/home";
 const API_URL = "http://127.0.0.1:5000";
@@ -12,12 +11,10 @@ const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [editingOrder, setEditingOrder] = useState(null);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [showAddForm, setShowAddForm] = useState(false);
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
 
-  // ✅ 用 useCallback 包 fetchOrders，讓 useEffect 不再跳警告
   const fetchOrders = useCallback(async () => {
     try {
       const response = await fetch(`${API_URL}/get_orders`, {
@@ -33,23 +30,24 @@ const OrdersPage = () => {
     }
   }, [token]);
 
-  const handleDone = async (id) => {
-    const confirmed = window.confirm("確定要將此訂單標記為完成嗎？此操作無法復原！");
-    if (!confirmed) return;
+const handleDone = async (id) => {
+  const confirmed = window.confirm("確定要將此訂單標記為完成嗎？此操作無法復原！");
+  if (!confirmed) return;
 
-    try {
-      const response = await fetch(`${API_URL}/move_to_completed/${id}`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) throw new Error("完成失敗");
-      fetchOrders();
-    } catch (error) {
-      console.error("完成訂單錯誤:", error);
-    }
-  };
+  try {
+    const response = await fetch(`${API_URL}/move_to_completed/${id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) throw new Error("完成失敗");
+    fetchOrders(); // ✅ 重新整理訂單
+  } catch (error) {
+    console.error("完成訂單錯誤:", error);
+  }
+};
+
 
   const handleCompleteFive = async () => {
     const idsToComplete = orders.slice(0, 5).map((order) => order.id);
@@ -88,9 +86,17 @@ const OrdersPage = () => {
   };
 
   const handleSaveEdit = async (updatedOrder) => {
+    const isEdit = !!updatedOrder.id;
+
     try {
-      const response = await fetch(`${API_URL}/update_order/${updatedOrder.id}`, {
-        method: "PUT",
+      const url = isEdit
+        ? `${API_URL}/update_order/${updatedOrder.id}`
+        : `${API_URL}/place_order`;
+
+      const method = isEdit ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -100,12 +106,14 @@ const OrdersPage = () => {
           total_price: updatedOrder.total_price,
         }),
       });
-      if (!response.ok) throw new Error("更新失敗");
+
+      if (!response.ok) throw new Error(isEdit ? "更新失敗" : "新增失敗");
+
       setShowEditForm(false);
       setEditingOrder(null);
       fetchOrders();
     } catch (error) {
-      alert("更新失敗");
+      alert(error.message);
       console.error(error);
     }
   };
@@ -119,7 +127,14 @@ const OrdersPage = () => {
       <div className="orders-header">
         <h2>顯示訂單</h2>
         <div className="icon-group">
-          <button onClick={() => setShowAddForm(true)}>新增訂單</button>
+          <button
+            onClick={() => {
+              setEditingOrder({}); // 🆕 傳入空資料 → 新增模式
+              setShowEditForm(true);
+            }}
+          >
+            新增訂單
+          </button>
         </div>
       </div>
 
@@ -190,13 +205,6 @@ const OrdersPage = () => {
             setEditingOrder(null);
           }}
           onSave={handleSaveEdit}
-        />
-      )}
-
-      {showAddForm && (
-        <OrderAddForm
-          onClose={() => setShowAddForm(false)}
-          onOrderCreated={fetchOrders}
         />
       )}
     </div>

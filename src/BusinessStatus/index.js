@@ -122,35 +122,42 @@ const BusinessStatus = () => {
       </div>
 
       {/* 🟣 已完成訂單區塊 */}
-      <div className="summary-section">
-        <h2 className="section-title">已完成訂單</h2>
-        {completedOrders.length === 0 ? (
-          <p>尚無完成訂單紀錄。</p>
-        ) : (
-          <table className="sales-table">
-            <thead>
-              <tr>
-                <th className="col-wide">餐點內容</th>
-                <th className="col-wide">完成時間</th>
-                <th className="col-narrow">金額</th>
-              </tr>
-            </thead>
-            <tbody>
-              {completedOrders.map((order) => (
-                <tr key={order.id}>
-                  <td>
-                    {order.items.map((item, idx) => (
-                      <div key={idx}>{item.menu_name} x{item.quantity}</div>
-                    ))}
-                  </td>
-                  <td>{new Date(order.timestamp.seconds * 1000).toLocaleString()}</td>
-                  <td>${order.total_price}</td>
-                </tr>
+{/* 🟣 已完成訂單區塊 */}
+<div className="summary-section">
+  <h2 className="section-title">已完成訂單</h2>
+  {completedOrders.length === 0 ? (
+    <p>尚無完成訂單紀錄。</p>
+  ) : (
+    <table className="sales-table">
+      <thead>
+        <tr>
+          <th className="col-wide">餐點內容</th>
+          <th className="col-wide">完成時間</th>
+          <th className="col-narrow">金額</th>
+        </tr>
+      </thead>
+      <tbody>
+        {completedOrders.map((order) => (
+          <tr key={order.id}>
+            <td>
+              {order.items.map((item, idx) => (
+                <div key={idx}>{item.menu_name} x{item.quantity}</div>
               ))}
-            </tbody>
-          </table>
-        )}
-      </div>
+            </td>
+            <td>
+              {order.completed_at && order.completed_at.seconds
+                ? new Date(order.completed_at.seconds * 1000).toLocaleString()
+                : "------"}
+            </td>
+            <td>${order.total_price}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+</div>
+
+
 
 
       {/* 🔘 補貨視窗 */}

@@ -2,15 +2,35 @@ import React, { useEffect, useState } from "react";
 import "../style/components/OrderEditForm.css";
 
 const OrderEditForm = ({ orderData, onClose, onSave }) => {
-  const [items, setItems] = useState(orderData.items);
+  const [items, setItems] = useState([]);
   const [menus, setMenus] = useState([]);
 
+  const token = localStorage.getItem("token");
+
+  // ✅ 載入菜單資料（含 token）
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/get_menus")
-      .then((res) => res.json())
+    fetch("http://127.0.0.1:5000/get_menus", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("授權失敗");
+        return res.json();
+      })
       .then((data) => setMenus(data.menus))
       .catch((err) => console.error("無法載入菜單資料", err));
-  }, []);
+  }, [token]);
+
+  // ✅ 根據 orderData 初始化項目
+  useEffect(() => {
+    if (orderData && Array.isArray(orderData.items)) {
+      setItems(orderData.items);
+    } else {
+      // 🆕 沒有 id 時視為新增，建立空白項目
+      setItems([{ menu_id: "", menu_name: "", quantity: 1, unit_price: 0 }]);
+    }
+  }, [orderData]);
 
   const updateItem = (index, field, value) => {
     const updated = [...items];
@@ -25,7 +45,10 @@ const OrderEditForm = ({ orderData, onClose, onSave }) => {
   };
 
   const handleAddItem = () => {
-    setItems([...items, { menu_id: "", menu_name: "", quantity: 1, unit_price: 0 }]);
+    setItems([
+      ...items,
+      { menu_id: "", menu_name: "", quantity: 1, unit_price: 0 },
+    ]);
   };
 
   const handleMenuChange = (index, menuId) => {
@@ -47,7 +70,9 @@ const OrderEditForm = ({ orderData, onClose, onSave }) => {
   }, 0);
 
   const handleSave = () => {
-    const validItems = items.filter((item) => item.menu_name && item.quantity > 0);
+    const validItems = items.filter(
+      (item) => item.menu_name && item.quantity > 0
+    );
     const updatedOrder = {
       ...orderData,
       items: validItems,
@@ -56,10 +81,14 @@ const OrderEditForm = ({ orderData, onClose, onSave }) => {
     onSave(updatedOrder);
   };
 
+  if (!orderData) return null;
+
+  const isNewOrder = !orderData.id;
+
   return (
     <div className="order-edit-overlay">
       <div className="order-edit-popup">
-        <h2>編輯訂單</h2>
+        <h2>{isNewOrder ? "新增訂單" : "編輯訂單"}</h2>
 
         {items.map((item, idx) => (
           <div className="form-group" key={idx}>
@@ -70,11 +99,12 @@ const OrderEditForm = ({ orderData, onClose, onSave }) => {
                 onChange={(e) => handleMenuChange(idx, e.target.value)}
               >
                 <option value="">請選擇</option>
-                {menus.map((m) => (
-                  <option key={m.id} value={m.id}>
-                    {m.name}
-                  </option>
-                ))}
+                {Array.isArray(menus) &&
+                  menus.map((m) => (
+                    <option key={m.id} value={m.id}>
+                      {m.name}
+                    </option>
+                  ))}
               </select>
               <input
                 type="number"
