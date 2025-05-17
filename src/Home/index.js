@@ -22,8 +22,9 @@ const Home = () => {
       {/* ✅ 右上角使用者區塊 */}
       <div className="user-menu">
         <button className="user-button" onClick={() => setShowMenu(!showMenu)}>
-          {username} ⌄
+          {username}<span className="arrow">⌄</span>
         </button>
+
         {showMenu && (
           <div className="dropdown-menu">
             <button className="dropdown-item" onClick={handleLogout}>登出</button>

@@ -35,7 +35,8 @@
   justify-content: center;
 
   height: 60px;
-  line-height: 60px;        /* ✅ 讓文字在垂直方向真正居中 */
+  line-height: 60px;
+  /* ✅ 讓文字在垂直方向真正居中 */
   text-align: center;
 
   background-color: #ffd966;
@@ -68,40 +69,80 @@
   width: 100%;
   max-width: 500px;
   border-radius: 12px;
-  object-fit: co  ver;
+  object-fit: co ver;
   opacity: 0.75;
 }
 
+/* === 使用者選單區塊（右上角） === */
 .user-menu {
   position: absolute;
   top: 20px;
   right: 30px;
-}
-
-.user-button {
-  background-color: transparent;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
+  z-index: 1000;
   font-weight: bold;
 }
 
-.dropdown-menu {
-  position: absolute;
-  background-color: white;
-  border: 1px solid #ccc;
-  right: 0;
-  top: 30px;
-  padding: 8px;
-  border-radius: 4px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+/* 使用者名稱按鈕（點擊展開選單） */
+.user-button {
+  background-color: #4faeea;
+  /* 藍底 */
+  color: #ffffff;
+  /* 白字 */
+  font-weight: bold;
+  font-size: 14px;
+  padding: 8px 16px;
+  border: 3px solid #248fd4;
+  border-radius: 10px;
+  /* 跟 .go-home-button 一樣 */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
+.user-button:hover {
+  background-color: #248fd4;
+}
+
+
+
+/* 下拉選單容器 */
+.dropdown-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: #ffffff;
+  border: 2px solid #248fd4;
+  /* ✅ 改為深藍框線 */
+  border-radius: 0;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 6px 0;
+  min-width: 120px;
+}
+
+/* 登出選項樣式 */
 .dropdown-item {
   background: none;
   border: none;
-  padding: 6px 12px;
-  text-align: left;
+  padding: 6px 14px;
   width: 100%;
+  text-align: left;
   cursor: pointer;
+  font-size: 13px;
+  color: #4b2e1f;
+}
+
+/* ✅ Hover 效果改為淺藍 */
+.dropdown-item:hover {
+  background-color: #e0f4ff;
+}
+
+/* 使用者按鈕內的箭頭符號 */
+.user-button .arrow {
+  font-size: 12px;
+  margin-left: 6px;
+  position: relative;
+  /* ✅ 一定要加，否則 top 不生效 */
+  top: -4px;
+  /* ✅ 往上移動 1px，可調整為 +1px 往下 */
+
+
 }
