@@ -2,14 +2,27 @@
 
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
-  }
-  
-  .inventory-container {
-    background-color: #fffbe2;
-    padding: 20px;
-    min-height: 100vh;
-  }
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;  /* 避免水平捲軸 */
+}
+
+ html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.inventory-container {
+  background-color: #fffbe2;
+  padding: 20px;
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
   
   
   /* === 區塊二：標題樣式 === */
