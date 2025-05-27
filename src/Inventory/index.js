@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"; 
 import "./index.css";
 import AddItem from "../components/AddItem";
 import EditForm from "../components/EditForm";
@@ -11,7 +11,6 @@ const Inventory = () => {
   const [editData, setEditData] = useState(null);
   const [inventory, setInventory] = useState([]);
 
-  // ✅ 抓取所有食材資料（加上 token）
   const fetchIngredients = async () => {
     try {
       const response = await fetch(`${API_URL}/get_ingredients`, {
@@ -31,7 +30,6 @@ const Inventory = () => {
     fetchIngredients();
   }, []);
 
-  // ✅ 新增食材（加上 token）
   const handleAddItem = async (newItem) => {
     try {
       const response = await fetch(`${API_URL}/add_ingredient`, {
@@ -55,7 +53,6 @@ const Inventory = () => {
     setIsEditPopupOpen(true);
   };
 
-  // ✅ 更新食材（加上 token）
   const handleUpdateItem = async (updatedItem) => {
     try {
       const response = await fetch(`${API_URL}/update_ingredient/${updatedItem.id}`, {
@@ -74,7 +71,6 @@ const Inventory = () => {
     }
   };
 
-  // ✅ 刪除食材（加上 token）
   const handleDeleteItem = async (id) => {
     try {
       const response = await fetch(`${API_URL}/delete_ingredient/${id}`, {
@@ -108,7 +104,7 @@ const Inventory = () => {
             <th className="col-name">品項</th>
             <th className="col-qty">庫存數量</th>
             <th className="col-unit">單位</th>
-            <th className="col-price">價格</th>
+            <th className="col-date">保存期限</th>
             <th className="col-actions">操作</th>
           </tr>
         </thead>
@@ -116,9 +112,9 @@ const Inventory = () => {
           {inventory.map((item) => (
             <tr key={item.id}>
               <td>{item.name}</td>
-              <td>{item.quantity}</td>
+              <td>{parseFloat(item.quantity).toFixed(2)}</td>
               <td>{item.unit}</td>
-              <td>{item.price}</td>
+              <td>{item.expiration_date ? item.expiration_date.slice(0, 10) : "—"}</td>
               <td className="col-actions">
                 <div className="action-buttons">
                   <button onClick={() => handleEditItem(item)} className="edit-button">編輯</button>

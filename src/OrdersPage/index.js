@@ -35,7 +35,7 @@ const handleDone = async (id) => {
   if (!confirmed) return;
 
   try {
-    const response = await fetch(`${API_URL}/move_to_completed/${id}`, {
+    const response = await fetch(`${API_URL}/complete_order/${id}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -47,8 +47,6 @@ const handleDone = async (id) => {
     console.error("完成訂單錯誤:", error);
   }
 };
-
-
   const handleCompleteFive = async () => {
     const idsToComplete = orders.slice(0, 5).map((order) => order.id);
     try {

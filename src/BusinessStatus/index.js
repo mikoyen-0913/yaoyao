@@ -121,37 +121,59 @@ const BusinessStatus = () => {
         </table>
       </div>
 
-      {/* 🟣 已完成訂單區塊 */}
-{/* 🟣 已完成訂單區塊 */}
+{/* 🟣 今日完成訂單區塊 */}
 <div className="summary-section">
-  <h2 className="section-title">已完成訂單</h2>
+  <h2 className="section-title">今日已完成訂單</h2>
   {completedOrders.length === 0 ? (
     <p>尚無完成訂單紀錄。</p>
   ) : (
     <table className="sales-table">
       <thead>
         <tr>
-          <th className="col-wide">餐點內容</th>
-          <th className="col-wide">完成時間</th>
-          <th className="col-narrow">金額</th>
+          <th>餐點內容</th>
+          <th>訂購時間</th>
+          <th>完成時間</th>
+          <th>金額</th>
         </tr>
       </thead>
       <tbody>
-        {completedOrders.map((order) => (
-          <tr key={order.id}>
-            <td>
-              {order.items.map((item, idx) => (
-                <div key={idx}>{item.menu_name} x{item.quantity}</div>
-              ))}
-            </td>
-            <td>
-              {order.completed_at && order.completed_at.seconds
-                ? new Date(order.completed_at.seconds * 1000).toLocaleString()
-                : "------"}
-            </td>
-            <td>${order.total_price}</td>
-          </tr>
-        ))}
+        {completedOrders
+  .filter((order) => {
+    if (!order.completed_at) return false;
+    const completeDate = new Date(order.completed_at);
+    const today = new Date();
+    return (
+      completeDate.getFullYear() === today.getFullYear() &&
+      completeDate.getMonth() === today.getMonth() &&
+      completeDate.getDate() === today.getDate()
+    );
+  })
+  .sort((a, b) => new Date(b.completed_at) - new Date(a.completed_at)) // ← 加這行
+  .map((order) => {
+    const formatTime = (str) => {
+      if (!str) return "—";
+      const d = new Date(str);
+      const hh = String(d.getHours()).padStart(2, "0");
+      const mm = String(d.getMinutes()).padStart(2, "0");
+      return `${hh}:${mm}`;
+    };
+
+    return (
+      <tr key={order.id}>
+        <td>
+          {order.items.map((item, index) => (
+            <div key={index}>
+              {item.menu_name} × {item.quantity}
+            </div>
+          ))}
+        </td>
+        <td>{formatTime(order.created_at)}</td>
+        <td>{formatTime(order.completed_at)}</td>
+        <td>${order.total_price}</td>
+      </tr>
+    );
+  })
+}
       </tbody>
     </table>
   )}

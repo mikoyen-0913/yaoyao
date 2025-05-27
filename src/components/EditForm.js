@@ -5,22 +5,24 @@ const EditForm = ({ onClose, onSave, data }) => {
   const [id, setId] = useState(null);
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [unit, setUnit] = useState("");
+  const [unit, setUnit] = useState("公斤");
   const [price, setPrice] = useState("");
+  const [expirationDate, setExpirationDate] = useState("");
 
   useEffect(() => {
     if (data) {
       setId(data.id || null);
       setItemName(data.name || "");
       setQuantity(data.quantity || "");
-      setUnit(data.unit || "");
+      setUnit(data.unit || "公斤");
       setPrice(data.price || "");
+      setExpirationDate(data.expiration_date ? data.expiration_date.slice(0, 10) : "");
     }
   }, [data]);
 
   const handleSave = () => {
     if (!id) return alert("更新失敗：找不到 ID");
-    if (!itemName || !quantity || !unit || !price)
+    if (!itemName || !quantity || !unit || !price || !expirationDate)
       return alert("請填寫完整資訊");
 
     onSave({
@@ -29,6 +31,7 @@ const EditForm = ({ onClose, onSave, data }) => {
       quantity: Number(quantity),
       unit,
       price: Number(price),
+      expiration_date: expirationDate,
     });
   };
 
@@ -37,6 +40,7 @@ const EditForm = ({ onClose, onSave, data }) => {
       <div className="popup">
         <div className="item-form">
           <h2>編輯食材</h2>
+
           <div className="form-group">
             <label>品項</label>
             <input
@@ -45,6 +49,7 @@ const EditForm = ({ onClose, onSave, data }) => {
               onChange={(e) => setItemName(e.target.value)}
             />
           </div>
+
           <div className="form-group">
             <label>數量</label>
             <input
@@ -53,14 +58,19 @@ const EditForm = ({ onClose, onSave, data }) => {
               onChange={(e) => setQuantity(e.target.value)}
             />
           </div>
+
           <div className="form-group">
             <label>單位</label>
-            <input
-              type="text"
+            <select
               value={unit}
               onChange={(e) => setUnit(e.target.value)}
-            />
+            >
+              
+              <option value="克">克</option>
+              <option value="毫升">毫升</option>
+            </select>
           </div>
+
           <div className="form-group">
             <label>價格</label>
             <input
@@ -69,6 +79,16 @@ const EditForm = ({ onClose, onSave, data }) => {
               onChange={(e) => setPrice(e.target.value)}
             />
           </div>
+
+          <div className="form-group">
+            <label>保存期限</label>
+            <input
+              type="date"
+              value={expirationDate}
+              onChange={(e) => setExpirationDate(e.target.value)}
+            />
+          </div>
+
           <div className="buttons">
             <button className="cancel-btn" onClick={onClose}>
               返回
