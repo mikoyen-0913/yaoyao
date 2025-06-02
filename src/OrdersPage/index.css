@@ -1,4 +1,26 @@
-/* ==== 1. 主要容器與訂單列表 ==== */
+/* ==== 1. 全域設定與主要容器 ==== */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;       
+  background-color: #fffbe2;
+  overflow-x: hidden;
+}
+
+.inventory-container {
+  background-color: #fffbe2;
+  width: 100vw;    
+  min-height: 100vh;       
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  margin: 0 auto;      
+}
+
+
+/* ==== 2. 訂單頁主要結構與排版 ==== */
 
 /* 整體訂單頁面容器 */
 .orders-container {
@@ -18,7 +40,7 @@
 }
 
 
-/* ==== 2. 標題與頂部按鈕 ==== */
+/* ==== 3. 頁面標題與頂部按鈕 ==== */
 
 /* 訂單頁標題文字樣式 */
 .orders-header h2 {
@@ -46,10 +68,9 @@
 }
 
 
-/* ==== 3. 訂單卡片內容樣式 ==== */
+/* ==== 4. 訂單卡片內容樣式 ==== */
 
 /* 單一訂單卡片外框與背景 */
-/* 調整訂單卡片使用 Flexbox 佈局，讓內容置頂，按鈕固定底部 */
 .order-card {
   border: 2px solid #000;
   width: 130px;
@@ -57,22 +78,15 @@
   background-color: white;
   text-align: center;
 
-  /* 新增以下三行 */
-  display: flex;          /* 開啟Flexbox佈局 */
-  flex-direction: column; /* 內部元素垂直排列 */
-  justify-content: space-between; /* 讓內部元素上下貼齊 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* 設定餐點名稱區塊自動伸縮，確保按鈕貼底 */
 .order-items {
-  flex-grow: 1; /* 自動占滿可用空間 */
+  flex-grow: 1;
 }
-
-/* 調整動作按鈕容器，不自動伸縮但保持緊貼底部 */
-.order-actions {
-  margin-top: auto; /* 按鈕群組貼到容器最底部 */
-}
-
 
 /* 訂單內的餐點項目文字 */
 .order-items {
@@ -109,8 +123,13 @@
   color: #e74c3c;
 }
 
+/* 調整動作按鈕容器，不自動伸縮但保持緊貼底部 */
+.order-actions {
+  margin-top: auto;
+}
 
-/* ==== 4. 卡片內部按鈕 ==== */
+
+/* ==== 5. 卡片內部按鈕樣式 ==== */
 
 /* 卡片內動作按鈕群組（編輯、刪除） */
 .order-actions {
@@ -166,7 +185,7 @@
 }
 
 
-/* ==== 5. 其他功能按鈕 ==== */
+/* ==== 6. 其他頁面功能按鈕 ==== */
 
 /* 一次完成五筆訂單的特殊按鈕 */
 .delete-all-button {
