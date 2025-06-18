@@ -33,16 +33,39 @@
   flex-direction: column;
   gap: 8px;
   margin-bottom: 12px;
+  width: 100%;
 }
 
 .form-group input {
   padding: 10px 12px;
-  border: 2px solid #ccc;
+  border: 2px solid #522222;
   border-radius: 8px;
   font-size: 16px;
   height: 44px;
+  width: 100%;
   box-sizing: border-box;
 }
+
+.form-group select {
+  padding: 10px 12px;
+  border: 2px solid #c8b898;
+  border-radius: 8px;
+  font-size: 16px;
+  height: 44px;
+  width: 64.5%;
+  box-sizing: border-box;
+
+  /* 完全模仿 input 的樣式行為 */
+  background-color: #fff;
+  font-family: inherit;
+  line-height: normal;
+
+  /* 強制 select 不超出寬度 */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
 
 .buttons {
   display: flex;
