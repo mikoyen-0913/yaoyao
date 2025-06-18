@@ -34,11 +34,11 @@ const Home = () => {
 
       <h2 className="welcome-text">歡迎來到 {storeName}</h2>
 
-
       <div className="button-group">
         <button className="nav-button" onClick={() => navigate('/orders')}>顯示訂單</button>
         <button className="nav-button" onClick={() => navigate('/inventory')}>查看庫存</button>
         <button className="nav-button" onClick={() => navigate('/businessstatus')}>查看營業狀態</button>
+        <button className="nav-button" onClick={() => navigate('/recipe')}>管理食譜</button> {/* ✅ 新增這行 */}
       </div>
 
       <div className="image-box">
