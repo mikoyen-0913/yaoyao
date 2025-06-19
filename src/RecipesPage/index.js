@@ -130,6 +130,7 @@ const RecipesPage = () => {
           <div key={name} className="order-card">
             <div className="order-items">
               <strong>{name}</strong>
+              <br /> 
               {Object.entries(ing).map(([ingName, detail]) => (
                 <div key={ingName}>
                   {ingName}：{detail.amount} {detail.unit}
