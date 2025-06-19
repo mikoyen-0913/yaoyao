@@ -9,6 +9,7 @@ const SignUp = () => {
     const [storeName, setStoreName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState(''); // ✅ 新增地址欄位
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
 
@@ -17,7 +18,7 @@ const SignUp = () => {
     };
 
     const handleSignUp = () => {
-        setError(''); // 清除之前的錯誤
+        setError('');
         fetch('http://localhost:5000/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -26,7 +27,8 @@ const SignUp = () => {
                 password,
                 storeName,
                 email,
-                phone
+                phone,
+                address // ✅ 傳送 address 到後端
             })
         })
         .then(res => res.json())
@@ -92,6 +94,13 @@ const SignUp = () => {
                 value={phone} 
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="請輸入手機號碼"
+            />
+
+            <input 
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="請輸入店家地址" // ✅ 新增地址輸入欄位
             />
 
             {error && <p className="error">{error}</p>}

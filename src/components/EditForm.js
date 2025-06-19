@@ -5,7 +5,7 @@ const EditForm = ({ onClose, onSave, data }) => {
   const [id, setId] = useState(null);
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [unit, setUnit] = useState("公斤");
+  const [unit, setUnit] = useState("克");  // 預設為 "克"
   const [price, setPrice] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
 
@@ -14,7 +14,7 @@ const EditForm = ({ onClose, onSave, data }) => {
       setId(data.id || null);
       setItemName(data.name || "");
       setQuantity(data.quantity || "");
-      setUnit(data.unit || "公斤");
+      setUnit(data.unit || "克");  // 預設為 "克"
       setPrice(data.price || "");
       setExpirationDate(data.expiration_date ? data.expiration_date.slice(0, 10) : "");
     }
@@ -65,7 +65,6 @@ const EditForm = ({ onClose, onSave, data }) => {
               value={unit}
               onChange={(e) => setUnit(e.target.value)}
             >
-              
               <option value="克">克</option>
               <option value="毫升">毫升</option>
             </select>
