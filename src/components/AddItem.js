@@ -4,30 +4,39 @@ import "../style/components/AddItem.css";
 const AddItem = ({ onClose, onSave }) => {
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [unit, setUnit] = useState("公斤");
+  const [unit, setUnit] = useState("");  // 預設為空白
   const [price, setPrice] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
 
-  const handleSave = () => {
+const handleSave = () => {
     if (!itemName || !quantity || !unit || !price || !expirationDate) {
       alert("請填寫完整資訊");
+      return;
+    }
+
+    // 檢查單位是否合法
+    const allowedUnits = ["克", "毫升"];
+    if (!allowedUnits.includes(unit)) {
+      alert("無效的單位，請選擇 '克' 或 '毫升'");
       return;
     }
 
     onSave({
       name: itemName,
       quantity: Number(quantity),
-      unit,
+      unit,  // 使用者選擇的單位（克或毫升）
       price: Number(price),
       expiration_date: expirationDate,
     });
 
+    // 清空表單
     setItemName("");
     setQuantity("");
-    setUnit("公斤");
+    setUnit("");  // 清空單位
     setPrice("");
     setExpirationDate("");
   };
+
 
   return (
     <div className="popup-overlay">
@@ -59,6 +68,7 @@ const AddItem = ({ onClose, onSave }) => {
               value={unit}
               onChange={(e) => setUnit(e.target.value)}
             >
+              <option value="">選擇單位</option> {/* 預設選項為空 */}
               <option value="克">克</option>
               <option value="毫升">毫升</option>
             </select>
