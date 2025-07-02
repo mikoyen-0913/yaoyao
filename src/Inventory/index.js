@@ -86,17 +86,50 @@ const Inventory = () => {
     }
   };
 
+  const handleRefreshInventory = async () => {
+    try {
+      const response = await fetch(`${API_URL}/refresh_inventory_by_sales`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const result = await response.json();
+      if (response.ok) {
+        alert("✅ 即時庫存已更新");
+        fetchIngredients();
+      } else {
+        alert("❌ 更新失敗：" + result.error);
+      }
+    } catch (error) {
+      console.error("更新庫存失敗:", error);
+      alert("❌ 發生錯誤：" + error.message);
+    }
+  };
+
   return (
     <div className="inventory-container">
       <h1>庫存管理</h1>
 
-      <button onClick={() => setIsAddPopupOpen(true)} className="add-button">
-        新增食材
-      </button>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div>
+          <button onClick={() => setIsAddPopupOpen(true)} className="add-button">
+            新增食材
+          </button>
 
-      <button className="home-button" onClick={() => window.location.href = 'http://localhost:3000/home'}>
-        回首頁
-      </button>
+          <button
+            onClick={handleRefreshInventory}
+            className="refresh-button"
+            style={{ marginLeft: "10px", backgroundColor: "#f28500" }}
+          >
+            更新庫存數據
+          </button>
+        </div>
+
+        <button className="home-button" onClick={() => window.location.href = 'http://localhost:3000/home'}>
+          回首頁
+        </button>
+      </div>
 
       <table>
         <thead>

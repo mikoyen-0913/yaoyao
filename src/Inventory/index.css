@@ -89,6 +89,22 @@ body {
     background-color: #b92c27;
   }
   
+  /* 更新庫存數據按鈕（橘色） */
+  .refresh-button {
+    background-color: #f28500;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    
+  }
+  .refresh-button:hover {
+    background-color: #d86f00;
+  }
+  
   
   /* === 區塊四：表格樣式 === */
   
