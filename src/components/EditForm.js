@@ -5,7 +5,7 @@ const EditForm = ({ onClose, onSave, data }) => {
   const [id, setId] = useState(null);
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [unit, setUnit] = useState("克");  // 預設為 "克"
+  const [unit, setUnit] = useState("克"); // 預設為 "克"
   const [price, setPrice] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
 
@@ -14,25 +14,27 @@ const EditForm = ({ onClose, onSave, data }) => {
       setId(data.id || null);
       setItemName(data.name || "");
       setQuantity(data.quantity || "");
-      setUnit(data.unit || "克");  // 預設為 "克"
+      setUnit(data.unit || "克");
       setPrice(data.price || "");
       setExpirationDate(data.expiration_date ? data.expiration_date.slice(0, 10) : "");
     }
   }, [data]);
 
   const handleSave = () => {
-    if (!id) return alert("更新失敗：找不到 ID");
-    if (!itemName || !quantity || !unit || !price || !expirationDate)
+    if (!itemName || !quantity || !unit || !price || !expirationDate) {
       return alert("請填寫完整資訊");
+    }
 
-    onSave({
-      id,
+    const ingredient = {
+      id, // ✅ 傳出 id，避免成為 undefined
       name: itemName,
       quantity: Number(quantity),
       unit,
       price: Number(price),
       expiration_date: expirationDate,
-    });
+    };
+
+    onSave(ingredient); // ✅ 不用陣列
   };
 
   return (
@@ -61,10 +63,7 @@ const EditForm = ({ onClose, onSave, data }) => {
 
           <div className="form-group">
             <label>單位</label>
-            <select
-              value={unit}
-              onChange={(e) => setUnit(e.target.value)}
-            >
+            <select value={unit} onChange={(e) => setUnit(e.target.value)}>
               <option value="克">克</option>
               <option value="毫升">毫升</option>
             </select>
