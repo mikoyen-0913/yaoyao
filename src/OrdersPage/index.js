@@ -30,23 +30,24 @@ const OrdersPage = () => {
     }
   }, [token]);
 
-const handleDone = async (id) => {
-  const confirmed = window.confirm("確定要將此訂單標記為完成嗎？此操作無法復原！");
-  if (!confirmed) return;
+  const handleDone = async (id) => {
+    const confirmed = window.confirm("確定要將此訂單標記為完成嗎？此操作無法復原！");
+    if (!confirmed) return;
 
-  try {
-    const response = await fetch(`${API_URL}/complete_order/${id}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) throw new Error("完成失敗");
-    fetchOrders(); // ✅ 重新整理訂單
-  } catch (error) {
-    console.error("完成訂單錯誤:", error);
-  }
-};
+    try {
+      const response = await fetch(`${API_URL}/complete_order/${id}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) throw new Error("完成失敗");
+      fetchOrders();
+    } catch (error) {
+      console.error("完成訂單錯誤:", error);
+    }
+  };
+
   const handleCompleteFive = async () => {
     const idsToComplete = orders.slice(0, 5).map((order) => order.id);
     try {
@@ -122,24 +123,26 @@ const handleDone = async (id) => {
 
   return (
     <div className="orders-container">
+      {/* ✅ 固定右上角回首頁按鈕 */}
+      <div className="fixed-home-button">
+        <button className="primary-button" onClick={() => navigate(HOME_PATH)}>
+          回首頁
+        </button>
+      </div>
+
       <div className="orders-header">
         <h2>顯示訂單</h2>
         <div className="icon-group">
           <button
+            className="primary-button"
             onClick={() => {
-              setEditingOrder({}); // 🆕 傳入空資料 → 新增模式
+              setEditingOrder({});
               setShowEditForm(true);
             }}
           >
             新增訂單
           </button>
         </div>
-      </div>
-
-      <div style={{ textAlign: "right", marginTop: "10px" }}>
-        <button className="go-home-button" onClick={() => navigate(HOME_PATH)}>
-          回首頁
-        </button>
       </div>
 
       <div className="orders-list">

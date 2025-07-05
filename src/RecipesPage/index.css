@@ -5,6 +5,7 @@
   padding: 30px;
   max-width: 1000px;
   margin: 30px auto;
+  position: relative;
 }
 
 .orders-header h2 {
@@ -188,4 +189,12 @@
 
 .go-home-button:hover {
   background-color: #248fd4;
+}
+
+/* ✅ 固定右上角回首頁按鈕樣式 */
+.fixed-home-button {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 10;
 }

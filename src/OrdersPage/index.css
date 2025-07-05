@@ -22,15 +22,14 @@ body {
 
 /* ==== 2. 訂單頁主要結構與排版 ==== */
 
-/* 整體訂單頁面容器 */
 .orders-container {
   background-color: #fff9e6;
   padding: 30px;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 30px auto;
+  position: relative; /* ⚠️ 為了讓固定按鈕能靠這個容器定位 */
 }
 
-/* 訂單卡片列表（每排5張） */
 .orders-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -41,15 +40,14 @@ body {
 
 /* ==== 3. 頁面標題與頂部按鈕 ==== */
 
-/* 訂單頁標題文字樣式 */
-.orders-header h2 {
+.orders-header  {
+  margin-top: -40px;
   color: #4b2e1f;
   font-size: 32px;
   font-weight: bold;
   margin-bottom: 20px;
 }
 
-/* ==== 共用主要藍色按鈕樣式（新增訂單／回首頁） ==== */
 .primary-button {
   font-weight: bold;
   background-color: #4faeea;
@@ -125,7 +123,8 @@ body {
   align-self: center;
 }
 
-/* 三種主要按鈕共用樣式 */
+/* 編輯、刪除、完成按鈕 */
+
 .modify-button,
 .remove-button,
 .done-button {
@@ -138,7 +137,6 @@ body {
   margin: 0 auto;
 }
 
-/* 編輯按鈕（黃色） */
 .order-actions .modify-button {
   background-color: #ffe38a;
   color: #4b2e1f;
@@ -149,7 +147,6 @@ body {
   background-color: #ffc170;
 }
 
-/* 刪除按鈕（紅色） */
 .order-actions .remove-button {
   background-color: #e74c3c;
   color: #ffffff;
@@ -160,7 +157,6 @@ body {
   background-color: #b92c27;
 }
 
-/* 完成按鈕（橘色） */
 .order-card .done-button {
   background-color: #f5b971;
   color: #4b2e1f;
@@ -171,10 +167,8 @@ body {
   background-color: #e9924a;
 }
 
+/* ==== 特殊按鈕樣式 ==== */
 
-/* ==== 6. 其他頁面功能按鈕 ==== */
-
-/* 一次完成五筆訂單的特殊按鈕 */
 .delete-all-button {
   margin: 30px auto 0;
   display: block;
@@ -190,4 +184,12 @@ body {
 }
 .delete-all-button:hover {
   background-color: #f9b1b1;
+}
+
+/* ✅ 固定右上角回首頁按鈕樣式 */
+.fixed-home-button {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 10;
 }

@@ -104,6 +104,13 @@ const RecipesPage = () => {
 
   return (
     <div className="orders-container">
+      {/* 固定右上角回首頁按鈕 */}
+      <div className="fixed-home-button">
+        <button className="go-home-button" onClick={() => navigate(HOME_PATH)}>
+          回首頁
+        </button>
+      </div>
+
       <div className="orders-header">
         <h2>食譜管理</h2>
         <div className="icon-group">
@@ -119,18 +126,12 @@ const RecipesPage = () => {
         </div>
       </div>
 
-      <div style={{ textAlign: "right", marginTop: "10px" }}>
-        <button className="go-home-button" onClick={() => navigate(HOME_PATH)}>
-          回首頁
-        </button>
-      </div>
-
       <div className="orders-list">
         {Object.entries(recipes).map(([name, ing]) => (
           <div key={name} className="order-card">
             <div className="order-items">
               <strong>{name}</strong>
-              <br /> 
+              <br />
               {Object.entries(ing).map(([ingName, detail]) => (
                 <div key={ingName}>
                   {ingName}：{detail.amount} {detail.unit}
