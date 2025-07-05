@@ -11,6 +11,7 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
+
 .go-home-button:hover {
   background-color: #248fd4;
 }
@@ -32,6 +33,7 @@
   position: relative;
   line-height: 1.6;
 }
+
 .alert-title {
   font-size: 36px;
   color: #ff0000;
@@ -39,15 +41,18 @@
   display: inline-block;
   margin-bottom: 10px;
 }
+
 .alert-date {
   color: #ff6666;
   font-weight: bold;
   font-size: 22px;
 }
+
 .alert-button-container {
   margin-top: 25px;
   text-align: right;
 }
+
 .alert-box .nav-button {
   display: inline-flex;
   align-items: center;
@@ -58,15 +63,16 @@
   max-width: none;
   min-width: 250px;
   border: 3px solid #a47551;
-  background-color: #ffd966;
+  background-color: #fbdd79;
   color: #4b2e1f;
   font-weight: bold;
   border-radius: 12px;
   cursor: pointer;
   transition: 0.3s;
 }
+
 .alert-box .nav-button:hover {
-  background-color: #ffcc00;
+  background-color: #ffb758;
 }
 
 
@@ -75,17 +81,20 @@
   margin-top: 50px;
   text-align: center;
 }
+
 .section-title {
   font-size: 24px;
   font-weight: bold;
   color: #4b2e1f;
   margin-bottom: 20px;
 }
+
 .chart-container {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
+
 .chart-image {
   width: 100%;
   max-width: 700px;
@@ -96,7 +105,7 @@
   margin-top: 20px;
   display: flex;
   justify-content: center;
-  gap: 110px; 
+  gap: 110px;
 }
 
 /* 圖表按鈕的外觀樣式（共用） */
@@ -110,14 +119,15 @@
   font-weight: bold;
   border-radius: 12px;
   padding: 8px 20px;
+  background-color: #fbdd79;
   border: 3px solid #a47551;
-  background-color: #ffd966;
   color: #4b2e1f;
   cursor: pointer;
   transition: 0.3s;
 }
+
 .nav-button:hover {
-  background-color: #ffcc00;
+  background-color: #ffb758;
 }
 
 
@@ -126,14 +136,17 @@
   margin-top: 50px;
   text-align: center;
 }
+
 .sales-amount {
   font-size: 20px;
   margin-bottom: 20px;
 }
+
 .sales-amount-number {
   color: #ff0000;
   font-weight: bold;
 }
+
 /* ✅ 已完成訂單用共用表格樣式：與今日總覽一致 */
 .sales-table {
   width: 100%;
@@ -151,10 +164,12 @@
   font-size: 18px;
   line-height: 1.5;
 }
+
 /* ✅ 表格欄位寬度統一設定（上下表格共用） */
 .sales-table .col-wide {
   width: 40%;
 }
+
 .sales-table .col-narrow {
   width: 20%;
 }

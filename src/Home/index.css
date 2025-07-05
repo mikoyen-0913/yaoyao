@@ -1,4 +1,6 @@
-/* 重置 html 和 body 的 margin、padding，避免捲軸，確保寬度 100% */
+/* =============================
+   1. Reset 頁面預設樣式
+============================= */
 html, body {
   margin: 0;
   padding: 0;
@@ -6,21 +8,21 @@ html, body {
   width: 100%;
 }
 
-/* === 整體容器 === */
+/* =============================
+   2. 整體容器樣式（首頁）
+============================= */
 .homepage-container {
   background-color: #fff9e6;
   padding: 30px;
-  border-radius: 0px;
-  text-align: center;
   width: 100vw;
   min-height: 100vh;
   box-sizing: border-box;
+  text-align: center;
 }
 
-/* ... 你其他的 CSS 不動 */
-
-
-/* === 歡迎文字 === */
+/* =============================
+   3. 標題文字（歡迎文字）
+============================= */
 .welcome-text {
   font-size: 24px;
   font-weight: bold;
@@ -28,8 +30,9 @@ html, body {
   margin-bottom: 20px;
 }
 
-
-/* === 按鈕區塊 === */
+/* =============================
+   4. 功能按鈕群組（四顆）
+============================= */
 .button-group {
   display: flex;
   justify-content: center;
@@ -37,53 +40,51 @@ html, body {
   margin-top: 50px;
 }
 
-
-/* === 導航按鈕樣式 === */
+/* 共用導航按鈕樣式（顯示訂單、查看庫存等） */
 .nav-button {
   display: flex;
   align-items: center;
   justify-content: center;
-
+  width: 160px;
   height: 60px;
   line-height: 60px;
-  /* ✅ 讓文字在垂直方向真正居中 */
-  text-align: center;
-
-  background-color: #ffd966;
-  border: 3px solid #a47551;
-  padding: 8px;
   font-size: 20px;
   font-weight: bold;
+  text-align: center;
   color: #4b2e1f;
+  background-color: #ffd966;
+  border: 3px solid #a47551;
   border-radius: 15px;
-  width: 160px;
+  padding: 8px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background-color 0.3s ease;
 }
-
 
 .nav-button:hover {
   background-color: #ffcc00;
 }
 
-
-/* === 圖片區塊 === */
+/* =============================
+   5. 圖片區塊（下方紅豆餅）
+============================= */
 .image-box {
   padding: 20px;
+  background-color: transparent;
   border: none;
   border-radius: 0px;
-  background-color: transparent;
 }
 
 .hero-image {
   width: 100%;
   max-width: 500px;
   border-radius: 12px;
-  object-fit: co ver;
+  object-fit: cover;
   opacity: 0.75;
 }
 
-/* === 使用者選單區塊（右上角） === */
+/* =============================
+   6. 使用者選單區塊（右上角）
+============================= */
 .user-menu {
   position: absolute;
   top: 20px;
@@ -92,27 +93,30 @@ html, body {
   font-weight: bold;
 }
 
-/* 使用者名稱按鈕（點擊展開選單） */
+/* 使用者名稱按鈕 */
 .user-button {
-  background-color: #a67a64 ;
-  /* 棕色底 */
+  background-color: #a67a64;
   color: #ffffff;
-  /* 白字 */
   font-weight: bold;
   font-size: 14px;
   padding: 8px 16px;
   border: 3px solid #654a35;
   border-radius: 10px;
-  /* 跟 .go-home-button 一樣 */
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .user-button:hover {
-  background-color: #7a513d;
+  background-color: #976851;
 }
 
-
+/* 使用者按鈕內的小箭頭符號 */
+.user-button .arrow {
+  font-size: 12px;
+  margin-left: 6px;
+  position: relative;
+  top: -4px;
+}
 
 /* 下拉選單容器 */
 .dropdown-menu {
@@ -121,14 +125,13 @@ html, body {
   right: 0;
   background-color: #ffffff;
   border: 2px solid #654a35;
-  /* ✅ 改為棕色框線 */
   border-radius: 0;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   padding: 6px 0;
   min-width: 120px;
 }
 
-/* 登出選項樣式 */
+/* 下拉選單中的選項按鈕 */
 .dropdown-item {
   background: none;
   border: none;
@@ -140,19 +143,6 @@ html, body {
   color: #4b2e1f;
 }
 
-/* ✅ Hover 效果改為淺棕色 */
 .dropdown-item:hover {
   background-color: #eddbcd;
-}
-
-/* 使用者按鈕內的箭頭符號 */
-.user-button .arrow {
-  font-size: 12px;
-  margin-left: 6px;
-  position: relative;
-  /* ✅ 一定要加，否則 top 不生效 */
-  top: -4px;
-  /* ✅ 往上移動 1px，可調整為 +1px 往下 */
-
-
 }

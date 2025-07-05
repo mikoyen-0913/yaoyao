@@ -39,7 +39,6 @@ body {
   justify-items: center;
 }
 
-
 /* ==== 3. 頁面標題與頂部按鈕 ==== */
 
 /* 訂單頁標題文字樣式 */
@@ -50,8 +49,8 @@ body {
   margin-bottom: 20px;
 }
 
-/* 頂部按鈕群（例如：取消完成訂單等） */
-.icon-group button {
+/* ==== 共用主要藍色按鈕樣式（新增訂單／回首頁） ==== */
+.primary-button {
   font-weight: bold;
   background-color: #4faeea;
   color: #ffffff;
@@ -60,17 +59,18 @@ body {
   font-size: 14px;
   border-radius: 10px;
   cursor: pointer;
-  margin-left: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
 }
 
-.icon-group button:hover {
+.primary-button:hover {
   background-color: #248fd4;
 }
 
-
 /* ==== 4. 訂單卡片內容樣式 ==== */
 
-/* 單一訂單卡片外框與背景 */
 .order-card {
   border: 2px solid #000;
   width: 150px!important;
@@ -82,14 +82,8 @@ body {
   justify-content: space-between;
 }
 
-
-/* 設定餐點名稱區塊自動伸縮，確保按鈕貼底 */
 .order-items {
   flex-grow: 1;
-}
-
-/* 訂單內的餐點項目文字 */
-.order-items {
   white-space: pre-wrap;
   font-size: 17px;
   font-weight: bold;
@@ -99,7 +93,6 @@ body {
   margin-bottom: 8px;
 }
 
-/* 卡片內編號與價格的水平排列區塊 */
 .order-meta {
   display: flex;
   justify-content: space-between;
@@ -108,7 +101,6 @@ body {
   padding: 0 4px;
 }
 
-/* 訂單編號特殊字體與邊框效果 */
 .order-number {
   font-size: 60px;
   font-weight: 1000;
@@ -116,27 +108,21 @@ body {
   -webkit-text-stroke: 3px #a0652e;
 }
 
-/* 訂單價格文字 */
 .order-price {
   font-size: 18px;
   font-weight: bold;
   color: #e74c3c;
 }
 
-/* 調整動作按鈕容器，不自動伸縮但保持緊貼底部 */
 .order-actions {
   margin-top: auto;
-}
-
-
-/* ==== 5. 卡片內部按鈕樣式 ==== */
-
-/* 卡片內動作按鈕群組（編輯、刪除） */
-.order-actions {
   display: flex;
   flex-direction: column;
   gap: 6px;
   margin-bottom: 10px;
+}
+.order-actions button {
+  align-self: center;
 }
 
 /* 三種主要按鈕共用樣式 */
@@ -150,38 +136,39 @@ body {
   border: 2px solid #4b2e1f;
   cursor: pointer;
   margin: 0 auto;
-  width: 80%;
 }
 
 /* 編輯按鈕（黃色） */
-.modify-button {
+.order-actions .modify-button {
   background-color: #ffe38a;
   color: #4b2e1f;
+  width: 75%;
+  border: 3px solid #e8982f;
 }
-
-.modify-button:hover {
-  background-color: #e8ad61;
+.order-actions .modify-button:hover {
+  background-color: #ffc170;
 }
 
 /* 刪除按鈕（紅色） */
-.remove-button {
+.order-actions .remove-button {
   background-color: #e74c3c;
   color: #ffffff;
+  width: 75%;
+  border: 3px solid #961a16;
 }
-
-.remove-button:hover {
+.order-actions .remove-button:hover {
   background-color: #b92c27;
 }
 
 /* 完成按鈕（橘色） */
-.done-button {
+.order-card .done-button {
   background-color: #f5b971;
   color: #4b2e1f;
-  width: 100%;
+  width: 95%;
+  border: 3px solid #d4701f;
 }
-
-.done-button:hover {
-  background-color: #f29e5b;
+.order-card .done-button:hover {
+  background-color: #e9924a;
 }
 
 
@@ -201,21 +188,6 @@ body {
   cursor: pointer;
   text-align: center;
 }
-
-/* 回首頁按鈕（藍色） */
-.go-home-button {
-  background-color: #4faeea;
-  color: #ffffff;
-  font-weight: bold;
-  border: 3px solid #248fd4;
-  margin-left: 10px;
-  padding: 8px 16px;
-  font-size: 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.go-home-button:hover {
-  background-color: #248fd4;
+.delete-all-button:hover {
+  background-color: #f9b1b1;
 }
