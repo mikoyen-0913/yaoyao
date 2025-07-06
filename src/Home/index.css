@@ -52,7 +52,7 @@ html, body {
   font-weight: bold;
   text-align: center;
   color: #4b2e1f;
-  background-color: #ffd966;
+  background-color: #fbdd79;
   border: 3px solid #a47551;
   border-radius: 15px;
   padding: 8px;
@@ -61,7 +61,7 @@ html, body {
 }
 
 .nav-button:hover {
-  background-color: #ffcc00;
+  background-color: #ffb758;
 }
 
 /* =============================

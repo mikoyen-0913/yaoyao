@@ -123,13 +123,7 @@ const OrdersPage = () => {
 
   return (
     <div className="orders-container">
-      {/* ✅ 固定右上角回首頁按鈕 */}
-      <div className="fixed-home-button">
-        <button className="primary-button" onClick={() => navigate(HOME_PATH)}>
-          回首頁
-        </button>
-      </div>
-
+      {/* ✅ 標題與按鈕 */}
       <div className="orders-header">
         <h2>顯示訂單</h2>
         <div className="icon-group">
@@ -141,6 +135,13 @@ const OrdersPage = () => {
             }}
           >
             新增訂單
+          </button>
+          <button
+            className="primary-button"
+            onClick={() => navigate(HOME_PATH)}
+            style={{ marginLeft: "12px" }}
+          >
+            回首頁
           </button>
         </div>
       </div>

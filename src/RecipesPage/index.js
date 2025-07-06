@@ -104,17 +104,11 @@ const RecipesPage = () => {
 
   return (
     <div className="orders-container">
-      {/* 固定右上角回首頁按鈕 */}
-      <div className="fixed-home-button">
-        <button className="go-home-button" onClick={() => navigate(HOME_PATH)}>
-          回首頁
-        </button>
-      </div>
-
       <div className="orders-header">
         <h2>食譜管理</h2>
         <div className="icon-group">
           <button
+            className="primary-button"
             onClick={() => {
               setEditingRecipe(true);
               setMenuName("");
@@ -122,6 +116,13 @@ const RecipesPage = () => {
             }}
           >
             新增配方
+          </button>
+          <button
+            className="primary-button"
+            onClick={() => navigate(HOME_PATH)}
+            style={{ marginLeft: "12px" }}
+          >
+            回首頁
           </button>
         </div>
       </div>

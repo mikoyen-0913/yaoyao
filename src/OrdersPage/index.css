@@ -25,7 +25,7 @@ body {
 .orders-container {
   background-color: #fff9e6;
   padding: 30px;
-  max-width: 1200px;
+  max-width: 100%;
   margin: 30px auto;
   position: relative; /* ⚠️ 為了讓固定按鈕能靠這個容器定位 */
 }
@@ -40,13 +40,17 @@ body {
 
 /* ==== 3. 頁面標題與頂部按鈕 ==== */
 
-.orders-header  {
-  margin-top: -40px;
+.orders-header {
+  margin-top: -50px;
+  margin-bottom: 20px;
   color: #4b2e1f;
   font-size: 32px;
   font-weight: bold;
-  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
+
 
 .primary-button {
   font-weight: bold;
