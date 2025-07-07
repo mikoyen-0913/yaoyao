@@ -1,9 +1,9 @@
 /* === 🔵 回首頁按鈕樣式區塊 === */
 .go-home-button {
-  background-color: #4faeea;
+  background-color: #5fbdfb;
   color: #ffffff;
   font-weight: bold;
-  border: 3px solid #248fd4;
+  border: 3px solid #2f8ac6;
   margin-left: 10px;
   padding: 8px 16px;
   font-size: 14px;
@@ -13,7 +13,7 @@
 }
 
 .go-home-button:hover {
-  background-color: #248fd4;
+  background-color: #4ea4eb;
 }
 
 

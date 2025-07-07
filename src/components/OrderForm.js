@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "../style/components/OrderEditForm.css";
+import "../style/components/OrderForm.css";
 
-const OrderEditForm = ({ orderData, onClose, onSave }) => {
+const OrderForm = ({ orderData, onClose, onSave }) => {
   const [items, setItems] = useState([]);
   const [menus, setMenus] = useState([]);
 
   const token = localStorage.getItem("token");
 
-  // ✅ 載入菜單資料（含 token）
+  // 取得菜單資料
   useEffect(() => {
     fetch("http://127.0.0.1:5000/get_menus", {
       headers: {
@@ -22,12 +22,11 @@ const OrderEditForm = ({ orderData, onClose, onSave }) => {
       .catch((err) => console.error("無法載入菜單資料", err));
   }, [token]);
 
-  // ✅ 根據 orderData 初始化項目
+  // 初始化項目
   useEffect(() => {
     if (orderData && Array.isArray(orderData.items)) {
       setItems(orderData.items);
     } else {
-      // 🆕 沒有 id 時視為新增，建立空白項目
       setItems([{ menu_id: "", menu_name: "", quantity: 1, unit_price: 0 }]);
     }
   }, [orderData]);
@@ -144,4 +143,4 @@ const OrderEditForm = ({ orderData, onClose, onSave }) => {
   );
 };
 
-export default OrderEditForm;
+export default OrderForm;

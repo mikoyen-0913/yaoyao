@@ -1,13 +1,15 @@
+/* ======= 背景與彈出視窗定位層 ======= */
 .popup-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5);  /* 半透明黑底 */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 1000;  /* 蓋在最上層 */
 }
 
+/* 彈出視窗本體 */
 .popup {
   background: #fff9e6;
   padding: 30px 25px;
@@ -18,8 +20,14 @@
   display: flex;
   flex-direction: column;
   font-family: "Segoe UI", sans-serif;
+
+  /* 視窗可滾動 */
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
+
+/* ======= 表單標題區 ======= */
 .item-form h2 {
   font-size: 24px;
   color: #4b2e1f;
@@ -28,6 +36,8 @@
   margin: 0 0 15px 0;
 }
 
+
+/* ======= 表單輸入欄位區 ======= */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -36,6 +46,7 @@
   width: 100%;
 }
 
+/* 輸入欄位：input */
 .form-group input {
   padding: 10px 12px;
   border: 2px solid #522222;
@@ -46,6 +57,7 @@
   box-sizing: border-box;
 }
 
+/* 輸入欄位：select 下拉式 */
 .form-group select {
   padding: 10px 12px;
   border: 2px solid #c8b898;
@@ -55,25 +67,26 @@
   width: 64.5%;
   box-sizing: border-box;
 
-  /* 完全模仿 input 的樣式行為 */
   background-color: #fff;
   font-family: inherit;
   line-height: normal;
 
-  /* 強制 select 不超出寬度 */
+  /* 清除預設箭頭樣式 */
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
 
 
+/* ======= 按鈕區：兩顆按鈕左右排 ======= */
 .buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
 }
 
-/* 返回按鈕：保留灰色 */
+
+/* 返回按鈕：灰色風格 */
 .cancel-btn {
   background-color: #f2f2f2;
   color: #333;
@@ -90,7 +103,8 @@
   background-color: #e0e0e0;
 }
 
-/* 送出按鈕：藍色風格 */
+
+/* 儲存按鈕：藍色風格 */
 .edit-submit-btn {
   background-color: #4faeea;
   color: #ffffff;

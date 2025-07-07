@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
-import OrderEditForm from "../components/OrderEditForm";
-import "../style/components/OrderEditForm.css";
+import OrderForm from "../components/OrderForm";
+import "../style/components/OrderForm.css";
 
 const HOME_PATH = "/home";
 const API_URL = "http://127.0.0.1:5000";
@@ -200,7 +200,7 @@ const OrdersPage = () => {
       </div>
 
       {showEditForm && (
-        <OrderEditForm
+        <OrderForm
           orderData={editingOrder}
           onClose={() => {
             setShowEditForm(false);

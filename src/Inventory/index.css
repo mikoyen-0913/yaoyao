@@ -1,13 +1,14 @@
 /* === 區塊一：全域與容器樣式 === */
 
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;  /* 避免水平捲軸 */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
- html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -23,159 +24,175 @@ body {
   overflow-x: hidden;
 }
 
-  
-  
-  /* === 區塊二：標題樣式 === */
-  
-  .inventory-container h1 {
-    color: #4b2e1f;
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  
-  /* === 區塊三：共用按鈕樣式 === */
-  
-  .add-button,
-  .add-item-button,
-  .home-button,
-  .edit-button,
-  .delete-button {
-    background-color: #ccc;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    width: 100px;
-    font-size: 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
-  }
-  
-  /* 新增類按鈕（綠色） */
-  .add-button,
-  .add-item-button {
-    background-color: #5cb85c;
-  }
-  .add-button:hover,
-  .add-item-button:hover {
-    background-color: #2b9d2b;
-  }
-  
-  /* 回首頁按鈕（藍色） */
-  .home-button {
-    background-color: #4faeea;
-    margin-left: 10px;
-  }
-  .home-button:hover {
-    background-color: #248fd4;
-  }
-  
-  /* 編輯按鈕（橘色） */
-  .edit-button {
-    background-color: #f0ad4e;
-  }
-  .edit-button:hover {
-    background-color: #e1860e;
-  }
-  
-  /* 刪除按鈕（紅色） */
-  .delete-button {
-    background-color: #d9534f;
-  }
-  .delete-button:hover {
-    background-color: #b92c27;
-  }
-  
-  /* 更新庫存數據按鈕（橘色） */
-  .refresh-button {
-    background-color: #f28500;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    margin-left: 10px;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    
-  }
-  .refresh-button:hover {
-    background-color: #d86f00;
-  }
-  
-  
-  /* === 區塊四：表格樣式 === */
-  
-  /* 表格整體排版 */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  /* 欄位框線與文字排版 */
-  th,
-  td {
-    border: 1.2px solid #c9a27e;
-    padding: 8px;
-    text-align: left;
-    vertical-align: middle;
-  }
-  
-  /* 表格內容列背景色 */
-  table tr {
-    background-color: white;
-  }
-  
-  /* 表頭底色 */
-  th {
-    background-color: rgb(231, 231, 230);
-  }
-  
-  /* 欄寬比例設定：26%、16%、16%、16%、26% */
-  .col-name {
-    width: 26%;
-  }
-  .col-qty {
-    width: 16%;
-  }
-  .col-unit {
-    width: 16%;
-  }
-  .col-price {
-    width: 16%;
-  }
-  .col-actions {
-    width: 26%;
-    text-align: left;
-  }
-  
-  
-  /* === 區塊五：操作欄樣式 === */
-  
-  /* 表頭「操作」兩字靠左，與其他欄一致 */
-  th.col-actions {
-    text-align: left;
-    padding-left: 12px;
-  }
-  
-  /* 表格內容欄位取消 padding，讓按鈕更貼邊線 */
-  td.col-actions {
-    padding: 0;
-  }
-  
-  /* ✅ 編輯 + 刪除按鈕區塊（橫向排列、上下置中） */
-  .action-buttons {
-    display: flex;
-    justify-content: center;      /* 水平置中兩顆按鈕 */
-    align-items: center;          /* 垂直置中與列高度一致 */
-  
-    padding: 0px 0 16px 0;        /* 上右下左：控制按鈕與表格邊線的距離 */
-    gap: 10px;                    /* 兩顆按鈕之間的距離 */
-  
-    margin-left: 5px;             /* 整體向右移動，可調整 */
-    margin-top: 0px;              /* 整體向下移動，可調整 */
-  }
-  
+
+/* === 區塊二：標題樣式 === */
+
+.inventory-container h1 {
+  color: #4b2e1f;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+
+/* === 區塊三：按鈕樣式 === */
+
+.add-button,
+.add-item-button,
+.edit-button,
+.delete-button,
+.refresh-button {
+  color: white;
+  border: 2px solid transparent;
+  padding: 5px 0;
+  width: 120px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+/* 新增按鈕（藍色） */
+.add-button,
+.add-item-button {
+  background-color: #5fbdfb;
+  border: 3px solid #2f8ac6;
+}
+
+.add-button:hover,
+.add-item-button:hover {
+  background-color: #4ea4eb;
+}
+
+/* 更新庫存數據按鈕（橘色） */
+.refresh-button {
+  background-color: #eeaf5d;
+  border: 3px solid #c67d1d;
+}
+
+.refresh-button:hover {
+  background-color: #e1a049;
+}
+
+/* 編輯按鈕（黃色） */
+.edit-button {
+  background-color: #ffe38a;
+  border: 3px solid#e8982f;
+  color: #4b2e1f;
+}
+
+.edit-button:hover {
+  background-color: #ffc170;
+}
+
+/* 刪除按鈕（紅色） */
+.delete-button {
+  background-color: #d9534f;
+  border: 3px solid #961a16;
+}
+
+.delete-button:hover {
+  background-color: #b92c27;
+}
+
+
+
+/* 回首頁按鈕（照 primary-button 樣式） */
+.home-button {
+  font-weight: bold;
+  background-color: #5fbdfb;
+  color: #ffffff;
+  border: 3px solid #2f8ac6;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  margin-left: 10px;
+  margin-top: 20px;
+}
+
+.home-button:hover {
+  background-color: #4ea4eb;
+}
+
+/* ✅ 固定右上角回首頁按鈕樣式 */
+.fixed-home-button {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 10;
+}
+
+
+/* === 區塊四：表格樣式 === */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  border: 1.2px solid #c9a27e;
+  padding: 8px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+table tr {
+  background-color: white;
+}
+
+th {
+  background-color: rgb(231, 231, 230);
+}
+
+.col-name {
+  width: 26%;
+}
+
+.col-qty {
+  width: 16%;
+}
+
+.col-unit {
+  width: 16%;
+}
+
+.col-price {
+  width: 16%;
+}
+
+.col-actions {
+  width: 26%;
+  text-align: left;
+}
+
+
+/* === 區塊五：操作欄樣式 === */
+
+th.col-actions {
+  text-align: left;
+  padding-left: 12px;
+}
+
+td.col-actions {
+  padding: 0;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 0 16px 0;
+  gap: 10px;
+  margin-left: 5px;
+  margin-top: 0px;
+}

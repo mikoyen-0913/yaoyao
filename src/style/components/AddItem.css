@@ -1,87 +1,103 @@
 .popup-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .popup {
-    background: #fff9e6;
-    padding: 30px 25px;
-    border-radius: 12px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 480px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    font-family: "Segoe UI", sans-serif;
-  }
-  
-  .popup h2 {
-    font-size: 24px;
-    color: #4b2e1f;
-    font-weight: bold;
-    text-align: center;
-    margin: 0;
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .form-group input,
-  .form-group textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-    height: 44px;
-    box-sizing: border-box;
-  }
-  
-  .additem-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-  }
-  
-  /* 藍色送出按鈕 */
-  .additem-confirm-btn {
-    background-color: #4faeea;
-    color: #ffffff;
-    border: 3px solid #248fd4;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    width: 120px;
-  }
-  
-  .additem-confirm-btn:hover {
-    background-color: #248fd4;
-  }
-  
-  /* 灰色返回按鈕 */
-  .additem-cancel-btn {
-    background-color: #f2f2f2;
-    color: #333;
-    border: 2px solid #bbb;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    width: 120px;
-  }
-  
-  .additem-cancel-btn:hover {
-    background-color: #e0e0e0;
-  }
-  
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup {
+  background: #fff9e6;
+  padding: 30px 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.popup h2 {
+  font-size: 24px;
+  color: #4b2e1f;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  height: 44px;
+  box-sizing: border-box;
+}
+
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  height: 44px;
+  box-sizing: border-box;
+  background-color: #fff;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.additem-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+/* 藍色送出按鈕：對齊 OrderForm 樣式 */
+.additem-confirm-btn {
+  background-color: #5fbdfb;
+  color: #ffffff;
+  border: 3px solid #2f8ac6;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+}
+
+.additem-confirm-btn:hover {
+  background-color: #4ea4eb;
+}
+
+/* 灰色返回按鈕 */
+.additem-cancel-btn {
+  background-color: #f2f2f2;
+  color: #333;
+  border: 3px solid #bbb;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+}
+
+.additem-cancel-btn:hover {
+  background-color: #e0e0e0;
+}

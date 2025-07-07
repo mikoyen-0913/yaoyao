@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import AddItem from "../components/AddItem";
 import EditForm from "../components/EditForm";
@@ -120,7 +120,6 @@ const Inventory = () => {
           <button
             onClick={handleRefreshInventory}
             className="refresh-button"
-            style={{ marginLeft: "10px", backgroundColor: "#f28500" }}
           >
             更新庫存數據
           </button>
