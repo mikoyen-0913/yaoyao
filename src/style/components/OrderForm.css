@@ -1,6 +1,6 @@
-/* === 遮罩與彈窗基礎樣式 === */
+/* === 📌 遮罩與彈窗區塊 === */
 
-/* 彈出視窗覆蓋整個畫面並置中 */
+/* 黑色半透明遮罩，覆蓋整個畫面 */
 .order-edit-overlay {
   position: fixed;
   inset: 0;
@@ -11,7 +11,7 @@
   z-index: 1000;
 }
 
-/* 彈出視窗容器樣式 */
+/* 彈出視窗主容器 */
 .order-edit-popup {
   background-color: #fff9e6;
   padding: 30px 25px;
@@ -21,13 +21,13 @@
   max-width: 480px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
   font-family: "Segoe UI", sans-serif;
   max-height: 80vh;
   overflow-y: auto;
 }
 
-/* 彈窗標題 */
+/* 標題文字 */
 .order-edit-popup h2 {
   font-size: 24px;
   color: #4b2e1f;
@@ -36,7 +36,7 @@
   margin: 0;
 }
 
-/* 關閉按鈕 (右上角紅色 X) */
+/* 關閉視窗右上角紅色 X 按鈕 */
 .close-btn {
   position: absolute;
   top: 12px;
@@ -53,19 +53,19 @@
 }
 
 
-/* === 表單主要欄位區域 === */
+/* === 🧾 表單欄位樣式 === */
 
-/* 每列品項選擇/數量/X 的排列 */
+/* 每列品項 + 數量 + 刪除按鈕的水平排列 */
 .row-group {
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 4px;
 }
 
-/* 品項選單樣式 */
+/* 下拉式品項選單 */
 .row-group select {
-  flex: 1;
+  flex: 3;
   padding: 10px 12px;
   height: 44px;
   border-radius: 8px;
@@ -74,17 +74,18 @@
   box-sizing: border-box;
 }
 
-/* 數量輸入框（整體向下調整） */
+/* 數量輸入框（寬度固定，並向下略移） */
 .row-group input[type="number"] {
+  flex: 150px;
+  padding: 10px 12px;
   padding-top: 5px;
   padding-bottom: 5px;
   height: 44px;
   margin-top: 15px;
-  /* 核心調整：使整個框向下位移 */
   box-sizing: border-box;
 }
 
-/* 文字輸入欄（若有其他類型） */
+/* 若有其他文字輸入欄位使用此樣式 */
 .row-group input[type="text"] {
   height: 45px;
   padding: 0 12px;
@@ -93,7 +94,7 @@
   box-sizing: border-box;
 }
 
-/* X 刪除按鈕 */
+/* 刪除（X）按鈕 */
 .row-group .remove-btn {
   height: 45px;
   display: flex;
@@ -103,21 +104,23 @@
 }
 
 
-/* === 各按鈕樣式 === */
+/* === ➕ 新增品項按鈕樣式 === */
 
-/* 新增品項按鈕 */
 .order-edit-add-btn {
   background-color: #ffe38a;
   color: #4b2e1f;
   font-weight: bold;
-  padding: 10px 16px;
-  border-radius: 8px;
   border: 3px solid #e8982f;
   font-size: 16px;
   cursor: pointer;
   width: 120px;
+  height: 40px;
+  border-radius: 8px;
   align-self: flex-start;
   margin-top: -4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .order-edit-add-btn:hover {
@@ -125,7 +128,8 @@
 }
 
 
-/* 刪除按鈕（通用） */
+/* === ❌ 刪除品項按鈕樣式（紅色） === */
+
 .remove-btn {
   background-color: #e74c3c;
   color: white;
@@ -138,7 +142,10 @@
   cursor: pointer;
 }
 
-/* 編輯送出與返回按鈕區域 */
+
+/* === 🔁 編輯區按鈕（返回與送出） === */
+
+/* 包含返回與送出按鈕的容器 */
 .edit-buttons {
   display: flex;
   justify-content: space-between;
@@ -150,12 +157,15 @@
   background-color: #5fbdfb;
   color: #ffffff;
   border: 3px solid #2f8ac6;
-  padding: 10px 20px;
   font-size: 16px;
-  border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
   width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .order-edit-submit-btn:hover {
@@ -167,14 +177,31 @@
   background-color: #f2f2f2;
   color: #333;
   border: 3px solid #bbb;
-  padding: 10px 20px;
   font-size: 16px;
-  border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
   width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .order-edit-cancel-btn:hover {
   background-color: #e0e0e0;
+}
+
+
+/* === 📐 整體表單間距控制 === */
+
+/* 控制每組品項區塊（row-group）與 label 的垂直距離 */
+.form-group {
+  margin-bottom: 2px;
+}
+
+/* 品項標籤（例如：品項） */
+.form-group label {
+  margin-bottom: 0;
+  font-size: 16px;
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import AddItem from "../components/AddItem";
-import EditForm from "../components/EditForm";
+import AddInventory from "../components/AddInventory";
+import EditInventory from "../components/EditInventory";
 
 const API_URL = "http://127.0.0.1:5000";
 
@@ -109,20 +109,17 @@ const Inventory = () => {
 
   return (
     <div className="inventory-container">
-      <h1>庫存管理</h1>
-
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div className="inventory-header">
         <div>
-          <button onClick={() => setIsAddPopupOpen(true)} className="add-button">
-            新增食材
-          </button>
-
-          <button
-            onClick={handleRefreshInventory}
-            className="refresh-button"
-          >
-            更新庫存數據
-          </button>
+          <h1>庫存管理</h1>
+          <div className="action-buttons top-action-buttons">
+            <button onClick={() => setIsAddPopupOpen(true)} className="add-button">
+              新增食材
+            </button>
+            <button onClick={handleRefreshInventory} className="refresh-button">
+              更新庫存數據
+            </button>
+          </div>
         </div>
 
         <button className="home-button" onClick={() => window.location.href = 'http://localhost:3000/home'}>
@@ -130,53 +127,54 @@ const Inventory = () => {
         </button>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th className="col-name">品項</th>
-            <th className="col-qty">庫存數量</th>
-            <th className="col-unit">單位</th>
-            <th className="col-date">保存期限</th>
-            <th className="col-actions">操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          {inventory.map((item) => (
-            <tr key={item.id}>
-              <td>{item.name}</td>
-              <td>{parseFloat(item.quantity).toFixed(2)}</td>
-              <td>{item.unit}</td>
-              <td>{item.expiration_date ? item.expiration_date.slice(0, 10) : "—"}</td>
-              <td className="col-actions">
-                <div className="action-buttons">
-                  <button onClick={() => handleEditItem(item)} className="edit-button">編輯</button>
-                  &nbsp;
-                  <button
-                    onClick={() => {
-                      if (window.confirm("您確定要刪除這筆資料嗎？")) {
-                        handleDeleteItem(item.id);
-                      }
-                    }}
-                    className="delete-button"
-                  >
-                    刪除
-                  </button>
-                </div>
-              </td>
+      <div className="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th className="col-name">品項</th>
+              <th className="col-qty">庫存數量</th>
+              <th className="col-unit">單位</th>
+              <th className="col-date">保存期限</th>
+              <th className="col-actions">操作</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {inventory.map((item) => (
+              <tr key={item.id}>
+                <td>{item.name}</td>
+                <td>{parseFloat(item.quantity).toFixed(2)}</td>
+                <td>{item.unit}</td>
+                <td>{item.expiration_date ? item.expiration_date.slice(0, 10) : "—"}</td>
+                <td className="col-actions">
+                  <div className="action-buttons">
+                    <button onClick={() => handleEditItem(item)} className="edit-button">編輯</button>
+                    <button
+                      onClick={() => {
+                        if (window.confirm("您確定要刪除這筆資料嗎？")) {
+                          handleDeleteItem(item.id);
+                        }
+                      }}
+                      className="delete-button"
+                    >
+                      刪除
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {isAddPopupOpen && (
-        <AddItem
+        <AddInventory
           onClose={() => setIsAddPopupOpen(false)}
           onSave={handleAddItem}
         />
       )}
 
       {isEditPopupOpen && (
-        <EditForm
+        <EditInventory
           onClose={() => setIsEditPopupOpen(false)}
           onSave={handleUpdateItem}
           data={editData}

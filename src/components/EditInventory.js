@@ -1,47 +1,47 @@
-import React, { useState } from "react";
-import "../style/components/AddItem.css";
+import React, { useState, useEffect } from "react";
+import "../style/components/EditInventory.css";
 
-const AddItem = ({ onClose, onSave }) => {
+const EditInventory = ({ onClose, onSave, data }) => {
+  const [id, setId] = useState(null);
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [unit, setUnit] = useState(""); // 預設為空白
+  const [unit, setUnit] = useState("克");
   const [price, setPrice] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
 
+  useEffect(() => {
+    if (data) {
+      setId(data.id || null);
+      setItemName(data.name || "");
+      setQuantity(data.quantity || "");
+      setUnit(data.unit || "克");
+      setPrice(data.price || "");
+      setExpirationDate(data.expiration_date ? data.expiration_date.slice(0, 10) : "");
+    }
+  }, [data]);
+
   const handleSave = () => {
     if (!itemName || !quantity || !unit || !price || !expirationDate) {
-      alert("請填寫完整資訊");
-      return;
+      return alert("請填寫完整資訊");
     }
 
-    const allowedUnits = ["克", "毫升"];
-    if (!allowedUnits.includes(unit)) {
-      alert("無效的單位，請選擇 '克' 或 '毫升'");
-      return;
-    }
-
-    // ✅ 包成陣列發送
-    onSave([{
+    const ingredient = {
+      id,
       name: itemName,
       quantity: Number(quantity),
       unit,
       price: Number(price),
       expiration_date: expirationDate,
-    }]);
+    };
 
-    // ✅ 清空表單
-    setItemName("");
-    setQuantity("");
-    setUnit("");
-    setPrice("");
-    setExpirationDate("");
+    onSave(ingredient);
   };
 
   return (
     <div className="popup-overlay">
       <div className="popup">
         <div className="item-form">
-          <h2>新增食材</h2>
+          <h2>編輯食材</h2>
 
           <div className="form-group">
             <label>品項</label>
@@ -64,7 +64,6 @@ const AddItem = ({ onClose, onSave }) => {
           <div className="form-group">
             <label>單位</label>
             <select value={unit} onChange={(e) => setUnit(e.target.value)}>
-              <option value="">選擇單位</option>
               <option value="克">克</option>
               <option value="毫升">毫升</option>
             </select>
@@ -88,11 +87,11 @@ const AddItem = ({ onClose, onSave }) => {
             />
           </div>
 
-          <div className="additem-buttons">
-            <button className="additem-cancel-btn" onClick={onClose}>
+          <div className="buttons">
+            <button className="cancel-btn" onClick={onClose}>
               返回
             </button>
-            <button className="additem-confirm-btn" onClick={handleSave}>
+            <button className="edit-submit-btn" onClick={handleSave}>
               送出
             </button>
           </div>
@@ -102,4 +101,4 @@ const AddItem = ({ onClose, onSave }) => {
   );
 };
 
-export default AddItem;
+export default EditInventory;

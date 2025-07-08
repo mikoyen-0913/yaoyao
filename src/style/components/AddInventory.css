@@ -1,3 +1,4 @@
+/* === 彈出視窗遮罩層樣式 === */
 .popup-overlay {
   position: fixed;
   inset: 0;
@@ -7,6 +8,7 @@
   align-items: center;
 }
 
+/* === 彈窗容器樣式 === */
 .popup {
   background: #fff9e6;
   padding: 30px 25px;
@@ -20,6 +22,7 @@
   font-family: "Segoe UI", sans-serif;
 }
 
+/* === 彈窗標題樣式 === */
 .popup h2 {
   font-size: 24px;
   color: #4b2e1f;
@@ -28,6 +31,7 @@
   margin: 0;
 }
 
+/* === 表單欄位容器樣式 === */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -36,6 +40,7 @@
   width: 100%;
 }
 
+/* === 輸入框與文字區塊樣式 === */
 .form-group input,
 .form-group textarea {
   width: 100%;
@@ -47,6 +52,7 @@
   box-sizing: border-box;
 }
 
+/* === 下拉選單樣式 === */
 .form-group select {
   width: 100%;
   padding: 10px 12px;
@@ -56,46 +62,52 @@
   height: 44px;
   box-sizing: border-box;
   background-color: #fff;
-
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
 
+/* === 按鈕容器區域樣式 === */
 .additem-buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 15px;
 }
 
-/* 藍色送出按鈕：對齊 OrderForm 樣式 */
+/* ✅ 藍色送出按鈕：扁平、有框、文字置中 */
 .additem-confirm-btn {
-  background-color: #5fbdfb;
+  background-color: #4faeea;
   color: #ffffff;
-  border: 3px solid #2f8ac6;
-  padding: 10px 20px;
+  border: 3px solid #248fd4 !important;
   font-size: 16px;
-  border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
   width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .additem-confirm-btn:hover {
-  background-color: #4ea4eb;
+  background-color: #248fd4;
 }
 
-/* 灰色返回按鈕 */
+/* ✅ 灰色返回按鈕：扁平、有框、文字置中 */
 .additem-cancel-btn {
   background-color: #f2f2f2;
   color: #333;
-  border: 3px solid #bbb;
-  padding: 10px 20px;
+  border: 3px solid #bbb !important;
   font-size: 16px;
-  border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
   width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .additem-cancel-btn:hover {
