@@ -85,12 +85,12 @@ body {
 }
 
 .refresh-button {
-  background-color: #eeaf5d;
+  background-color: #f0b067;
   border: 3px solid #c67d1d;
 }
 
 .refresh-button:hover {
-  background-color: #e1a049;
+  background-color: #ec9641;
 }
 
 .edit-button {

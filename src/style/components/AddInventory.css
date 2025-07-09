@@ -8,6 +8,9 @@
   align-items: center;
 }
 
+.item-form {
+  width: 100%;
+}
 /* === 彈窗容器樣式 === */
 .popup {
   background: #fff9e6;
@@ -15,7 +18,7 @@
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
   width: 90%;
-  max-width: 480px;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   gap: 18px;
