@@ -198,3 +198,14 @@
   right: -10px;
   z-index: 10;
 }
+
+/* === 食譜標題與內容區分樣式 === */
+.recipe-title {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.recipe-ingredients {
+  font-weight: normal;
+}
