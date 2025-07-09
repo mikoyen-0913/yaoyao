@@ -24,7 +24,13 @@ const OrdersPage = () => {
       });
       if (!response.ok) throw new Error("取得訂單失敗");
       const data = await response.json();
-      setOrders(data.orders);
+      const sortedOrders = [...data.orders].sort((a, b) => {
+  const aTime = new Date(a.timestamp || a.created_at).getTime();
+  const bTime = new Date(b.timestamp || b.created_at).getTime();
+  return aTime - bTime;
+});
+setOrders(sortedOrders);
+
     } catch (error) {
       console.error("讀取訂單錯誤:", error);
     }
@@ -158,7 +164,7 @@ const OrdersPage = () => {
                 ))}
               </div>
               <div className="order-meta">
-                <div className="order-number">{index + 1}</div>
+                <div className="order-number">{order.order_number || index + 1}</div>
                 <div className="order-price">${order.total_price}</div>
               </div>
               <div className="order-actions">

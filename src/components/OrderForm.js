@@ -69,16 +69,28 @@ const OrderForm = ({ orderData, onClose, onSave }) => {
   }, 0);
 
   const handleSave = () => {
-    const validItems = items.filter(
-      (item) => item.menu_name && item.quantity > 0
-    );
-    const updatedOrder = {
-      ...orderData,
-      items: validItems,
-      total_price: totalPrice,
-    };
-    onSave(updatedOrder);
+  const validItems = items
+    .filter((item) => item.menu_id && item.quantity > 0)
+    .map((item) => {
+      const price = item.unit_price || item.price || 0;
+      return {
+        menu_id: item.menu_id,
+        menu_name: item.menu_name,
+        unit_price: price,
+        quantity: item.quantity,
+        subtotal: price * item.quantity,
+      };
+    });
+
+  const updatedOrder = {
+    ...orderData,
+    items: validItems,
+    total_price: validItems.reduce((sum, item) => sum + item.subtotal, 0),
   };
+
+  onSave(updatedOrder);
+};
+
 
   if (!orderData) return null;
 
