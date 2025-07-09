@@ -79,4 +79,20 @@
     background-color: #bde4ff;
     color: #000;
   }
-  
+  .add-one-button {
+  margin-left: 6px;
+  background-color: #e7f4f9;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.single-add-btn {
+  margin-left: 12px;
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #d9ecff;
+  border: 1px solid #5c9eff;
+  border-radius: 6px;
+  cursor: pointer;
+}

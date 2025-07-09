@@ -1,3 +1,4 @@
+// BusinessStatus.js
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import AddToInventoryModal from "../components/AddToInventoryModal";
@@ -8,19 +9,19 @@ import {
 } from 'recharts';
 
 const API_URL = "http://127.0.0.1:5000";
-
-// 🎨 可以自訂顏色的常數
 const BAR_COLOR = "#2f8ac6";
 const LINE_COLOR = "#ff6666";
 
 const BusinessStatus = () => {
   const [chart, setChart] = useState("week");
+  const [salesData, setSalesData] = useState([]);
   const [showRestockModal, setShowRestockModal] = useState(false);
   const [completedOrders, setCompletedOrders] = useState([]);
-  const [salesData, setSalesData] = useState([]);
-
+  const [shortages, setShortages] = useState({});
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
 
+  // 1️⃣ 取得銷售圖表資料
   const fetchSalesSummary = (days) => {
     fetch(`${API_URL}/get_sales_summary?days=${days}`, {
       headers: {
@@ -49,6 +50,35 @@ const BusinessStatus = () => {
     fetchSalesSummary(chart === "week" ? 7 : chart === "14days" ? 14 : 30);
   }, [chart, token]);
 
+  // 2️⃣ 取得缺料狀態
+  useEffect(() => {
+    setLoading(true);
+    fetch(`${API_URL}/check_inventory`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const shortagesObj = data.shortage_report || {};
+        const filtered = {};
+        Object.entries(shortagesObj).forEach(([key, value]) => {
+          if (value.status === "缺料") {
+            filtered[key] = value;
+          }
+        });
+        setShortages(filtered);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("取得缺料資訊失敗", err);
+        setLoading(false);
+      });
+  }, [token]);
+
+  // 3️⃣ 取得已完成訂單
   useEffect(() => {
     fetch(`${API_URL}/get_completed_orders`, {
       headers: {
@@ -60,8 +90,10 @@ const BusinessStatus = () => {
       .catch((err) => console.error("讀取已完成訂單失敗", err));
   }, [token]);
 
+  // ✅ 補貨按下送出
   const handleRestockSubmit = async (restockData) => {
     try {
+      const newShortages = { ...shortages };
       for (const id in restockData) {
         const amount = Number(restockData[id].restock);
         if (amount <= 0) continue;
@@ -77,11 +109,14 @@ const BusinessStatus = () => {
           }),
         });
 
-        if (!response.ok) {
+        if (response.ok) {
+          delete newShortages[id];
+        } else {
           console.error(`更新 ${restockData[id].name} 失敗`);
         }
       }
 
+      setShortages(newShortages);
       alert("庫存已更新！");
     } catch (err) {
       console.error("補貨失敗", err);
@@ -93,27 +128,46 @@ const BusinessStatus = () => {
 
   return (
     <div className="homepage-container">
-      {/* 🔵 回首頁按鈕 */}
       <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "30px", marginRight: "50px" }}>
-        <button className="go-home-button" onClick={() => window.location.href = "/home"}>
-          回首頁
-        </button>
+        <button className="go-home-button" onClick={() => window.location.href = "/home"}>回首頁</button>
       </div>
 
-      {/* 🔴 庫存提醒框 */}
-      <div className="alert-box">
-        <strong className="alert-title">提醒！</strong><br />
-        雞蛋庫存告急！請盡速叫貨2箱<br />
-        紅豆庫存告急！請盡速叫貨5KG<br />
-        麵粉將於<span className="alert-date">2025/4/1</span>到期！請盡速使用完畢
-        <div className="alert-button-container">
-          <button className="nav-button" onClick={() => setShowRestockModal(true)}>
-            已叫貨，幫我新增到庫存
-          </button>
+      {/* 🔴 缺料提醒 */}
+      {loading ? (
+        <div className="loading-spinner"></div>
+      ) : Object.keys(shortages).length > 0 ? (
+        <div className="alert-box">
+          <strong className="alert-title">提醒！</strong><br />
+          {Object.entries(shortages).map(([name, detail], index) => {
+            const isWeight = detail.unit === "克";
+            const isVolume = detail.unit === "毫升";
+            let value = detail.shortage;
+            let unit = detail.unit;
+
+            if (value >= 1000) {
+              value = value / 1000;
+              unit = isWeight ? "公斤" : isVolume ? "公升" : unit;
+            }
+
+            return (
+              <div key={index}>
+                {name} 庫存告急！請盡速叫貨 {value.toFixed(1)} {unit}
+              </div>
+            );
+          })}
+          <div className="alert-button-container">
+            <button className="nav-button" onClick={() => setShowRestockModal(true)}>
+              已叫貨，幫我新增到庫存
+            </button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="alert-box" style={{ backgroundColor: "#eaffea", borderColor: "#57d357" }}>
+          <strong style={{ fontSize: "24px", color: "#228B22" }}>✅ 原料充足，不需補貨！</strong>
+        </div>
+      )}
 
-      {/* 🟡 營業狀態圖表 */}
+      {/* 📈 銷售圖表 */}
       <div className="status-section">
         <h2 className="section-title">查看營業狀態</h2>
         <div className="chart-container" style={{ width: "100%", height: 300 }}>
@@ -122,7 +176,6 @@ const BusinessStatus = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="shortDate" />
               <YAxis />
-              {/* ✅ 客製 Tooltip：只顯示藍色柱狀圖 total */}
               <Tooltip
                 content={({ active, payload, label }) => {
                   if (active && payload && payload.length) {
@@ -140,19 +193,12 @@ const BusinessStatus = () => {
                   return null;
                 }}
               />
-              {/* ❌ 拿掉 Legend */}
               <Bar dataKey="total" fill={BAR_COLOR}>
                 {chart !== "month" && (
                   <LabelList dataKey="label" position="top" />
                 )}
               </Bar>
-              <Line
-                type="linear"
-                dataKey="total"
-                stroke={LINE_COLOR}
-                strokeWidth={2}
-                dot={true}
-              />
+              <Line type="linear" dataKey="total" stroke={LINE_COLOR} strokeWidth={2} dot={true} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -225,7 +271,7 @@ const BusinessStatus = () => {
         })()}
       </div>
 
-      {/* 🟣 今日完成訂單 */}
+      {/* 🟣 今日已完成訂單 */}
       <div className="summary-section">
         <h2 className="section-title">今日已完成訂單</h2>
         {completedOrders.length === 0 ? (
@@ -266,9 +312,7 @@ const BusinessStatus = () => {
                     <tr key={order.id}>
                       <td>
                         {order.items.map((item, index) => (
-                          <div key={index}>
-                            {item.menu_name} × {item.quantity}
-                          </div>
+                          <div key={index}>{item.menu_name} × {item.quantity}</div>
                         ))}
                       </td>
                       <td>{formatTime(order.created_at)}</td>
@@ -285,8 +329,9 @@ const BusinessStatus = () => {
       {/* 🔘 補貨視窗 */}
       {showRestockModal && (
         <AddToInventoryModal
-          onClose={() => setShowRestockModal(false)}
+          shortages={shortages}
           onSubmit={handleRestockSubmit}
+          onClose={() => setShowRestockModal(false)}
         />
       )}
     </div>

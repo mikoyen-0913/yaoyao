@@ -81,7 +81,6 @@
   background-color: #ffb758;
 }
 
-
 /* === 🟡 圖表區塊 === */
 .status-section {
   margin-top: 50px;
@@ -106,7 +105,6 @@
   max-width: 700px;
 }
 
-/* 三個圖表按鈕間距加大 */
 .button-group {
   margin-top: 20px;
   display: flex;
@@ -114,7 +112,6 @@
   gap: 110px;
 }
 
-/* 圖表按鈕的外觀樣式（共用） */
 .nav-button {
   display: inline-flex;
   align-items: center;
@@ -135,7 +132,6 @@
 .nav-button:hover {
   background-color: #ffb758;
 }
-
 
 /* === 🟢 今日總覽區塊 === */
 .summary-section {
@@ -161,7 +157,6 @@
   border-collapse: collapse;
   margin-top: 20px;
 }
-
 .sales-table th,
 .sales-table td {
   border: 1px solid #000;
@@ -180,7 +175,6 @@
   width: 20%;
 }
 
-
 /* === 🟣 完成訂單樣式卡片 === */
 .completed-order-card {
   background-color: #fff6e5;
@@ -192,4 +186,19 @@
   font-size: 16px;
   color: #4b2e1f;
   line-height: 1.6;
+}
+
+/* === ⏳ loading 動畫 === */
+.loading-spinner {
+  margin: 40px auto;
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #a47551;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
