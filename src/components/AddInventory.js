@@ -41,7 +41,7 @@ const AddInventory = ({ onClose, onSave }) => {
         <div className="item-form">
           <h2>新增食材</h2>
 
-          <div className="form-group">
+          <div className="input-row">
             <label>品項</label>
             <input
               type="text"
@@ -50,7 +50,7 @@ const AddInventory = ({ onClose, onSave }) => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="input-row">
             <label>數量</label>
             <input
               type="number"
@@ -59,7 +59,7 @@ const AddInventory = ({ onClose, onSave }) => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="input-row">
             <label>單位</label>
             <select value={unit} onChange={(e) => setUnit(e.target.value)}>
               <option value="">選擇單位</option>
@@ -68,7 +68,7 @@ const AddInventory = ({ onClose, onSave }) => {
             </select>
           </div>
 
-          <div className="form-group">
+          <div className="input-row">
             <label>價格</label>
             <input
               type="number"
@@ -77,7 +77,7 @@ const AddInventory = ({ onClose, onSave }) => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="input-row">
             <label>保存期限</label>
             <input
               type="date"
