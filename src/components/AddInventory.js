@@ -61,7 +61,11 @@ const AddInventory = ({ onClose, onSave }) => {
 
           <div className="input-row">
             <label>單位</label>
-            <select value={unit} onChange={(e) => setUnit(e.target.value)}>
+            <select
+              className="unit-select"
+              value={unit}
+              onChange={(e) => setUnit(e.target.value)}
+            >
               <option value="">選擇單位</option>
               <option value="克">克</option>
               <option value="毫升">毫升</option>
@@ -77,7 +81,7 @@ const AddInventory = ({ onClose, onSave }) => {
             />
           </div>
 
-          <div className="input-row">
+          <div className="input-row expiration-row">
             <label>保存期限</label>
             <input
               type="date"

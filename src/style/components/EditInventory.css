@@ -1,128 +1,139 @@
-/* ======= 背景與彈出視窗定位層 ======= */
+/* === 1. 彈出視窗遮罩層樣式 === */
 .popup-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);  /* 半透明黑底 */
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;  /* 蓋在最上層 */
+  z-index: 999;
 }
 
-/* 彈出視窗本體 */
+/* === 2. 彈窗主容器樣式 === */
 .popup {
   background: #fff9e6;
   padding: 30px 25px;
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
   width: 90%;
-  max-width: 480px;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   font-family: "Segoe UI", sans-serif;
-
-  /* 視窗可滾動 */
-  max-height: 80vh;
-  overflow-y: auto;
 }
 
-
-/* ======= 表單標題區 ======= */
-.item-form h2 {
+/* === 3. 彈窗標題樣式 === */
+.popup h2 {
   font-size: 24px;
   color: #4b2e1f;
   font-weight: bold;
   text-align: center;
-  margin: 0 0 15px 0;
+  margin-bottom: 10px !important;
 }
 
-
-/* ======= 表單輸入欄位區 ======= */
+/* === 4. 表單欄位容器（沿用原本的 .form-group） === */
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-bottom: 1px;
-  width: 100%;
+  margin-bottom: 8px;
 }
 
-/* 輸入欄位：input */
-.form-group input {
-  padding: 10px 12px;
-  border: 2px solid #522222;
-  border-radius: 8px;
+/* === 5. 保存期限欄位特例：拉大底部間距 === */
+.form-group:last-of-type {
+  margin-bottom: 40px;
+}
+
+/* === 6. 標籤樣式 === */
+.form-group label {
   font-size: 16px;
-  height: 44px;
+  font-weight: 500;
+  color: #333;
+  text-align: left;
   width: 100%;
-  box-sizing: border-box;
+  max-width: 450px;
+  margin: 0 auto;
+  padding-left: 0;
 }
 
-/* 輸入欄位：select 下拉式 */
+/* === 7. 輸入框與下拉選單 === */
+.form-group input,
 .form-group select {
   padding: 10px 12px;
-  border: 2px solid #c8b898;
-  border-radius: 8px;
   font-size: 16px;
   height: 44px;
-  width: 64.5%;
+  border: 2px solid #b79f8b;
+  border-radius: 8px;
   box-sizing: border-box;
-
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
   background-color: #fff;
-  font-family: inherit;
-  line-height: normal;
+}
 
-  /* 清除預設箭頭樣式 */
+/* === 8. 聚焦時變色 === */
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #6d4b31;
+  outline: none;
+}
+
+/* === 9. 單位下拉選單增加箭頭（限定 .form-group select） === */
+.form-group select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23666'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.2rem center;
+  background-size: 12px 8px;
+  padding-right: 40px;
 }
 
-
-/* ======= 按鈕區：兩顆按鈕左右排 ======= */
+/* === 10. 按鈕容器 === */
 .buttons {
   display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-/* 返回按鈕（灰色風格，扁扁 + 框線 + 文字垂直置中） */
-.cancel-btn {
-  background-color: #f2f2f2;
-  color: #333;
-  border: 3px solid #bbb;         /* ✅ 加上清楚的邊框 */
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  width: 120px;
-  height: 40px;                   /* ✅ 扁扁高度一致 */
-  border-radius: 10px;
-  display: flex;                  /* ✅ 中央對齊文字 */
-  align-items: center;
   justify-content: center;
+  gap: 210px;
+  margin-top: 15px;
 }
 
-/* 返回按鈕 hover 效果 */
-.cancel-btn:hover {
-  background-color: #e0e0e0;
-}
-
-/* 送出按鈕（藍色風格，扁扁 + 框線 + 文字垂直置中） */
+/* === 11. 送出按鈕樣式（沿用 class 名）=== */
 .edit-submit-btn {
   background-color: #4faeea;
   color: #ffffff;
-  border: 3px solid #248fd4;      /* ✅ 加上清楚的邊框 */
+  border: 3px solid #248fd4 !important;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   width: 120px;
-  height: 40px;                   /* ✅ 扁扁高度一致 */
+  height: 40px;
   border-radius: 10px;
-  display: flex;                  /* ✅ 中央對齊文字 */
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* 送出按鈕 hover 效果 */
 .edit-submit-btn:hover {
-  background-color: #248fd4;
+  background-color: #4ea4eb;
+}
+
+/* === 12. 返回按鈕樣式（沿用 class 名）=== */
+.cancel-btn {
+  background-color: #f2f2f2;
+  color: #333;
+  border: 3px solid #bbb !important;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cancel-btn:hover {
+  background-color: #e0e0e0;
 }

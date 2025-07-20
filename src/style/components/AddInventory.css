@@ -1,4 +1,4 @@
-/* === 彈出視窗遮罩層樣式 === */
+/* === 1. 彈出視窗遮罩層樣式 === */
 .popup-overlay {
   position: fixed;
   inset: 0;
@@ -9,7 +9,7 @@
   z-index: 999;
 }
 
-/* === 彈窗容器樣式 === */
+/* === 2. 彈窗主容器樣式 === */
 .popup {
   background: #fff9e6;
   padding: 30px 25px;
@@ -19,75 +19,90 @@
   max-width: 600px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
   font-family: "Segoe UI", sans-serif;
 }
 
-/* === 標題樣式 === */
+/* === 3. 彈窗標題樣式 === */
 .popup h2 {
   font-size: 24px;
   color: #4b2e1f;
   font-weight: bold;
   text-align: center;
-  margin: 0;
+  margin-bottom: 10px !important; /* 控制與表單間距 */
 }
 
-/* === 每一列欄位容器 === */
+/* === 4. 表單欄位：每一列容器 === */
 .input-row {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   margin-bottom: 8px;
 }
 
-/* === 標籤樣式 === */
+/* 保存期限欄位額外加大下方間距 */
+.expiration-row {
+  margin-bottom: 40px;
+}
+
+/* === 5. 表單欄位：標籤樣式 === */
 .input-row label {
   font-size: 16px;
   font-weight: 500;
   color: #333;
+  text-align: left;
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+  padding-left: 0;
 }
 
-/* === 輸入框與選單樣式（統一寬度、高度、字體） === */
+/* === 6. 表單欄位：輸入框與普通下拉選單 === */
 .input-row input,
 .input-row select {
   padding: 10px 12px;
   font-size: 16px;
   height: 44px;
-  border: 2px solid #a47551; /* ✅ 邊框 */
+  border: 2px solid #b79f8b;
   border-radius: 8px;
   box-sizing: border-box;
   width: 100%;
-  max-width: 500px;
+  max-width: 450px;
   margin: 0 auto;
   background-color: #fff;
 }
 
-/* ✅ 聚焦時變色（加強視覺回饋） */
+/* ✅ 聚焦時變色效果 */
 .input-row input:focus,
 .input-row select:focus {
-  border-color: #2f8ac6;
+  border-color: #6d4b31;
   outline: none;
 }
 
-/* ✅ 若只想控制 select 額外寬度也可這樣設（此處可選用） */
-/*
-.input-row select {
-  max-width: 300px;
+/* ✅ 下拉選單：僅限「單位」欄位顯示箭頭圖示 */
+.unit-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23666'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.2rem center;
+  background-size: 12px 8px;
+  padding-right: 40px;
 }
-*/
 
-/* === 按鈕容器區域樣式 === */
+/* === 7. 按鈕區塊：兩顆按鈕的容器樣式 === */
 .additem-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 210px;        /* 控制送出與返回的間距 */
   margin-top: 15px;
 }
 
-/* ✅ 藍色送出按鈕：扁平、有框、文字置中 */
+/* === 8. 按鈕樣式：送出按鈕（藍色） === */
 .additem-confirm-btn {
   background-color: #4faeea;
   color: #ffffff;
-  border: 3px solid #248fd4 !important; /* ✅ 加 !important 保證不被蓋掉 */
+  border: 3px solid #248fd4 !important;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
@@ -98,15 +113,16 @@
   align-items: center;
   justify-content: center;
 }
+
 .additem-confirm-btn:hover {
-  background-color: #248fd4;
+  background-color: #4ea4eb;
 }
 
-/* ✅ 灰色返回按鈕：扁平、有框、文字置中 */
+/* === 9. 按鈕樣式：返回按鈕（灰色） === */
 .additem-cancel-btn {
   background-color: #f2f2f2;
   color: #333;
-  border: 3px solid #bbb !important; /* ✅ 加 !important 保證不被蓋掉 */
+  border: 3px solid #bbb !important;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
@@ -117,6 +133,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .additem-cancel-btn:hover {
   background-color: #e0e0e0;
 }
