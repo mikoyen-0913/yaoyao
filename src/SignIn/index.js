@@ -25,14 +25,17 @@ const SignIn = () => {
                     localStorage.setItem('store_name', data.store_name || '');
 
                     alert('登入成功！');
-                    navigate('/home');
+
+                    // ✅ 等 localStorage 寫入完成再跳轉（用 window.location 強制刷新）
+                    setTimeout(() => {
+                        window.location.href = '/home';
+                    }, 100);
                 } else {
                     setError(data.error || '登入失敗，請重新輸入');
                 }
             })
             .catch(() => setError('伺服器連線失敗，請稍後再試'));
     };
-
 
     return (
         <div className="SignIn">
@@ -58,7 +61,6 @@ const SignIn = () => {
                     }
                 }}
             />
-
 
             {error && <p className="error">{error}</p>}
 

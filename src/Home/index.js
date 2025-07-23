@@ -7,6 +7,7 @@ const Home = () => {
   const navigate = useNavigate();
   const username = localStorage.getItem('username') || '使用者';
   const storeName = localStorage.getItem('store_name') || '商店';
+  const role = localStorage.getItem('role') || 'staff';
   const [showMenu, setShowMenu] = useState(false);
 
   const handleLogout = () => {
@@ -32,13 +33,27 @@ const Home = () => {
         )}
       </div>
 
-      <h2 className="welcome-text">歡迎來到 {storeName}</h2>
+      {/* ✅ 大老闆顯示企業總覽，一般顯示店名 */}
+      <h2 className="welcome-text">
+        歡迎來到 {role === "superadmin" ? "企業總覽" : storeName}
+      </h2>
 
       <div className="button-group">
-        <button className="nav-button" onClick={() => navigate('/orders')}>顯示訂單</button>
-        <button className="nav-button" onClick={() => navigate('/inventory')}>查看庫存</button>
-        <button className="nav-button" onClick={() => navigate('/businessstatus')}>查看營業狀態</button>
-        <button className="nav-button" onClick={() => navigate('/recipe')}>管理食譜</button> {/* ✅ 新增這行 */}
+        {/* ✅ 一般店家才顯示「顯示訂單」 */}
+        {role !== 'superadmin' && (
+          <button className="nav-button" onClick={() => navigate('/orders')}>顯示訂單</button>
+        )}
+
+        {/* ✅ 按鈕文字依角色變動 */}
+        <button className="nav-button" onClick={() => navigate('/inventory')}>
+          {role === 'superadmin' ? "查看各店庫存" : "查看庫存"}
+        </button>
+
+        <button className="nav-button" onClick={() => navigate('/businessstatus')}>
+          {role === 'superadmin' ? "查看各店營業報表" : "查看營業狀態"}
+        </button>
+
+        <button className="nav-button" onClick={() => navigate('/recipe')}>管理食譜</button>
       </div>
 
       <div className="image-box">
