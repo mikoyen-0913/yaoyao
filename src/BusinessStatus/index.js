@@ -203,9 +203,9 @@ const BusinessStatus = () => {
           </ResponsiveContainer>
         </div>
         <div className="button-group">
-          <button className="nav-button" onClick={() => setChart("week")}>一周</button>
+          <button className="nav-button" onClick={() => setChart("week")}>7天</button>
           <button className="nav-button" onClick={() => setChart("14days")}>14天</button>
-          <button className="nav-button" onClick={() => setChart("month")}>一個月</button>
+          <button className="nav-button" onClick={() => setChart("month")}>30天</button>
         </div>
       </div>
 

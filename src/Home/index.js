@@ -49,7 +49,12 @@ const Home = () => {
           {role === 'superadmin' ? "查看各店庫存" : "查看庫存"}
         </button>
 
-        <button className="nav-button" onClick={() => navigate('/businessstatus')}>
+        <button
+          className="nav-button"
+          onClick={() =>
+            navigate(role === "superadmin" ? "/bossbusinessstatus" : "/businessstatus")
+          }
+        >
           {role === 'superadmin' ? "查看各店營業報表" : "查看營業狀態"}
         </button>
 

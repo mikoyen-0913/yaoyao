@@ -6,8 +6,9 @@ import SignUp from './SignUp';
 import Home from './Home';
 import Inventory from './Inventory';
 import OrdersPage from './OrdersPage';
-import BusinessStatus from './BusinessStatus'; // ✅ 加這行
+import BusinessStatus from './BusinessStatus';
 import RecipesPage from './RecipesPage';
+import BossBusinessStatus from './BossBusinessStatus';  // ✅ 新增這行
 
 const App = () => {
   return (
@@ -17,8 +18,9 @@ const App = () => {
       <Route path="/inventory" element={<Inventory />} />
       <Route path="/orders" element={<OrdersPage />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/businessstatus" element={<BusinessStatus />} /> 
-      <Route path="/recipe" element={<RecipesPage />} /> 
+      <Route path="/businessstatus" element={<BusinessStatus />} />
+      <Route path="/bossbusinessstatus" element={<BossBusinessStatus />} /> {/* ✅ 新增這行 */}
+      <Route path="/recipe" element={<RecipesPage />} />
     </Routes>
   );
 };
