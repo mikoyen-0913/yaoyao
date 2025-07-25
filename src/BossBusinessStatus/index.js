@@ -16,7 +16,20 @@ import {
 import dayjs from "dayjs";
 
 const API_URL = "http://127.0.0.1:5000";
-const COLORS = ["#FF8042", "#0088FE", "#FFBB28", "#00C49F", "#A28EFF", "#FF6699", "#996633", "#CC0000"];
+
+// ✅ 每種口味固定顏色
+const FLAVOR_COLORS = {
+  "OREO鮮奶油": "#A28EFF",
+  "紅豆": "#FF3333",
+  "奶油": "#FFDD55",
+  "可可布朗尼": "#FF66A3",
+  "巧克力": "#00C49F",
+  "抹茶麻糬": "#99CC66",
+  "黑芝麻鮮奶油": "#666666",
+  "花生": "#FF9933",
+  "紅豆麻糬": "#3399FF",
+  "珍珠鮮奶油": "#66CCFF"
+};
 
 const BossBusinessStatus = () => {
   const [range, setRange] = useState("7days");
@@ -71,17 +84,15 @@ const BossBusinessStatus = () => {
 
   useEffect(() => {
     fetchRevenue();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [range, selectedDate, selectedYear]);
 
   useEffect(() => {
     fetchFlavorSales();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flavorMonth]);
 
   return (
     <div className="homepage-container">
-      <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 30 }}>
+      <div className="top-right-button">
         <button className="go-home-button" onClick={() => window.location.href = "/home"}>回首頁</button>
       </div>
 
@@ -96,21 +107,21 @@ const BossBusinessStatus = () => {
 
         {range === "month" && (
           <input
+            className="date-input"
             type="month"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            style={{ fontSize: 16, margin: "20px auto", display: "block" }}
           />
         )}
 
         {range === "year" && (
           <input
+            className="year-input"
             type="number"
             value={selectedYear}
             onChange={(e) => setSelectedYear(e.target.value)}
             min="2020"
             max={dayjs().year()}
-            style={{ fontSize: 16, margin: "20px auto", display: "block", width: 100 }}
           />
         )}
 
@@ -120,7 +131,13 @@ const BossBusinessStatus = () => {
             <XAxis dataKey="date" />
             <YAxis />
             <Tooltip formatter={(value) => `$${value}`} />
-            <Legend />
+            <Legend
+              layout="vertical"
+              align="right"
+              verticalAlign="middle"
+              wrapperStyle={{ right: 0, left: 'auto', marginRight: 500 }}
+            />
+
             {chartData.length > 0 &&
               Object.keys(chartData[0])
                 .filter((key) => key !== "date")
@@ -141,30 +158,71 @@ const BossBusinessStatus = () => {
       <div className="status-section">
         <h2 className="section-title">各分店口味銷量圖</h2>
         <input
+          className="date-input"
           type="month"
           value={flavorMonth}
           onChange={(e) => setFlavorMonth(e.target.value)}
-          style={{ fontSize: 16, margin: "10px auto", display: "block" }}
         />
 
         {Object.entries(pieData).map(([store, flavors]) => (
-          <div key={store} style={{ marginBottom: "60px", textAlign: "center" }}>
+          <div key={store} className="pie-card">
             <h3>{store}</h3>
             <p>{flavorMonth.replace("-", "年")}月</p>
-            <PieChart width={400} height={300}>
-              <Pie
-                data={flavors}
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                label={({ name, value }) => `${name} ${value}顆`}
-                dataKey="value"
-              >
-                {flavors.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-            </PieChart>
+            <div className="pie-wrapper">
+              <PieChart width={860} height={460}>
+                <Pie
+                  data={flavors}
+                  cx="35%"
+                  cy="50%"
+                  outerRadius={180}
+                  labelLine={false}
+                  dataKey="value"
+                >
+                  {flavors.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={FLAVOR_COLORS[entry.name] || "#CCCCCC"}
+                    />
+                  ))}
+                </Pie>
+
+                {/* ✅ 自訂 Tooltip：顯示品名、顆數、百分比 */}
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      const { name, value, percent } = payload[0];
+                      return (
+                        <div style={{
+                          background: "white",
+                          border: "1px solid #ccc",
+                          padding: "10px",
+                          borderRadius: "8px",
+                          fontSize: "14px"
+                        }}>
+                          <div><strong>{name}</strong></div>
+                          <div>銷售數量：{value} 顆</div>
+                          <div>佔比：{(percent * 100).toFixed(1)}%</div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+
+                <Legend
+                  layout="vertical"
+                  align="right"
+                  verticalAlign="middle"
+                  iconType="circle"
+                  formatter={(value) => value}
+                  wrapperStyle={{
+                    transform: "translateX(-60px)",
+                    fontSize: "16px",
+                    lineHeight: "28px"
+                  }}
+                />
+              </PieChart>
+            </div>
           </div>
         ))}
       </div>
