@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import SignIn from './SignIn';
@@ -8,7 +7,8 @@ import Inventory from './Inventory';
 import OrdersPage from './OrdersPage';
 import BusinessStatus from './BusinessStatus';
 import RecipesPage from './RecipesPage';
-import BossBusinessStatus from './BossBusinessStatus';  // ✅ 新增這行
+import BossBusinessStatus from './BossBusinessStatus';
+import BossInventory from './BossInventory'; // ✅ 加這行
 
 const App = () => {
   return (
@@ -19,8 +19,9 @@ const App = () => {
       <Route path="/orders" element={<OrdersPage />} />
       <Route path="/home" element={<Home />} />
       <Route path="/businessstatus" element={<BusinessStatus />} />
-      <Route path="/bossbusinessstatus" element={<BossBusinessStatus />} /> {/* ✅ 新增這行 */}
+      <Route path="/bossbusinessstatus" element={<BossBusinessStatus />} />
       <Route path="/recipe" element={<RecipesPage />} />
+      <Route path="/bossinventory" element={<BossInventory />} /> {/* ✅ 新增這行 */}
     </Routes>
   );
 };
