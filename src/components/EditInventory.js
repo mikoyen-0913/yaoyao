@@ -20,6 +20,19 @@ const EditInventory = ({ onClose, onSave, data }) => {
     }
   }, [data]);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   const handleSave = () => {
     if (!itemName || !quantity || !unit || !price || !expirationDate) {
       return alert("請填寫完整資訊");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../style/components/AddInventory.css";
 
 const AddInventory = ({ onClose, onSave }) => {
@@ -7,6 +7,20 @@ const AddInventory = ({ onClose, onSave }) => {
   const [unit, setUnit] = useState("");
   const [price, setPrice] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const handleSave = () => {
     if (!itemName || !quantity || !unit || !price || !expirationDate) {
