@@ -21,7 +21,7 @@ const BusinessStatus = () => {
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
 
-  // 1️⃣ 取得銷售圖表資料
+  // 取得銷售資料
   const fetchSalesSummary = (days) => {
     fetch(`${API_URL}/get_sales_summary?days=${days}`, {
       headers: {
@@ -50,7 +50,7 @@ const BusinessStatus = () => {
     fetchSalesSummary(chart === "week" ? 7 : chart === "14days" ? 14 : 30);
   }, [chart, token]);
 
-  // 2️⃣ 取得缺料狀態
+  // 取得缺料
   useEffect(() => {
     setLoading(true);
     fetch(`${API_URL}/check_inventory`, {
@@ -78,7 +78,7 @@ const BusinessStatus = () => {
       });
   }, [token]);
 
-  // 3️⃣ 取得已完成訂單
+  // 取得已完成訂單
   useEffect(() => {
     fetch(`${API_URL}/get_completed_orders`, {
       headers: {
@@ -90,7 +90,7 @@ const BusinessStatus = () => {
       .catch((err) => console.error("讀取已完成訂單失敗", err));
   }, [token]);
 
-  // ✅ 補貨按下送出
+  // 補貨送出
   const handleRestockSubmit = async (restockData) => {
     try {
       const newShortages = { ...shortages };
@@ -139,19 +139,23 @@ const BusinessStatus = () => {
         <div className="alert-box">
           <strong className="alert-title">提醒！</strong><br />
           {Object.entries(shortages).map(([name, detail], index) => {
-            const isWeight = detail.unit === "克";
-            const isVolume = detail.unit === "毫升";
-            let value = detail.shortage;
-            let unit = detail.unit;
+            console.log("🔥 每筆資料：", name, detail);
+            const value = detail.shortage;
+            const originalUnit = detail.unit || "";
+            let displayValue = value;
+            let displayUnit = originalUnit;
 
-            if (value >= 1000) {
-              value = value / 1000;
-              unit = isWeight ? "公斤" : isVolume ? "公升" : unit;
+            if (originalUnit === "克" && value >= 1000) {
+              displayValue = value / 1000;
+              displayUnit = "公斤";
+            } else if (originalUnit === "毫升" && value >= 1000) {
+              displayValue = value / 1000;
+              displayUnit = "公升";
             }
 
             return (
               <div key={index}>
-                {name} 庫存告急！請盡速叫貨 {value.toFixed(1)} {unit}
+                {name} 庫存告急！請盡速叫貨 {displayValue.toFixed(1)} {displayUnit}
               </div>
             );
           })}
