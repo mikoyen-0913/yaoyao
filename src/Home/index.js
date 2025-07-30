@@ -39,13 +39,14 @@ const Home = () => {
       </h2>
 
       <div className="button-group">
-        {/* ✅ 一般店家才顯示「顯示訂單」 */}
         {role !== 'superadmin' && (
           <button className="nav-button" onClick={() => navigate('/orders')}>顯示訂單</button>
         )}
 
-        {/* ✅ 按鈕文字依角色變動 */}
-        <button className="nav-button" onClick={() => navigate('/inventory')}>
+        <button
+          className="nav-button"
+          onClick={() => navigate(role === 'superadmin' ? '/bossinventory' : '/inventory')}
+        >
           {role === 'superadmin' ? "查看各店庫存" : "查看庫存"}
         </button>
 
@@ -60,6 +61,7 @@ const Home = () => {
 
         <button className="nav-button" onClick={() => navigate('/recipe')}>管理食譜</button>
       </div>
+
 
       <div className="image-box">
         <img src={redbeanImg} alt="紅豆餅" className="hero-image" />

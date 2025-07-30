@@ -11,18 +11,16 @@ const BossInventory = () => {
 
   const token = localStorage.getItem("token");
 
-  // ✅ 取得分店清單
   const fetchStores = async () => {
     try {
       const res = await fetch(`${API_URL}/get_my_stores`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      
-        const data = await res.json();
+      const data = await res.json();
       if (Array.isArray(data.stores)) {
         setStoreList(data.stores);
         if (data.stores.length > 0) {
-          setSelectedStore(data.stores[0]); // 預設選第一家店
+          setSelectedStore(data.stores[0]);
         }
       }
     } catch (err) {
@@ -30,10 +28,9 @@ const BossInventory = () => {
     }
   };
 
-  // ✅ 取得該分店的食材資料
   const fetchIngredients = async (storeName) => {
     try {
-      const res = await fetch(`${API_URL}/get_all_ingredients?store_name=${storeName}`, {
+      const res = await fetch(`${API_URL}/stores/${storeName}/ingredients`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -47,12 +44,10 @@ const BossInventory = () => {
 
   useEffect(() => {
     fetchStores();
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (selectedStore) fetchIngredients(selectedStore);
-    // eslint-disable-next-line
   }, [selectedStore]);
 
   const filteredIngredients = ingredients.filter((item) =>
@@ -60,44 +55,69 @@ const BossInventory = () => {
   );
 
   return (
-    <div className="inventory-page">
-      <h1 className="title">各分店庫存管理</h1>
+    <div className="inventory-container">
+      <div className="inventory-header">
+        <div>
+          <h1>各分店庫存管理</h1>
 
-      <div className="controls">
-        <select value={selectedStore} onChange={(e) => setSelectedStore(e.target.value)}>
-          {storeList.map((store) => (
-            <option key={store} value={store}>{store}</option>
-          ))}
-        </select>
+          {/* ✅ 下拉與搜尋分成兩個獨立區塊 */}
+          <div className="input-section">
+            <div className="store-wrapper">
+              <select
+                value={selectedStore}
+                onChange={(e) => setSelectedStore(e.target.value)}
+                className="store-selector"
+              >
+                {storeList.map((store) => (
+                  <option key={store} value={store}>
+                    {store}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        <input
-          type="text"
-          placeholder="搜尋食材名稱"
-          value={searchKeyword}
-          onChange={(e) => setSearchKeyword(e.target.value)}
-        />
+            <div className="search-wrapper">
+              <input
+                type="text"
+                placeholder="搜尋食材名稱"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+                className="search-box"
+              />
+            </div>
+          </div>
+        </div>
+
+        <button
+          className="home-button"
+          onClick={() => (window.location.href = "http://localhost:3000/home")}
+        >
+          回首頁
+        </button>
       </div>
 
-      <table className="inventory-table">
-        <thead>
-          <tr>
-            <th>品項</th>
-            <th>數量</th>
-            <th>單位</th>
-            <th>保存期限</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredIngredients.map((item) => (
-            <tr key={item.id}>
-              <td>{item.name}</td>
-              <td>{item.quantity}</td>
-              <td>{item.unit}</td>
-              <td>{item.expiry_date}</td>
+      <div className="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th className="col-name">品項</th>
+              <th className="col-qty">庫存數量</th>
+              <th className="col-unit">單位</th>
+              <th className="col-date">保存期限</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredIngredients.map((item) => (
+              <tr key={item.id}>
+                <td>{item.name}</td>
+                <td>{parseFloat(item.quantity).toFixed(2)}</td>
+                <td>{item.unit}</td>
+                <td>{item.expiry_date}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
