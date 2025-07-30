@@ -69,19 +69,18 @@
   padding: 10px 12px;
   height: 44px;
   border-radius: 8px;
-  border: 2px solid #ccc;
+  border: 2px solid #c8b999;
   font-size: 16px;
   box-sizing: border-box;
 }
 
 /* 數量輸入框（寬度固定，並向下略移） */
 .row-group input[type="number"] {
-  flex: 150px;
+   flex: 0 0 150px; 
   padding: 10px 12px;
   padding-top: 5px;
   padding-bottom: 5px;
   height: 44px;
-  margin-top: 15px;
   box-sizing: border-box;
 }
 
@@ -116,16 +115,23 @@
   width: 120px;
   height: 40px;
   border-radius: 8px;
-  align-self: flex-start;
   margin-top: -4px;
   display: flex;
   align-items: center;
   justify-content: center;
+    flex-shrink: 0; 
 }
 
 .order-edit-add-btn:hover {
   background-color: #ffc170;
 }
+
+.order-edit-add-btn:active {
+  transform: none;              /* 禁止縮小變形 */
+  scale: 1;                     /* 明確告訴它不要縮放 */
+  outline: none;                /* 也可避免外框閃爍 */
+}
+
 
 
 /* === ❌ 刪除品項按鈕樣式（紅色） === */
@@ -137,8 +143,8 @@
   border-radius: 8px;
   font-size: 20px;
   font-weight: bold;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   cursor: pointer;
 }
 

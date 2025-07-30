@@ -31,6 +31,17 @@ const OrderForm = ({ orderData, onClose, onSave }) => {
     }
   }, [orderData]);
 
+  // ✅ 加入鍵盤監聽 Escape 鍵
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
   const updateItem = (index, field, value) => {
     const updated = [...items];
     updated[index][field] = value;
@@ -69,28 +80,27 @@ const OrderForm = ({ orderData, onClose, onSave }) => {
   }, 0);
 
   const handleSave = () => {
-  const validItems = items
-    .filter((item) => item.menu_id && item.quantity > 0)
-    .map((item) => {
-      const price = item.unit_price || item.price || 0;
-      return {
-        menu_id: item.menu_id,
-        menu_name: item.menu_name,
-        unit_price: price,
-        quantity: item.quantity,
-        subtotal: price * item.quantity,
-      };
-    });
+    const validItems = items
+      .filter((item) => item.menu_id && item.quantity > 0)
+      .map((item) => {
+        const price = item.unit_price || item.price || 0;
+        return {
+          menu_id: item.menu_id,
+          menu_name: item.menu_name,
+          unit_price: price,
+          quantity: item.quantity,
+          subtotal: price * item.quantity,
+        };
+      });
 
-  const updatedOrder = {
-    ...orderData,
-    items: validItems,
-    total_price: validItems.reduce((sum, item) => sum + item.subtotal, 0),
+    const updatedOrder = {
+      ...orderData,
+      items: validItems,
+      total_price: validItems.reduce((sum, item) => sum + item.subtotal, 0),
+    };
+
+    onSave(updatedOrder);
   };
-
-  onSave(updatedOrder);
-};
-
 
   if (!orderData) return null;
 

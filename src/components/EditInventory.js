@@ -76,7 +76,11 @@ const EditInventory = ({ onClose, onSave, data }) => {
 
           <div className="form-group">
             <label>單位</label>
-            <select value={unit} onChange={(e) => setUnit(e.target.value)}>
+            <select
+              className="unit-select"
+              value={unit}
+              onChange={(e) => setUnit(e.target.value)}
+            >
               <option value="克">克</option>
               <option value="毫升">毫升</option>
             </select>
@@ -91,7 +95,7 @@ const EditInventory = ({ onClose, onSave, data }) => {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group expiration-row">
             <label>保存期限</label>
             <input
               type="date"

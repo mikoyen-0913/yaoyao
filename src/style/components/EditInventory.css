@@ -1,4 +1,3 @@
-/* === 1. 彈出視窗遮罩層樣式 === */
 .popup-overlay {
   position: fixed;
   inset: 0;
@@ -9,7 +8,6 @@
   z-index: 999;
 }
 
-/* === 2. 彈窗主容器樣式 === */
 .popup {
   background: #fff9e6;
   padding: 30px 25px;
@@ -24,17 +22,15 @@
   overflow-y: auto;
 }
 
-/* === 3. 彈窗標題樣式 === */
 .popup h2 {
   font-size: 24px;
   color: #4b2e1f;
   font-weight: bold;
   text-align: center;
   margin-top: 0px !important;
-  margin-bottom: 10px !important;
+  margin-bottom: -8px !important;
 }
 
-/* === 4. 表單欄位容器（沿用 .form-group） === */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -42,12 +38,10 @@
   margin-bottom: 8px;
 }
 
-/* === 5. 保存期限欄位特例：拉大底部間距 === */
-.form-group:last-of-type {
-  margin-bottom: 40px;
+.form-group.expiration-row {
+  margin-bottom: 40px !important;
 }
 
-/* === 6. 標籤樣式 === */
 .form-group label {
   font-size: 16px;
   font-weight: 500;
@@ -59,7 +53,6 @@
   padding-left: 0;
 }
 
-/* === 7. 輸入框與下拉選單 === */
 .form-group input,
 .form-group select {
   padding: 10px 12px;
@@ -74,15 +67,13 @@
   background-color: #fff;
 }
 
-/* ✅ 聚焦時變色效果 */
 .form-group input:focus,
 .form-group select:focus {
   border-color: #6d4b31;
   outline: none;
 }
 
-/* ✅ 下拉選單：客製箭頭 */
-.form-group select {
+.unit-select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -93,15 +84,14 @@
   padding-right: 40px;
 }
 
-/* === 8. 按鈕容器（沿用 .buttons） === */
 .buttons {
   display: flex;
   justify-content: center;
   gap: 210px;
   margin-top: 15px;
+  margin-bottom: 0 !important;
 }
 
-/* === 9. 送出按鈕樣式（沿用 .edit-submit-btn）=== */
 .edit-submit-btn {
   background-color: #4faeea;
   color: #ffffff;
@@ -121,7 +111,6 @@
   background-color: #4ea4eb;
 }
 
-/* === 10. 返回按鈕樣式（沿用 .cancel-btn）=== */
 .cancel-btn {
   background-color: #f2f2f2;
   color: #333;

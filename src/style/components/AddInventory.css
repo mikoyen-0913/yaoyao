@@ -30,7 +30,8 @@
   color: #4b2e1f;
   font-weight: bold;
   text-align: center;
-  margin-top: 0px !important; 
+  margin-top: 0px !important;
+  margin-bottom: -8px !important;
 }
 
 /* === 4. 表單欄位：每一列容器 === */
