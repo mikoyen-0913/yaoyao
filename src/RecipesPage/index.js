@@ -157,6 +157,7 @@ const RecipesPage = () => {
         <div className="popup-overlay">
           <div className="popup">
             <h2>編輯配方</h2>
+
             <div className="form-group">
               <label>品項名稱</label>
               <input
@@ -169,33 +170,38 @@ const RecipesPage = () => {
             {Object.entries(ingredients).map(([ingName, detail]) => (
               <div key={ingName} className="form-group">
                 <label>{ingName}</label>
-                <input
-                  type="text"
-                  placeholder="數量"
-                  value={detail.amount}
-                  onChange={(e) =>
-                    handleIngredientChange(ingName, "amount", e.target.value)
-                  }
-                />
-                <input
-                  type="text"
-                  placeholder="單位"
-                  value={detail.unit}
-                  onChange={(e) =>
-                    handleIngredientChange(ingName, "unit", e.target.value)
-                  }
-                />
+                <div className="recipe-input-row">
+                  <input
+                    type="text"
+                    placeholder="數量"
+                    value={detail.amount}
+                    onChange={(e) =>
+                      handleIngredientChange(ingName, "amount", e.target.value)
+                    }
+                  />
+                  <input
+                    type="text"
+                    placeholder="單位"
+                    value={detail.unit}
+                    onChange={(e) =>
+                      handleIngredientChange(ingName, "unit", e.target.value)
+                    }
+                  />
+                </div>
+
               </div>
             ))}
 
-            <button onClick={handleAddIngredient}>➕ 新增食材</button>
+            <button className="modal-add-button" onClick={handleAddIngredient}>
+              ＋ 新增食材
+            </button>
 
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "16px" }}>
+            <div className="modal-button-row">
               <button className="go-home-button" onClick={() => setEditingRecipe(null)}>
-                取消
+                返回
               </button>
               <button className="done-button" onClick={handleSave}>
-                儲存
+                送出
               </button>
             </div>
           </div>
