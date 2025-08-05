@@ -30,12 +30,12 @@ const BossInventory = () => {
 
   const fetchIngredients = async (storeName) => {
     try {
-      const res = await fetch(`${API_URL}/stores/${storeName}/ingredients`, {
+      const res = await fetch(`${API_URL}/get_inventory_by_store?store=${storeName}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      if (data.ingredients) {
-        setIngredients(data.ingredients);
+      if (data.inventory) {
+        setIngredients(data.inventory);
       }
     } catch (err) {
       console.error("取得庫存失敗", err);
@@ -112,7 +112,7 @@ const BossInventory = () => {
                 <td>{item.name}</td>
                 <td>{parseFloat(item.quantity).toFixed(2)}</td>
                 <td>{item.unit}</td>
-                <td>{item.expiry_date}</td>
+                <td>{item.expiration_date}</td>
               </tr>
             ))}
           </tbody>
