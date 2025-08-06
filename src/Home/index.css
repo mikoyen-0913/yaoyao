@@ -24,7 +24,7 @@ html, body {
    3. 標題文字（歡迎文字）
 ============================= */
 .welcome-text {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: bold;
   color: #4b2e1f;
   margin-bottom: 40px;

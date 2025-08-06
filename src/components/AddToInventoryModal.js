@@ -50,7 +50,7 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
           quantity: data.restock,
           unit: data.unit,
           expiration_date: data.expiration_date,
-          price: 0
+          price: 0,
         }),
       });
 
@@ -90,7 +90,7 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
             quantity: item.restock,
             unit: item.unit,
             expiration_date: item.expiration_date,
-            price: 0
+            price: 0,
           }),
         });
       }
@@ -113,40 +113,53 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
               ✅ 目前原料充足，不須補貨！
             </div>
           ) : (
-            Object.entries(restockData).map(([name, item]) => (
-              <div key={name} className="modal-row">
-                <strong className="item-name">{item.name}</strong>
-                <span>缺：{item.shortage.toFixed(1)} {item.unit}</span>
-                <label>
-                  實際進貨：
-                  <input
-                    type="number"
-                    min="0"
-                    value={item.restock}
-                    onChange={(e) => handleChange(name, "restock", e.target.value)}
-                  />{" "}
-                  {item.unit}
-                </label>
-                <label>
-                  保存期限：
-                  <input
-                    type="date"
-                    value={item.expiration_date}
-                    onChange={(e) => handleChange(name, "expiration_date", e.target.value)}
-                  />
-                </label>
-                <button className="single-add-btn" onClick={() => addSingleIngredient(name)}>
-                  ＋ 新增此食材
-                </button>
-              </div>
-            ))
+            <table className="modal-table">
+              <thead>
+                <tr>
+                  <th>品項</th>
+                  <th>缺料數量</th>
+                  <th>進貨數量</th>
+                  <th>保存期限</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(restockData).map(([name, item]) => (
+                  <tr key={name}>
+                    <td>{item.name}</td>
+                    <td>{item.shortage} {item.unit}</td>
+                    <td>
+                      <input
+                        type="number"
+                        min="0"
+                        value={item.restock}
+                        onChange={(e) => handleChange(name, "restock", e.target.value)}
+                      />
+                      <span className="unit-span">{item.unit}</span>
+                    </td>
+                    <td>
+                      <input
+                        type="date"
+                        value={item.expiration_date}
+                        onChange={(e) => handleChange(name, "expiration_date", e.target.value)}
+                      />
+                    </td>
+                    <td>
+                      <button className="single-add-btn" onClick={() => addSingleIngredient(name)}>
+                        ＋ 補貨
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
         </div>
 
         <div className="modal-buttons">
           <button className="cancel-button" onClick={onClose}>取消</button>
           {Object.keys(restockData).length > 0 && (
-            <button className="confirm-button" onClick={addAllIngredients}>✔ 新增全部食材</button>
+            <button className="confirm-button" onClick={addAllIngredients}>✔ 一次新增全部</button>
           )}
         </div>
       </div>
@@ -155,4 +168,3 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
 };
 
 export default AddToInventoryModal;
-

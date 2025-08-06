@@ -248,7 +248,7 @@ td.col-actions {
   border-radius: 8px;
   outline: none;
   margin-right: 10px;
-  width: 100px;
+  width: 180px;
   height: 40px;
   background-color: white;
   box-sizing: border-box;
@@ -261,7 +261,7 @@ td.col-actions {
   border: 2px solid #a98f72;
   border-radius: 8px;
   outline: none;
-  margin-top: 10px;  
+  margin-top: 10px;
   margin-right: 10px;   
   width: 2000px;
   height: 40px;
@@ -289,4 +289,25 @@ td.col-actions {
   display: flex;
   flex-direction: column;
   margin-top: -10px;
+}
+
+.col-store {
+  width: 15%;
+}
+
+/* 🎨 每間分店的列背景顏色 */
+.store-color-0 {
+  background-color: #fff6e6; /* 淡橘 */
+}
+.store-color-1 {
+  background-color: #e6f7ff; /* 淡藍 */
+}
+.store-color-2 {
+  background-color: #f0ffe6; /* 淡綠 */
+}
+.store-color-3 {
+  background-color: #f9e6ff; /* 淡紫 */
+}
+.store-color-4 {
+  background-color: #fff0f0; /* 淡紅 */
 }

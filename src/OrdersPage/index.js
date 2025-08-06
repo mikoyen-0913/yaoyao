@@ -25,11 +25,11 @@ const OrdersPage = () => {
       if (!response.ok) throw new Error("取得訂單失敗");
       const data = await response.json();
       const sortedOrders = [...data.orders].sort((a, b) => {
-  const aTime = new Date(a.timestamp || a.created_at).getTime();
-  const bTime = new Date(b.timestamp || b.created_at).getTime();
-  return aTime - bTime;
-});
-setOrders(sortedOrders);
+        const aTime = new Date(a.timestamp || a.created_at).getTime();
+        const bTime = new Date(b.timestamp || b.created_at).getTime();
+        return aTime - bTime;
+      });
+      setOrders(sortedOrders);
 
     } catch (error) {
       console.error("讀取訂單錯誤:", error);
@@ -196,11 +196,17 @@ setOrders(sortedOrders);
               <button
                 className="delete-all-button"
                 style={{ gridColumn: "1 / -1" }}
-                onClick={handleCompleteFive}
+                onClick={() => {
+                  const confirmed = window.confirm("確定要將這五筆訂單標記為完成嗎？此操作無法復原！");
+                  if (confirmed) {
+                    handleCompleteFive();
+                  }
+                }}
               >
                 一次完成五筆訂單
               </button>
             )}
+
           </React.Fragment>
         ))}
       </div>

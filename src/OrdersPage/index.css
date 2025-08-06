@@ -197,3 +197,20 @@ body {
   right: -10px;
   z-index: 10;
 }
+
+/* 食譜卡片：品項名稱加大加粗 */
+.recipe-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+/* 食譜卡片：原料列表較細一點 */
+.recipe-ingredients {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 12px; /* ✅ 加這個避免與按鈕太接近 */
+}

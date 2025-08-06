@@ -34,13 +34,13 @@ const AddInventory = ({ onClose, onSave }) => {
       return;
     }
 
-    onSave([{
+    onSave({
       name: itemName,
       quantity: Number(quantity),
       unit,
       price: Number(price),
       expiration_date: expirationDate,
-    }]);
+    });
 
     setItemName("");
     setQuantity("");
@@ -48,6 +48,7 @@ const AddInventory = ({ onClose, onSave }) => {
     setPrice("");
     setExpirationDate("");
   };
+
 
   return (
     <div className="popup-overlay">

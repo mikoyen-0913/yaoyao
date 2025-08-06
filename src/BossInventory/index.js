@@ -11,6 +11,7 @@ const BossInventory = () => {
 
   const token = localStorage.getItem("token");
 
+  // ✅ 抓取分店清單
   const fetchStores = async () => {
     try {
       const res = await fetch(`${API_URL}/get_my_stores`, {
@@ -20,7 +21,7 @@ const BossInventory = () => {
       if (Array.isArray(data.stores)) {
         setStoreList(data.stores);
         if (data.stores.length > 0) {
-          setSelectedStore(data.stores[0]);
+          setSelectedStore("ALL");
         }
       }
     } catch (err) {
@@ -28,28 +29,62 @@ const BossInventory = () => {
     }
   };
 
+  // ✅ 抓取庫存（支援 ALL）
   const fetchIngredients = async (storeName) => {
     try {
-      const res = await fetch(`${API_URL}/get_inventory_by_store?store=${storeName}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      if (data.inventory) {
-        setIngredients(data.inventory);
+      if (storeName === "ALL") {
+        let allData = [];
+        for (const store of storeList) {
+          const res = await fetch(
+            `${API_URL}/get_inventory_by_store?store=${store}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          const data = await res.json();
+          if (data.inventory) {
+            const storeItems = data.inventory.map((item) => ({
+              ...item,
+              store,
+            }));
+            allData = allData.concat(storeItems);
+          }
+        }
+        setIngredients(allData);
+      } else {
+        const res = await fetch(
+          `${API_URL}/get_inventory_by_store?store=${storeName}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const data = await res.json();
+        if (data.inventory) {
+          const storeItems = data.inventory.map((item) => ({
+            ...item,
+            store: storeName,
+          }));
+          setIngredients(storeItems);
+        }
       }
     } catch (err) {
       console.error("取得庫存失敗", err);
     }
   };
 
+  // ✅ 第一次載入時抓取分店
   useEffect(() => {
     fetchStores();
   }, []);
 
+  // ✅ 變更分店時抓取庫存資料
   useEffect(() => {
-    if (selectedStore) fetchIngredients(selectedStore);
+    if (selectedStore) {
+      fetchIngredients(selectedStore);
+    }
   }, [selectedStore]);
 
+  // ✅ 關鍵字過濾
   const filteredIngredients = ingredients.filter((item) =>
     item.name.toLowerCase().includes(searchKeyword.toLowerCase())
   );
@@ -68,6 +103,7 @@ const BossInventory = () => {
                 onChange={(e) => setSelectedStore(e.target.value)}
                 className="store-selector"
               >
+                <option value="ALL">所有分店</option>
                 {storeList.map((store) => (
                   <option key={store} value={store}>
                     {store}
@@ -100,6 +136,7 @@ const BossInventory = () => {
         <table>
           <thead>
             <tr>
+              {selectedStore === "ALL" && <th className="col-store">分店</th>}
               <th className="col-name">品項</th>
               <th className="col-qty">庫存數量</th>
               <th className="col-unit">單位</th>
@@ -107,14 +144,24 @@ const BossInventory = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredIngredients.map((item) => (
-              <tr key={item.id}>
-                <td>{item.name}</td>
-                <td>{parseFloat(item.quantity).toFixed(2)}</td>
-                <td>{item.unit}</td>
-                <td>{item.expiration_date}</td>
-              </tr>
-            ))}
+            {filteredIngredients.map((item, index) => {
+              const colorClassIndex =
+                selectedStore === "ALL"
+                  ? storeList.indexOf(item.store) % 5
+                  : -1;
+              const rowClass =
+                selectedStore === "ALL" ? `store-color-${colorClassIndex}` : "";
+
+              return (
+                <tr key={`${item.id}-${index}`} className={rowClass}>
+                  {selectedStore === "ALL" && <td>{item.store}</td>}
+                  <td>{item.name}</td>
+                  <td>{parseFloat(item.quantity).toFixed(2)}</td>
+                  <td>{item.unit}</td>
+                  <td>{item.expiration_date}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
