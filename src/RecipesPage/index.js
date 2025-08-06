@@ -7,25 +7,23 @@ const HOME_PATH = "/home";
 
 const RecipesPage = () => {
   const [recipes, setRecipes] = useState({});
-  const [editingRecipe, setEditingRecipe] = useState(null);
+  const [editingRecipe, setEditingRecipe] = useState(false);
   const [menuName, setMenuName] = useState("");
   const [ingredients, setIngredients] = useState({});
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
 
-  const fetchRecipes = async () => {
-    try {
-      const response = await fetch(`${API_URL}/recipes`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      setRecipes(data.recipes);
-    } catch (error) {
-      console.error("取得食譜失敗", error);
-    }
+  const handleEdit = (name, ingData) => {
+    setMenuName(name);
+    setIngredients(ingData);
+    setEditingRecipe(true);
+  };
+
+  const handleAdd = () => {
+    setMenuName("");
+    setIngredients({});
+    setEditingRecipe(true);
   };
 
   const handleDelete = async (name) => {
@@ -45,10 +43,18 @@ const RecipesPage = () => {
     }
   };
 
-  const handleEdit = (name, ingData) => {
-    setMenuName(name);
-    setIngredients(ingData);
-    setEditingRecipe(true);
+  const fetchRecipes = async () => {
+    try {
+      const response = await fetch(`${API_URL}/recipes`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      setRecipes(data.recipes);
+    } catch (error) {
+      console.error("取得食譜失敗", error);
+    }
   };
 
   const handleIngredientChange = (ingredient, field, value) => {
@@ -88,7 +94,7 @@ const RecipesPage = () => {
 
       if (!response.ok) throw new Error("儲存失敗");
       alert("儲存成功");
-      setEditingRecipe(null);
+      setEditingRecipe(false);
       setMenuName("");
       setIngredients({});
       fetchRecipes();
@@ -99,6 +105,16 @@ const RecipesPage = () => {
   };
 
   useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && editingRecipe) {
+        setEditingRecipe(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [editingRecipe]);
+
+  useEffect(() => {
     fetchRecipes();
   }, []);
 
@@ -107,14 +123,7 @@ const RecipesPage = () => {
       <div className="orders-header">
         <h2>食譜管理</h2>
         <div className="icon-group">
-          <button
-            className="primary-button"
-            onClick={() => {
-              setEditingRecipe(true);
-              setMenuName("");
-              setIngredients({});
-            }}
-          >
+          <button className="primary-button" onClick={handleAdd}>
             新增配方
           </button>
           <button
@@ -156,7 +165,7 @@ const RecipesPage = () => {
       {editingRecipe && (
         <div className="popup-overlay">
           <div className="popup">
-            <h2>編輯配方</h2>
+            <h2>{menuName ? "編輯配方" : "新增配方"}</h2>
 
             <div className="form-group">
               <label>品項名稱</label>
@@ -167,40 +176,45 @@ const RecipesPage = () => {
               />
             </div>
 
-            {Object.entries(ingredients).map(([ingName, detail]) => (
-              <div key={ingName} className="form-group">
-                <label>{ingName}</label>
-                <div className="recipe-input-row">
-                  <input
-                    type="text"
-                    placeholder="數量"
-                    value={detail.amount}
-                    onChange={(e) =>
-                      handleIngredientChange(ingName, "amount", e.target.value)
-                    }
-                  />
-                  <input
-                    type="text"
-                    placeholder="單位"
-                    value={detail.unit}
-                    onChange={(e) =>
-                      handleIngredientChange(ingName, "unit", e.target.value)
-                    }
-                  />
-                </div>
-
+            {Object.keys(ingredients).length === 0 ? (
+              <div style={{ color: "#999", textAlign: "center", marginBottom: "10px" }}>
+                尚未新增任何食材
               </div>
-            ))}
+            ) : (
+              Object.entries(ingredients).map(([ingName, detail]) => (
+                <div key={ingName} className="form-group">
+                  <label>{ingName}</label>
+                  <div className="recipe-input-row">
+                    <input
+                      type="text"
+                      placeholder="數量"
+                      value={detail.amount}
+                      onChange={(e) =>
+                        handleIngredientChange(ingName, "amount", e.target.value)
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="單位"
+                      value={detail.unit}
+                      onChange={(e) =>
+                        handleIngredientChange(ingName, "unit", e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
+              ))
+            )}
 
-            <button className="modal-add-button" onClick={handleAddIngredient}>
-              ＋ 新增食材
+            <button className="order-edit-add-btn" onClick={handleAddIngredient}>
+              新增食材
             </button>
 
-            <div className="modal-button-row">
-              <button className="go-home-button" onClick={() => setEditingRecipe(null)}>
+            <div className="edit-buttons">
+              <button className="order-edit-cancel-btn" onClick={() => setEditingRecipe(false)}>
                 返回
               </button>
-              <button className="done-button" onClick={handleSave}>
+              <button className="order-edit-submit-btn" onClick={handleSave}>
                 送出
               </button>
             </div>

@@ -1,8 +1,8 @@
 /* ============================= */
-/* 食譜主頁主體樣式設定 */
+/* 🧱 主畫面：容器與卡片列表區域 */
 /* ============================= */
 
-/* 主容器樣式 */
+/* 食譜容器主體 */
 .orders-container {
   background-color: #fff9e6;
   padding: 30px;
@@ -11,7 +11,7 @@
   position: relative;
 }
 
-/* 標題樣式 */
+/* 食譜標題 */
 .orders-header h2 {
   color: #4b2e1f;
   font-size: 28px;
@@ -19,7 +19,7 @@
   margin-bottom: 20px;
 }
 
-/* 右上角 icon 按鈕群組 */
+/* 工具列按鈕群組 */
 .icon-group button {
   font-weight: bold;
   background-color: #5fbdfb;
@@ -36,7 +36,7 @@
   background-color: #4ea4eb; 
 }
 
-/* 食譜清單排版（卡片區域） */
+/* 食譜卡片列表容器 */
 .orders-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -47,10 +47,9 @@
 
 
 /* ============================= */
-/* 單一食譜卡片樣式設定 */
+/* 🧩 單張食譜卡片樣式 */
 /* ============================= */
 
-/* 食譜卡片主體 */
 .order-card {
   border: 2px solid #000;
   width: 180px;
@@ -62,7 +61,6 @@
   justify-content: space-between;
 }
 
-/* 配方文字內容 */
 .order-items {
   flex-grow: 1;
   white-space: pre-wrap;
@@ -73,7 +71,6 @@
   text-align: left;
 }
 
-/* 編輯／刪除按鈕群組 */
 .order-actions {
   display: flex;
   flex-direction: column;
@@ -82,7 +79,7 @@
   margin-bottom: 10px;
 }
 
-/* 編輯按鈕樣式 */
+/* 編輯按鈕 */
 .modify-button {
   background-color: #ffe38a;
   color: #4b2e1f;
@@ -100,7 +97,7 @@
   background-color: #e8ad61;
 }
 
-/* 刪除按鈕樣式 */
+/* 刪除按鈕 */
 .remove-button {
   background-color: #e74c3c;
   color: #ffffff;
@@ -120,10 +117,10 @@
 
 
 /* ============================= */
-/* 編輯食譜彈出視窗樣式設定 */
+/* 💬 彈出視窗（新增/編輯食譜） */
 /* ============================= */
 
-/* 彈出視窗背景遮罩 */
+/* 遮罩背景 */
 .popup-overlay {
   position: fixed;
   inset: 0;
@@ -132,22 +129,25 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 40px 16px;
+  box-sizing: border-box;
 }
 
-/* 彈窗容器 */
+/* 彈出視窗本體 */
 .popup {
   background: #fff9e6;
-  padding: 30px 25px;
+  padding: 20px 25px;
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 500px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 80vh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   font-family: "Segoe UI", sans-serif;
 }
 
-/* 彈窗標題 */
 .popup h2 {
   font-size: 24px;
   color: #4b2e1f;
@@ -156,7 +156,12 @@
   margin-bottom: 20px;
 }
 
-/* 表單欄位群組 */
+
+/* ============================= */
+/* 🧾 表單樣式：文字欄位與配方欄位 */
+/* ============================= */
+
+/* 一般欄位區塊 */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -164,123 +169,22 @@
   margin-bottom: 14px;
 }
 
-/* 輸入框樣式 */
 .form-group input {
+  width: 100%;
   padding: 6px 10px;
   font-size: 14px;
   border: 2px solid #c8b898;
   border-radius: 6px;
 }
 
-/* ✅ 強化食譜彈窗滾動與最大高度邏輯，仿照 OrderForm */
-.popup-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  padding: 40px 16px; /* ✅ 保證不要頂到上緣 */
-  box-sizing: border-box;
-}
-
-.popup {
-  background: #fff9e6;
-  padding: 20px 25px; /* ✅ 與 OrderForm 一致的內距 */
-  border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 520px;
-  max-height: 80vh;     /* ✅ 限制最大高度 */
-  overflow-y: auto;     /* ✅ 超出則可滾動 */
-  display: flex;
-  flex-direction: column;
-  font-family: "Segoe UI", sans-serif;
-}
-
-/* 彈窗內按鈕樣式 */
-.popup button {
-  font-weight: bold;
-  font-size: 14px;
-  padding: 8px 14px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-/* 灰色返回按鈕 */
-.popup .go-home-button {
-  background-color: #aaa;
-  color: #fff;
-}
-
-/* 橘色完成按鈕 */
-.popup .done-button {
-  background-color: #f5b971;
-  color: #4b2e1f;
-}
-
-.popup .done-button:hover {
-  background-color: #f29e5b;
-}
-
-
-/* ============================= */
-/* 返回首頁按鈕樣式設定 */
-/* ============================= */
-
-/* 共用返回按鈕樣式（藍色） */
-.go-home-button {
-  background-color: #4faeea;
-  color: #ffffff;
-  font-weight: bold;
-  border: 3px solid #248fd4;
-  margin-left: 10px;
-  padding: 8px 16px;
-  font-size: 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.go-home-button:hover {
-  background-color: #248fd4;
-}
-
-/* 固定在右上角的返回按鈕位置（父層需有相對定位） */
-.fixed-home-button {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  z-index: 10;
-}
-
-
-/* ============================= */
-/* 食譜卡內部內容樣式 */
-/* ============================= */
-
-/* 食譜標題（粗體） */
-.recipe-title {
-  font-weight: bold;
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-
-/* 食材清單內容 */
-.recipe-ingredients {
-  font-weight: normal;
-}
+/* 配方欄：一列食材名稱+數量+單位 */
 .recipe-input-row {
   display: flex;
   gap: 30px;
   max-width: 450px;
-  margin-left: 25px; /* ✅ 不要再推移，直接靠齊品項名稱 */
+  margin-left: 25px;
   box-sizing: border-box;
 }
-
-
 
 .recipe-input-row input {
   flex: 1;
@@ -291,3 +195,66 @@
   box-sizing: border-box;
 }
 
+
+/* ============================= */
+/* 🎨 下方功能按鈕樣式 */
+/* ============================= */
+
+/* 🔶 新增食材按鈕 */
+.order-edit-add-btn {
+  background-color: #ffe38a;
+  color: #4b2e1f;
+  font-weight: bold;
+  border: 3px solid #e8982f;
+  font-size: 16px;
+  cursor: pointer;
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 25px;
+  margin-top: 30px;
+}
+
+/* ⚪ 返回按鈕 */
+.order-edit-cancel-btn {
+  background-color: #f2f2f2;
+  color: #333;
+  border: 3px solid #bbb;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🔵 送出按鈕 */
+.order-edit-submit-btn {
+  background-color: #5fbdfb;
+  color: #ffffff;
+  border: 3px solid #2f8ac6;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🧭 按鈕容器（返回＋送出） */
+.edit-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  gap: 215px; /* 調整按鈕間距 */
+}
