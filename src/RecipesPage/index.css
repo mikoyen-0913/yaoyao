@@ -33,7 +33,7 @@
 }
 
 .icon-group button:hover {
-  background-color: #4ea4eb; 
+  background-color: #4ea4eb;
 }
 
 /* 食譜卡片列表容器 */
@@ -56,7 +56,7 @@
   padding: 10px;
   background-color: #ffffff;
   text-align: center;
-  display: flex; 
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -200,8 +200,7 @@
 /* 🎨 下方功能按鈕樣式 */
 /* ============================= */
 
-/* 🔶 新增食材按鈕 */
-.order-edit-add-btn {
+.recipe-add-btn {
   background-color: #ffe38a;
   color: #4b2e1f;
   font-weight: bold;
@@ -215,11 +214,17 @@
   align-items: center;
   justify-content: center;
   margin-left: 25px;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
-/* ⚪ 返回按鈕 */
-.order-edit-cancel-btn {
+.recipe-add-btn-container {
+  display: flex;
+  justify-content: flex-start;
+  min-height: 50px;
+  margin-left: 2px; 
+}
+
+.recipe-cancel-btn {
   background-color: #f2f2f2;
   color: #333;
   border: 3px solid #bbb;
@@ -234,8 +239,7 @@
   justify-content: center;
 }
 
-/* 🔵 送出按鈕 */
-.order-edit-submit-btn {
+.recipe-submit-btn {
   background-color: #5fbdfb;
   color: #ffffff;
   border: 3px solid #2f8ac6;
@@ -250,11 +254,10 @@
   justify-content: center;
 }
 
-/* 🧭 按鈕容器（返回＋送出） */
-.edit-buttons {
+.recipe-edit-buttons {
   display: flex;
   justify-content: center;
   margin-top: 30px;
   margin-bottom: 30px;
-  gap: 215px; /* 調整按鈕間距 */
+  gap: 215px;
 }

@@ -118,6 +118,7 @@
   height: 40px;
   border-radius: 8px;
   margin-top: -4px;
+  margin-left: 5px !important; /* ⬅️ 加這行，數值可自行調整 */
   display: flex;
   align-items: center;
   justify-content: center;

@@ -205,16 +205,18 @@ const RecipesPage = () => {
                 </div>
               ))
             )}
+            <div className="recipe-add-btn-container">
+              <button className="recipe-add-btn" onClick={handleAddIngredient}>
+                新增食材
+              </button>
+            </div>
 
-            <button className="order-edit-add-btn" onClick={handleAddIngredient}>
-              新增食材
-            </button>
 
-            <div className="edit-buttons">
-              <button className="order-edit-cancel-btn" onClick={() => setEditingRecipe(false)}>
+            <div className="recipe-edit-buttons">
+              <button className="recipe-cancel-btn" onClick={() => setEditingRecipe(false)}>
                 返回
               </button>
-              <button className="order-edit-submit-btn" onClick={handleSave}>
+              <button className="recipe-submit-btn" onClick={handleSave}>
                 送出
               </button>
             </div>
