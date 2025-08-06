@@ -24,8 +24,6 @@ const SignIn = () => {
                     localStorage.setItem('role', data.role);
                     localStorage.setItem('store_name', data.store_name || '');
 
-                    alert('登入成功！');
-
                     // ✅ 等 localStorage 寫入完成再跳轉（用 window.location 強制刷新）
                     setTimeout(() => {
                         window.location.href = '/home';
