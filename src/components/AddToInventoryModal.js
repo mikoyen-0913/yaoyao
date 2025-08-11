@@ -19,6 +19,19 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
     setRestockData(suggestion);
   }, [shortages]);
 
+  // ✅ 按下 Esc 關閉視窗
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+
   const handleChange = (name, field, value) => {
     setRestockData((prev) => ({
       ...prev,
@@ -118,7 +131,7 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
                 <tr>
                   <th>品項</th>
                   <th>缺料數量</th>
-                  <th>進貨數量</th>
+                  <th>補貨數量</th>
                   <th>保存期限</th>
                   <th>操作</th>
                 </tr>
@@ -129,13 +142,15 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
                     <td>{item.name}</td>
                     <td>{item.shortage} {item.unit}</td>
                     <td>
-                      <input
-                        type="number"
-                        min="0"
-                        value={item.restock}
-                        onChange={(e) => handleChange(name, "restock", e.target.value)}
-                      />
-                      <span className="unit-span">{item.unit}</span>
+                      <div className="cell-center">
+                        <input
+                          type="number"
+                          min="0"
+                          value={item.restock}
+                          onChange={(e) => handleChange(name, "restock", e.target.value)}
+                        />
+                        <span className="unit-span">{item.unit}</span>
+                      </div>
                     </td>
                     <td>
                       <input
@@ -146,7 +161,7 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
                     </td>
                     <td>
                       <button className="single-add-btn" onClick={() => addSingleIngredient(name)}>
-                        ＋ 補貨
+                        補貨
                       </button>
                     </td>
                   </tr>
@@ -159,7 +174,7 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
         <div className="modal-buttons">
           <button className="cancel-button" onClick={onClose}>取消</button>
           {Object.keys(restockData).length > 0 && (
-            <button className="confirm-button" onClick={addAllIngredients}>✔ 一次新增全部</button>
+            <button className="confirm-button" onClick={addAllIngredients}>一次新增全部</button>
           )}
         </div>
       </div>

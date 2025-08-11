@@ -1,3 +1,4 @@
+/* 遮罩：置中彈窗 */
 .popup-overlay {
   position: fixed;
   inset: 0;
@@ -8,6 +9,7 @@
   z-index: 999;
 }
 
+/* 彈窗容器：寬度限制、可捲動 */
 .popup {
   background: #fff9e6;
   padding: 30px 25px;
@@ -22,15 +24,17 @@
   overflow-y: auto;
 }
 
+/* 標題：置中、壓縮上下距離 */
 .popup h2 {
   font-size: 24px;
   color: #4b2e1f;
   font-weight: bold;
   text-align: center;
-  margin-top: 0px !important;
+  margin-top: 0 !important;
   margin-bottom: -8px !important;
 }
 
+/* 欄位列：直向排列 */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -38,21 +42,28 @@
   margin-bottom: 8px;
 }
 
+/* 保存期限列：加大下方間距 */
 .form-group.expiration-row {
   margin-bottom: 40px !important;
 }
 
+/* 欄位內元素：統一寬度與置中 */
+.form-group > * {
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+/* 標籤 */
 .form-group label {
   font-size: 16px;
   font-weight: 500;
   color: #333;
   text-align: left;
-  width: 100%;
-  max-width: 450px;
-  margin: 0 auto;
   padding-left: 0;
 }
 
+/* 輸入框與一般下拉 */
 .form-group input,
 .form-group select {
   padding: 10px 12px;
@@ -61,18 +72,17 @@
   border: 2px solid #b79f8b;
   border-radius: 8px;
   box-sizing: border-box;
-  width: 100%;
-  max-width: 450px;
-  margin: 0 auto;
   background-color: #fff;
 }
 
+/* 聚焦態：強調邊框 */
 .form-group input:focus,
 .form-group select:focus {
   border-color: #6d4b31;
   outline: none;
 }
 
+/* 單位下拉：自訂箭頭 */
 .unit-select {
   appearance: none;
   -webkit-appearance: none;
@@ -84,18 +94,18 @@
   padding-right: 40px;
 }
 
+/* 底部按鈕容器：置中＋彈性間距 */
 .buttons {
   display: flex;
   justify-content: center;
-  gap: 210px;
+  gap: clamp(20px, 15vw, 210px);
   margin-top: 15px;
-  margin-bottom: 0 !important;
+  margin-bottom: 15px;
 }
 
-.edit-submit-btn {
-  background-color: #4faeea;
-  color: #ffffff;
-  border: 3px solid #248fd4 !important;
+/* 按鈕共用：大小、字型、圓角、邊框 */
+.edit-submit-btn,
+.cancel-btn {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
@@ -105,27 +115,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 3px solid transparent !important; /* 各自覆寫顏色 */
 }
 
+/* 送出（藍） */
+.edit-submit-btn {
+  background-color: #4faeea;
+  color: #ffffff;
+  border-color: #248fd4 !important;
+}
 .edit-submit-btn:hover {
   background-color: #4ea4eb;
 }
 
+/* 取消（灰） */
 .cancel-btn {
   background-color: #f2f2f2;
   color: #333;
-  border: 3px solid #bbb !important;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  width: 120px;
-  height: 40px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-color: #bbb !important;
 }
-
 .cancel-btn:hover {
   background-color: #e0e0e0;
 }

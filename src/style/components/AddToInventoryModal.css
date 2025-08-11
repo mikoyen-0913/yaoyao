@@ -1,3 +1,4 @@
+/* Modal 外層與視窗 */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -13,29 +14,31 @@
 
 .modal-window {
   background-color: #fffbe8;
-  padding: 30px;
+  padding: 26px;
   border-radius: 16px;
-  max-width: 1400px;
-  width: 95%;
+  max-width: 1000px;
+  width: 100%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Modal 標題與內容 */
 .modal-title {
-  font-size: 24px;
+  font-size: 22px;
   color: #c91b00;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   font-weight: bold;
   text-align: center;
 }
 
 .modal-content {
-  max-height: 400px;
+  max-height: 420px;
   overflow-y: auto;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
+/* 表格樣式 */
 .modal-table {
-  width: 1350px;
+  width: 1000px;
   border-collapse: collapse;
   background-color: white;
   margin: 0 auto;
@@ -43,93 +46,129 @@
 
 .modal-table th,
 .modal-table td {
-  border: 1.5px solid #c9a27e !important;
-  padding: 8px;
+  border: 1px solid #d9c2a9 !important;
   text-align: center;
   vertical-align: middle;
-  font-size: 18px;
+  font-size: 16px;
+  padding: 10px 12px;
 }
 
-/* 表格表頭樣式 */
+.modal-table td > * {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.modal-table tr {
+  height: auto;
+  min-height: 44px;
+}
+
 .modal-table th {
-  background-color: #f4f1ea;
+  background-color: #e6e7e7 !important;
   font-weight: bold;
   color: #4b2e1f;
 }
 
-/* 每列行高扁平化 */
-.modal-table tr {
-  height: 48px;
+/* 表格欄寬 */
+.modal-table .col-name    { width: 250px; }
+.modal-table .col-missing { width: 150px; }
+.modal-table .col-restock { width: 150px; }
+.modal-table .col-expire  { width: 200px; }
+.modal-table .col-actions { width: 250px; }
+
+/* 輸入框：數字與日期 */
+.modal-table input[type="number"] {
+  margin: 0;
+  padding: 6px 8px;
+  font-size: 16px;
+  width: 130px;
+  height: 34px;
+  border: 1px solid #bfbfbf;
+  border-radius: 8px;
+  text-align: center;
+  display: inline-block;
+  box-sizing: border-box;
 }
 
-/* 各欄寬度統一設定 */
-.modal-table .col-name {
-  width: 25%;
-}
-.modal-table .col-missing {
-  width: 15%;
-}
-.modal-table .col-restock {
-  width: 15%;
-}
-.modal-table .col-expire {
-  width: 20%;
-}
-.modal-table .col-actions {
-  width: 25%;
-}
-
-/* 輸入框樣式微調 */
-.modal-table input[type="number"],
 .modal-table input[type="date"] {
-  padding: 10px 6px;
+  margin: 0;
+  padding: 6px 8px;
   font-size: 16px;
-  width: 100px;
-  border: 1px solid #aaa;
-  border-radius: 6px;
+  width: 130px;
+  height: 34px;
+  border: 1px solid #bfbfbf;
+  border-radius: 8px;
+  text-align: center;
+  box-sizing: border-box;
 }
 
-/* 單位文字靠近輸入框 */
 .unit-span {
-  margin-left: 4px;
+  margin-left: 6px;
   font-size: 16px;
+  display: inline-block;
 }
 
-/* 單筆補貨按鈕 */
-.modal-table .single-add-btn {
-  padding: 6px 12px;
-  font-size: 14px;
-  background-color: #d9ecff;
-  border: 1px solid #5c9eff;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  white-space: nowrap;
+.cell-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 /* 底部按鈕區 */
 .modal-buttons {
   display: flex;
   justify-content: flex-end;
-  gap: 15px;
+  gap: 14px;
 }
 
-.cancel-button,
-.confirm-button {
-  padding: 10px 20px;
+/* 單筆新增按鈕 */
+.single-add-btn {
+  background-color: #ffe38a;
+  border: 3px solid #e8982f;
+  color: #4b2e1f;
   font-size: 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
   font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+.single-add-btn:hover { background-color: #ffc170; }
 
+/* 取消按鈕 */
 .cancel-button {
   background-color: #f2f2f2;
   color: #333;
+  border: 3px solid #bbb !important;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+.cancel-button:hover { background-color: #e0e0e0; }
 
+/* 確認 / 一次新增全部按鈕 */
 .confirm-button {
-  background-color: #bde4ff;
-  color: #000;
+  background-color: #5fbdfb !important;
+  color: #ffffff;
+  border: 3px solid #2f8ac6 !important;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 150px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+.confirm-button:hover { background-color: #4ea4eb !important; }

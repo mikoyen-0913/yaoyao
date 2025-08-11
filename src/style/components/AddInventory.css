@@ -1,4 +1,4 @@
-/* === 1. 彈出視窗遮罩層樣式 === */
+/* 遮罩：置中彈窗 */
 .popup-overlay {
   position: fixed;
   inset: 0;
@@ -9,7 +9,7 @@
   z-index: 999;
 }
 
-/* === 2. 彈窗主容器樣式 === */
+/* 彈窗容器：寬度限制、可捲動 */
 .popup {
   background: #fff9e6;
   padding: 30px 25px;
@@ -24,17 +24,17 @@
   overflow-y: auto;
 }
 
-/* === 3. 彈窗標題樣式 === */
+/* 標題：置中、壓縮上下距離 */
 .popup h2 {
   font-size: 24px;
   color: #4b2e1f;
   font-weight: bold;
   text-align: center;
-  margin-top: 0px !important;
+  margin-top: 0 !important;
   margin-bottom: -8px !important;
 }
 
-/* === 4. 表單欄位：每一列容器 === */
+/* 欄位列：直向排列 */
 .input-row {
   display: flex;
   flex-direction: column;
@@ -42,24 +42,28 @@
   margin-bottom: 8px;
 }
 
-/* 保存期限欄位額外加大下方間距 */
+/* 保存期限列：加大下方間距 */
 .expiration-row {
   margin-bottom: 40px;
 }
 
-/* === 5. 表單欄位：標籤樣式 === */
+/* 欄位內元素：統一寬度與置中 */
+.input-row > * {
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+/* 標籤 */
 .input-row label {
   font-size: 16px;
   font-weight: 500;
   color: #333;
   text-align: left;
-  width: 100%;
-  max-width: 450px;
-  margin: 0 auto;
   padding-left: 0;
 }
 
-/* === 6. 表單欄位：輸入框與普通下拉選單 === */
+/* 輸入框與一般下拉 */
 .input-row input,
 .input-row select {
   padding: 10px 12px;
@@ -68,20 +72,17 @@
   border: 2px solid #b79f8b;
   border-radius: 8px;
   box-sizing: border-box;
-  width: 100%;
-  max-width: 450px;
-  margin: 0 auto;
   background-color: #fff;
 }
 
-/* ✅ 聚焦時變色效果 */
+/* 聚焦態：強調邊框 */
 .input-row input:focus,
 .input-row select:focus {
   border-color: #6d4b31;
   outline: none;
 }
 
-/* ✅ 下拉選單：僅限「單位」欄位顯示箭頭圖示 */
+/* 單位下拉：自訂箭頭 */
 .unit-select {
   appearance: none;
   -webkit-appearance: none;
@@ -93,19 +94,18 @@
   padding-right: 40px;
 }
 
-/* === 7. 按鈕區塊：兩顆按鈕的容器樣式 === */
+/* 底部按鈕容器：置中＋彈性間距 */
 .additem-buttons {
   display: flex;
   justify-content: center;
-  gap: 210px;        /* 控制送出與返回的間距 */
+  gap: clamp(20px, 15vw, 210px);
   margin-top: 15px;
+  margin-bottom: 15px;
 }
 
-/* === 8. 按鈕樣式：送出按鈕（藍色） === */
-.additem-confirm-btn {
-  background-color: #4faeea;
-  color: #ffffff;
-  border: 3px solid #248fd4 !important;
+/* 按鈕共用：大小、字型、圓角、邊框 */
+.additem-confirm-btn,
+.additem-cancel-btn {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
@@ -115,28 +115,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 3px solid transparent !important; /* 各自覆寫顏色 */
 }
 
+/* 送出（藍） */
+.additem-confirm-btn {
+  background-color: #4faeea;
+  color: #ffffff;
+  border-color: #248fd4 !important;
+}
 .additem-confirm-btn:hover {
   background-color: #4ea4eb;
 }
 
-/* === 9. 按鈕樣式：返回按鈕（灰色） === */
+/* 返回（灰） */
 .additem-cancel-btn {
   background-color: #f2f2f2;
   color: #333;
-  border: 3px solid #bbb !important;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  width: 120px;
-  height: 40px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-color: #bbb !important;
 }
-
 .additem-cancel-btn:hover {
   background-color: #e0e0e0;
 }
