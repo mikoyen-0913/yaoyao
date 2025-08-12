@@ -146,9 +146,12 @@ const OrderForm = ({ orderData, onClose, onSave }) => {
           </div>
         ))}
 
-        <button className="order-edit-add-btn" onClick={handleAddItem}>
-          新增品項
-        </button>
+        {/* ✅ 新增品項按鈕外層容器，對齊返回按鈕位置 */}
+        <div className="order-edit-add-btn-container">
+          <button className="order-edit-add-btn" onClick={handleAddItem}>
+            新增品項
+          </button>
+        </div>
 
         <div className="total-price">預估總金額：${totalPrice}</div>
 

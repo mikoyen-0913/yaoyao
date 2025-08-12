@@ -28,6 +28,7 @@
   margin-bottom: 16px;
   font-weight: bold;
   text-align: center;
+  margin-top: -6px;
 }
 
 .modal-content {
@@ -53,7 +54,7 @@
   padding: 10px 12px;
 }
 
-.modal-table td > * {
+.modal-table td>* {
   margin-left: auto;
   margin-right: auto;
 }
@@ -70,11 +71,25 @@
 }
 
 /* 表格欄寬 */
-.modal-table .col-name    { width: 250px; }
-.modal-table .col-missing { width: 150px; }
-.modal-table .col-restock { width: 150px; }
-.modal-table .col-expire  { width: 200px; }
-.modal-table .col-actions { width: 250px; }
+.modal-table .col-name {
+  width: 250px;
+}
+
+.modal-table .col-missing {
+  width: 150px;
+}
+
+.modal-table .col-restock {
+  width: 150px;
+}
+
+.modal-table .col-expire {
+  width: 200px;
+}
+
+.modal-table .col-actions {
+  width: 250px;
+}
 
 /* 輸入框：數字與日期 */
 .modal-table input[type="number"] {
@@ -137,7 +152,10 @@
   align-items: center;
   justify-content: center;
 }
-.single-add-btn:hover { background-color: #ffc170; }
+
+.single-add-btn:hover {
+  background-color: #ffc170;
+}
 
 /* 取消按鈕 */
 .cancel-button {
@@ -154,7 +172,10 @@
   align-items: center;
   justify-content: center;
 }
-.cancel-button:hover { background-color: #e0e0e0; }
+
+.cancel-button:hover {
+  background-color: #e0e0e0;
+}
 
 /* 確認 / 一次新增全部按鈕 */
 .confirm-button {
@@ -171,4 +192,7 @@
   align-items: center;
   justify-content: center;
 }
-.confirm-button:hover { background-color: #4ea4eb !important; }
+
+.confirm-button:hover {
+  background-color: #4ea4eb !important;
+}

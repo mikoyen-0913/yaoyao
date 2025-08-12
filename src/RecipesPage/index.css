@@ -213,15 +213,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 25px;
   margin-top: 20px;
 }
 
+/* 精準對齊返回按鈕位置（120px=按鈕寬度, 215px=返回與送出的間距, 第二個120px=送出寬度） */
 .recipe-add-btn-container {
   display: flex;
   justify-content: flex-start;
-  min-height: 50px;
-  margin-left: 2px; 
+  margin-bottom: 10px;
+  margin-left: calc((100% - (120px + 215px + 120px)) / 2);
 }
 
 .recipe-cancel-btn {
@@ -257,7 +257,7 @@
 .recipe-edit-buttons {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 10px;
   margin-bottom: 30px;
   gap: 215px;
 }

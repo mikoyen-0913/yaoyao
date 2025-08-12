@@ -34,7 +34,7 @@
   font-weight: bold;
   text-align: center;
   margin: 0;
-    margin-top: -5px !important;
+  margin-top: -5px !important;
   margin-bottom: -20px !important;
 }
 
@@ -76,14 +76,17 @@
   box-sizing: border-box;
 }
 
-/* 數量輸入框（寬度固定，並向下略移） */
+/* 數量輸入框（與 select 對齊） */
 .row-group input[type="number"] {
-   flex: 0 0 150px; 
-  padding: 10px 12px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  flex: 130px;
   height: 44px;
+  padding: 10px 12px; /* 與 select 一致 */
+  border: 2px solid #c8b999; /* 與 select 一致 */
+  border-radius: 8px; /* 與 select 一致 */
   box-sizing: border-box;
+  appearance: textfield; /* 避免不同瀏覽器內建樣式影響高度 */
+  position: relative;
+  top: 8px;
 }
 
 /* 若有其他文字輸入欄位使用此樣式 */
@@ -97,7 +100,7 @@
 
 /* 刪除（X）按鈕 */
 .row-group .remove-btn {
-  height: 45px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,7 +109,6 @@
 
 
 /* === ➕ 新增品項按鈕樣式 === */
-
 .order-edit-add-btn {
   background-color: #ffe38a;
   color: #4b2e1f;
@@ -118,11 +120,10 @@
   height: 40px;
   border-radius: 8px;
   margin-top: -4px;
-  margin-left: 5px !important; /* ⬅️ 加這行，數值可自行調整 */
   display: flex;
   align-items: center;
   justify-content: center;
-    flex-shrink: 0; 
+  flex-shrink: 0;
 }
 
 .order-edit-add-btn:hover {
@@ -130,15 +131,21 @@
 }
 
 .order-edit-add-btn:active {
-  transform: none;              /* 禁止縮小變形 */
-  scale: 1;                     /* 明確告訴它不要縮放 */
-  outline: none;                /* 也可避免外框閃爍 */
+  transform: none; /* 禁止縮小變形 */
+  scale: 1; /* 明確告訴它不要縮放 */
+  outline: none; /* 避免外框閃爍 */
+}
+
+/* 精準對齊返回按鈕位置（120px=按鈕寬度, 215px=返回與送出的間距, 第二個120px=送出寬度） */
+.order-edit-add-btn-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  margin-left: calc((100% - (120px + 215px + 120px)) / 2);
 }
 
 
-
 /* === ❌ 刪除品項按鈕樣式（紅色） === */
-
 .remove-btn {
   background-color: #e74c3c;
   color: white;
@@ -157,8 +164,9 @@
 /* 包含返回與送出按鈕的容器 */
 .edit-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-top: 10px;
+  gap: 215px; /* 控制返回與送出距離 */
 }
 
 /* 送出按鈕（藍色） */
