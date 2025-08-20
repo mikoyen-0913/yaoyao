@@ -1,322 +1,326 @@
 /* =========================
    版面與容器
    ========================= */
-.homepage-container {
-  background-color: #fffbe2;
-  padding: 30px;
-  width: 100vw;
-  min-height: 100vh;
-  box-sizing: border-box;
-  text-align: center;
-}
-
-/* =========================
-     通用按鈕：回首頁
-     ========================= */
-.go-home-button {
-  font-weight: bold;
-  background-color: #5fbdfb !important;
-  color: #ffffff;
-  border: 3px solid #2f8ac6;
-  padding: 8px 16px;
-  font-size: 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  margin-left: 10px;
-  margin-top: 0;
-}
-
-.go-home-button:hover {
-  background-color: #4ea4eb !important;
-}
-
-/* =========================
-     缺料提醒：外框、標題、副標
-     ========================= */
-.alert-box {
-  padding-top: 20px !important;
-  background-color: #fff0f0;
-  border: 2px solid #ff6666;
-  border-radius: 12px;
-  padding: 16px 30px;
-  margin: -20px auto;
-  text-align: left;
-  font-size: 20px;
-  color: #4b2e1f;
-  max-width: 700px;
-  width: 90%;
-  box-sizing: border-box;
-  position: relative;
-  line-height: 1.55;
-}
-
-/* 標題 */
-.alert-title {
-  font-size: 32px;
-  color: #ff0000;
-  font-weight: 800;
-  display: inline-block;
-  margin-bottom: 2px;
-  /* 標題與副標間距 */
-}
-
-/* 副標 */
-.alert-subtitle {
-  font-size: 18px;
-  font-weight: 700;
-  color: #ff0000;
-  margin: 0 0 10px 0;
-  /* 副標與清單間距 */
-}
-
-/* 補充資訊（可用時開啟） */
-.alert-date {
-  color: #ff6666;
-  font-weight: bold;
-  font-size: 22px;
-}
-
-/* 操作按鈕容器 */
-.alert-button-container {
-  margin-top: 18px;
-  text-align: right;
-}
-
-/* 操作按鈕 */
-.alert-box .nav-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  font-size: 18px;
-  padding: 14px 30px;
-  max-width: none;
-  min-width: 250px;
-  border: 3px solid #a47551;
-  background-color: #fbdd79;
-  color: #4b2e1f;
-  font-weight: 700;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.alert-box .nav-button:hover {
-  background-color: #ffb758;
-}
-
-/* 標題與副標之間間距 */
-.alert-title {
-  display: block;
-  line-height: 1;
-  margin-bottom: 0;
-}
-
-.alert-subtitle {
-  margin-top: 0;
-  margin-bottom: 10px;
-}
-
-/* =========================
-     缺料清單：品名 + 數字膠囊
-     ========================= */
-.alert-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* 單列佈局 */
-.alert-item {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  border: 1px solid #efd2c9;
-  border-radius: 10px;
-  background: #fff6f2;
-}
-
-/* 品名 */
-.item-name {
-  font-weight: 600;
-  color: #5a2e1f;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* 數字膠囊容器 */
-.item-amt {
-  display: inline-flex;
-  align-items: baseline;
-  justify-content: flex-start;
-  gap: 8px;
-  background: #fff;
-  border: 1px solid #e1d5c8;
-  border-radius: 999px;
-  padding: 6px 12px;
-  min-width: 100px;
-  white-space: nowrap;
-  line-height: 1;
-  margin-right: 24px;
-}
-
-/* 數字 */
-.amt {
-  display: inline-block;
-  text-align: left;
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum";
-  color: #2b2b2b;
-  font-weight: 600;
-  line-height: 1;
-}
-
-/* 單位 */
-.unit {
-  text-align: left;
-  color: #5a2e1f;
-  font-weight: 500;
-  line-height: 1;
-}
-
-/* =========================
-     圖表區塊
-     ========================= */
-.status-section {
-  margin-top: 50px;
-  text-align: center;
-}
-
-.section-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #4b2e1f;
-  margin-bottom: 20px;
-}
-
-.chart-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.chart-image {
-  width: 100%;
-  max-width: 700px;
-}
-
-.button-group {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 110px;
-}
-
-.nav-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  min-width: 120px;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 12px;
-  padding: 8px 20px;
-  background-color: #fbdd79;
-  border: 3px solid #a47551;
-  color: #4b2e1f;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.nav-button:hover {
-  background-color: #ffb758;
-}
-
-/* =========================
-     今日總覽與表格
-     ========================= */
-.summary-section {
-  margin-top: 50px;
-  text-align: center;
-}
-
-.sales-amount {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
-.sales-amount-number {
-  color: #ff0000;
-  font-weight: bold;
-}
-
-.sales-table {
-  width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.sales-table th,
-.sales-table td {
-  border: 1px solid #000;
-  padding: 10px;
-  text-align: center;
-  font-size: 18px;
-  line-height: 1.5;
-}
-
-.sales-table .col-wide {
-  width: 40%;
-}
-
-.sales-table .col-narrow {
-  width: 20%;
-}
-
-/* =========================
-     卡片與 Loading
-     ========================= */
-.completed-order-card {
-  background-color: #fff6e5;
-  padding: 16px 20px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 600px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  font-size: 16px;
-  color: #4b2e1f;
-  line-height: 1.6;
-}
-
-.loading-spinner {
-  margin: 40px auto;
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #a47551;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
+   .homepage-container {
+    background-color: #fffbe2;
+    padding: 30px;
+    width: 100vw;
+    min-height: 100vh;
+    box-sizing: border-box;
+    text-align: center;
   }
-
-  100% {
-    transform: rotate(360deg);
+  
+  /* =========================
+       通用按鈕：回首頁
+       ========================= */
+  .go-home-button {
+    font-weight: bold;
+    background-color: #5fbdfb !important;
+    color: #ffffff;
+    border: 3px solid #2f8ac6;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    margin-left: 10px;
+    margin-top: 0;
   }
-}
+  
+  .go-home-button:hover {
+    background-color: #4ea4eb !important;
+  }
+  
+  /* =========================
+       缺料提醒：外框、標題、副標
+       ========================= */
+  .alert-box {
+    padding-top: 20px !important;
+    background-color: #fff0f0;
+    border: 2px solid #ff6666;
+    border-radius: 12px;
+    padding: 16px 30px;
+    margin: -20px auto;
+    text-align: left;
+    font-size: 20px;
+    color: #4b2e1f;
+    max-width: 700px;
+    width: 90%;
+    box-sizing: border-box;
+    position: relative;
+    line-height: 1.55;
+  }
+  
+  /* 標題 */
+  .alert-title {
+    font-size: 32px;
+    color: #ff0000;
+    font-weight: 800;
+    display: inline-block;
+    margin-bottom: 2px;
+    /* 標題與副標間距 */
+  }
+  
+  /* 副標 */
+  .alert-subtitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff0000;
+    margin: 0 0 10px 0;
+    /* 副標與清單間距 */
+  }
+  
+  /* 補充資訊（可用時開啟） */
+  .alert-date {
+    color: #ff6666;
+    font-weight: bold;
+    font-size: 22px;
+  }
+  
+  /* 操作按鈕容器 */
+  .alert-button-container {
+    margin-top: 18px;
+    text-align: right;
+  }
+  
+  /* 操作按鈕 */
+  .alert-box .nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    font-size: 18px;
+    padding: 14px 30px;
+    max-width: none;
+    min-width: 250px;
+    border: 3px solid #a47551;
+    background-color: #fbdd79;
+    color: #4b2e1f;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .alert-box .nav-button:hover {
+    background-color: #ffb758;
+  }
+  
+  /* 標題與副標之間間距 */
+  .alert-title {
+    display: block;
+    line-height: 1;
+    margin-bottom: 0;
+  }
+  
+  .alert-subtitle {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  /* =========================
+       缺料清單：品名 + 數字/單位
+       ========================= */
+  .alert-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* 單列佈局：兩欄。左：品名；右：數字＋單位（固定寬度欄位） */
+  .alert-item {
+    display: grid;
+    grid-template-columns: 1fr 160px; /* 右側欄固定寬度，避免貼在品名旁 */
+    align-items: center;
+    column-gap: 16px;                /* 兩欄之間留距離 */
+    padding: 10px 14px;
+    border: 1px solid #efd2c9;
+    border-radius: 10px;
+    background: #fff6f2;
+  }
+  
+  /* 品名 */
+  .item-name {
+    font-weight: 600;
+    color: #5a2e1f;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* 數字＋單位容器（去掉膠囊外觀，內部靠左對齊） */
+  .item-amt {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start; /* 容器內靠左 */
+    gap: 6px;                    /* 數字與單位間距 */
+    background: none;            /* 無背景 */
+    border: none;                /* 無邊框 */
+    border-radius: 0;            /* 無圓角 */
+    padding: 0;                  /* 無內距 */
+    margin: 0;                   /* 無外距 */
+    width: 100%;                 /* 撐滿右側欄位 */
+    text-align: left;            /* 文字靠左 */
+    white-space: nowrap;
+    line-height: 1.5;
+    justify-self: start;         /* 保證在右欄內的左側 */
+  }
+  
+  /* 數字 */
+  .amt {
+    display: inline-block;
+    text-align: left;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    color: #2b2b2b;
+    font-weight: 600;
+    line-height: 1;
+  }
+  
+  /* 單位 */
+  .unit {
+    text-align: left;
+    color: #5a2e1f;
+    font-weight: 500;
+    line-height: 1;
+  }
+  
+  /* =========================
+       圖表區塊
+       ========================= */
+  .status-section {
+    margin-top: 50px;
+    text-align: center;
+  }
+  
+  .section-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4b2e1f;
+    margin-bottom: 20px;
+  }
+  
+  .chart-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .chart-image {
+    width: 100%;
+    max-width: 700px;
+  }
+  
+  .button-group {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 110px;
+  }
+  
+  .nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    min-width: 120px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 12px;
+    padding: 8px 20px;
+    background-color: #fbdd79;
+    border: 3px solid #a47551;
+    color: #4b2e1f;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .nav-button:hover {
+    background-color: #ffb758;
+  }
+  
+  /* =========================
+       今日總覽與表格
+       ========================= */
+  .summary-section {
+    margin-top: 50px;
+    text-align: center;
+  }
+  
+  .sales-amount {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .sales-amount-number {
+    color: #ff0000;
+    font-weight: bold;
+  }
+  
+  .sales-table {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .sales-table th,
+  .sales-table td {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  
+  .sales-table .col-wide {
+    width: 40%;
+  }
+  
+  .sales-table .col-narrow {
+    width: 20%;
+  }
+  
+  /* =========================
+       卡片與 Loading
+       ========================= */
+  .completed-order-card {
+    background-color: #fff6e5;
+    padding: 16px 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #4b2e1f;
+    line-height: 1.6;
+  }
+  
+  .loading-spinner {
+    margin: 40px auto;
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #a47551;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
