@@ -38,7 +38,7 @@ const StoreLocationMap = ({ storeLocations }) => {
             <Popup>
               <b>{store.store_name}</b><br />
               {store.address}<br />
-              營收：{store.revenue} 元
+              當月營收：{store.revenue} 元
             </Popup>
           </Marker>
         ))}
