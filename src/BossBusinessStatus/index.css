@@ -7,15 +7,14 @@
   text-align: center;
 }
 
-/* 🔼 上方操作按鈕（右上）區塊 */
+/* 🔼 上方操作按鈕（右上） */
 .top-right-button {
   display: flex;
   justify-content: flex-end;
   margin-top: -10px;
 }
 
-
-/* 🔵 回首頁按鈕樣式區塊     */
+/* 🔵 回首頁按鈕 */
 .go-home-button {
   font-weight: bold;
   background-color: #5fbdfb !important;
@@ -32,289 +31,110 @@
   margin-left: 10px;
   margin-top: 0;
 }
-
-.go-home-button:hover {
-  background-color: #4ea4eb !important;
-}
+.go-home-button:hover { background-color: #4ea4eb !important; }
 
 
-/* 🔴 提醒框（alert）區塊   */
-.alert-box {
-  background-color: #fff0f0;
-  border: 2px solid #ff6666;
-  border-radius: 12px;
-  padding: 16px 30px;
-  margin: -20px auto;
-  text-align: left;
-  font-size: 22px;
-  color: #4b2e1f;
-  max-width: 700px;
-  width: 90%;
-  box-sizing: border-box;
-  position: relative;
-  line-height: 1.6;
-}
-
-.alert-title {
-  font-size: 36px;
-  color: #ff0000;
-  font-weight: bold;
-  display: inline-block;
-  margin-bottom: 10px;
-}
-
-.alert-date {
-  color: #ff6666;
-  font-weight: bold;
-  font-size: 22px;
-}
-
-.alert-button-container {
-  margin-top: 25px;
-  text-align: right;
-}
-
-.alert-box .nav-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  font-size: 18px;
-  padding: 14px 30px;
-  max-width: none;
-  min-width: 250px;
-  border: 3px solid #a47551;
-  background-color: #fbdd79;
-  color: #4b2e1f;
-  font-weight: bold;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.alert-box .nav-button:hover {
-  background-color: #ffb758;
-}
-
-
-/* 🟡 圖表（折線圖）區塊     */
-.status-section {
-  margin-top: 50px;
-  text-align: center;
-}
-
+/* 🟡 圖表標題 */
 .section-title {
   font-size: 28px;
   font-weight: bold;
   color: #4b2e1f;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
-.chart-container {
+/* 🟣 折線圖容器 */
+.chart-container { display: flex; justify-content: center; margin-bottom: 20px; }
+.chart-image { width: 100%; max-width: 700px; }
+
+/* ✅ 折線圖自訂圖例 */
+.store-legend {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 20px;
+  gap: 12px 20px;
+  margin: 12px 0 6px;
 }
+.legend-item { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: #4b2e1f; }
+.legend-color { width: 14px; height: 14px; border-radius: 3px; border: 1px solid #999; }
+.legend-text { white-space: nowrap; }
 
-.chart-image {
-  width: 100%;
-  max-width: 700px;
+/* 🧁 分店口味圓餅圖 —— 兩兩並排（不貼外框、最易讀） */
+.pie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+  gap: 24px;
+  padding: 6px 4px;          /* 與外框留白，避免卡片貼邊 */
+  align-items: stretch;
 }
-
-
-/* 🧁 分店口味圓餅圖卡片區塊 */
 .pie-card {
   background-color: #ffffff;
   padding: 20px 30px;
-  margin: 30px auto;
   border-radius: 16px;
-  max-width: 600px;
+  box-sizing: border-box;    /* 邊框與內距都算在寬度內，避免撐爆 */
   border: 3px solid #a47551;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.06);
   text-align: center;
+  min-height: 420px;         /* 高度一致，視覺整齊 */
 }
+.pie-wrapper { display: flex; justify-content: center; align-items: center; }
 
-.pie-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+/* 🟢 今日總覽 */
+.summary-section { margin-top: 0; text-align: center; }
+.sales-amount { font-size: 20px; margin-bottom: 12px; }
+.sales-amount-number { color: #ff0000; font-weight: bold; }
 
+/* 📅 日期輸入 */
+.date-input, .year-input { font-size: 16px; margin: 14px auto; display: block; }
+.year-input { width: 100px; }
 
-/* 🟢 今日總覽＋表格區塊     */
-.summary-section {
-  margin-top: -50px;
-  text-align: center;
-}
+/* 🟤 共用按鈕 */
+.nav-button { height: 50px; min-width: 120px; font-size: 18px; font-weight: bold; border-radius: 12px; padding: 8px 20px; background-color: #fbdd79; border: 3px solid #a47551; color: #4b2e1f; cursor: pointer; transition: 0.3s; }
+.nav-button:hover { background-color: #ffb758; }
 
-.sales-amount {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
+/* ⚙️ 按鈕群組 */
+.button-group { margin-top: 10px; display: flex; justify-content: center; gap: 80px; }
 
-.sales-amount-number {
-  color: #ff0000;
-  font-weight: bold;
-}
-
-.sales-table {
-  width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.sales-table th,
-.sales-table td {
-  border: 1px solid #000;
-  padding: 10px;
-  text-align: center;
-  font-size: 18px;
-  line-height: 1.5;
-}
-
-.sales-table .col-wide {
-  width: 40%;
-}
-
-.sales-table .col-narrow {
-  width: 20%;
-}
-
-
-/* 🟣 已完成訂單卡片區塊     */
-.completed-order-card {
-  background-color: #fff6e5;
-  padding: 16px 20px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 600px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  font-size: 16px;
-  color: #4b2e1f;
-  line-height: 1.6;
-}
-
-
-/* ⏳ Loading 動畫區塊      */
-.loading-spinner {
-  margin: 40px auto;
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #a47551;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-
-/* 📅 日期與年份輸入樣式區塊 */
-.date-input {
-  font-size: 16px;
-  margin: 20px auto;
-  display: block;
-}
-
-.year-input {
-  font-size: 16px;
-  margin: 20px auto;
-  display: block;
-  width: 100px;
-}
-
-
-/* 🟤 共用按鈕樣式（nav-button） */
-.nav-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  min-width: 120px;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 12px;
-  padding: 8px 20px;
-  background-color: #fbdd79;
-  border: 3px solid #a47551;
-  color: #4b2e1f;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.nav-button:hover {
-  background-color: #ffb758;
-}
-
-
-/* ⚙️ 按鈕群組（圖表下方切換） */
-.button-group {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 110px;
-}
-
-
-/* ✅ 頁面背景與外層容器 */
-.homepage-container {
-  background-color: #fffdf6;
-  padding: 40px 20px;
-  min-height: 100vh;
-}
-
-/* ✅ 折線圖外層卡片樣式 */
+/* ✅ 卡片（除了總覽都用；內距加大避免貼邊） */
 .chart-card {
   background-color: #ffffff;
-  padding: 20px 30px;
+  padding: 26px 34px;
   margin: 30px auto;
   border-radius: 16px;
-  max-width: 1000px;
+  max-width: 1400px;
   border: 3px solid #a47551;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.06);
 }
 
-/* ✅ 總覽區塊樣式延用原有的 summary-section/sales-amount/sales-amount-number */
-.summary-section {
-  margin-top: 50px;
-  text-align: center;
-}
-
-.sales-amount {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
-.sales-amount-number {
-  color: #ff0000;
-  font-weight: bold;
-}
-
-.map-and-chart-container {
+/* ✅ 圖表置中寬度：修正置中與拉長 */
+.center-wrap {
   display: flex;
-  justify-content: space-between;
-  gap: 32px;
-  margin-top: 32px;
+  justify-content: center;
+  width: 100%;
+}
+.chart-wide  {
+  width: 92%;               /* ⬅ 讓折線圖容器更寬一些 */
+  max-width: 1200px;
+  margin: 0 auto;           /* ⬅ 強制置中 */
+}
+.chart-wider {
+  width: 96%;               /* ⬅ 商品排行榜再稍微拉長 */
+  max-width: 1350px;
+  margin: 0 auto;           /* ⬅ 強制置中 */
+}
+.chart-narrow{
+  width: 80%;
+  max-width: 900px;         /* 分店營收排行榜：略短 */
+  margin: 0 auto;           /* ⬅ 置中 */
 }
 
-.map-container {
-  flex: 1;
-  height: 400px;
-  border: 2px solid #ccc;
-  border-radius: 12px;
-  overflow: hidden;
-}
+/* 其他原有的表格、卡片、loading、完成訂單 */
+.sales-table { width: 100%; max-width: 700px; margin: 20px auto; border-collapse: collapse; }
+.sales-table th, .sales-table td { border: 1px solid #000; padding: 10px; text-align: center; font-size: 18px; line-height: 1.5; }
+.completed-order-card { background-color: #fff6e5; padding: 16px 20px; border-radius: 12px; width: 90%; max-width: 600px; box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); font-size: 16px; color: #4b2e1f; line-height: 1.6; }
+.loading-spinner { margin: 40px auto; border: 8px solid #f3f3f3; border-top: 8px solid #a47551; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-.chart-container {
-  flex: 1;
-}
+/* ✅ 地圖排版 */
+.map-and-chart-container { display: flex; justify-content: space-between; gap: 32px; margin-top: 32px; }
+.map-container { flex: 1; height: 400px; border: 2px solid #ccc; border-radius: 12px; overflow: hidden; }
+.chart-container { flex: 1; }
