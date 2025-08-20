@@ -24,9 +24,7 @@ const BusinessStatus = () => {
   // 取得銷售資料
   const fetchSalesSummary = (days) => {
     fetch(`${API_URL}/get_sales_summary?days=${days}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -81,14 +79,18 @@ const BusinessStatus = () => {
   // 取得已完成訂單
   useEffect(() => {
     fetch(`${API_URL}/get_completed_orders`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
       .then((data) => setCompletedOrders(data.orders || []))
       .catch((err) => console.error("讀取已完成訂單失敗", err));
   }, [token]);
+
+  // 數量顯示格式：移除無意義 .0，最多一位小數
+  const formatAmount = (n) => {
+    const v = Math.round(Number(n || 0) * 10) / 10;
+    return Number.isInteger(v) ? v.toString() : v.toFixed(1);
+  };
 
   // 補貨送出
   const handleRestockSubmit = async (restockData) => {
@@ -137,28 +139,39 @@ const BusinessStatus = () => {
         <div className="loading-spinner"></div>
       ) : Object.keys(shortages).length > 0 ? (
         <div className="alert-box">
-          <strong className="alert-title">提醒！</strong><br />
-          {Object.entries(shortages).map(([name, detail], index) => {
-            console.log("🔥 每筆資料：", name, detail);
-            const value = detail.shortage;
-            const originalUnit = detail.unit || "";
-            let displayValue = value;
-            let displayUnit = originalUnit;
+          <strong className="alert-title">提醒！</strong>
+          {/* ✅ 新增副標題（統一說明一次） */}
+          <p className="alert-subtitle">以下食材庫存告急！請盡速叫貨!</p>
 
-            if (originalUnit === "克" && value >= 1000) {
-              displayValue = value / 1000;
-              displayUnit = "公斤";
-            } else if (originalUnit === "毫升" && value >= 1000) {
-              displayValue = value / 1000;
-              displayUnit = "公升";
-            }
+          <ul className="alert-list">
+            {Object.entries(shortages).map(([name, detail]) => {
+              const value = Number(detail.shortage || 0);
+              const originalUnit = detail.unit || "";
+              let displayValue = value;
+              let displayUnit = originalUnit;
 
-            return (
-              <div key={index}>
-                {name} 庫存告急！請盡速叫貨 {displayValue.toFixed(1)} {displayUnit}
-              </div>
-            );
-          })}
+              // 簡單單位轉換
+              if (originalUnit === "克" && value >= 1000) {
+                displayValue = value / 1000;
+                displayUnit = "公斤";
+              } else if (originalUnit === "毫升" && value >= 1000) {
+                displayValue = value / 1000;
+                displayUnit = "公升";
+              }
+
+              return (
+                <li key={name} className="alert-item">
+                  <span className="item-name">{name}</span>
+                  {/* 移除每個品項的重複訊息，僅保留「名稱 + 數量 + 單位」 */}
+                  <span className="item-amt">
+                    <b className="amt">{formatAmount(displayValue)}</b>
+                    <span className="unit">{displayUnit}</span>
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+
           <div className="alert-button-container">
             <button className="nav-button" onClick={() => setShowRestockModal(true)}>
               已叫貨，幫我新增到庫存
@@ -198,9 +211,7 @@ const BusinessStatus = () => {
                 }}
               />
               <Bar dataKey="total" fill={BAR_COLOR}>
-                {chart !== "month" && (
-                  <LabelList dataKey="label" position="top" />
-                )}
+                {chart !== "month" && <LabelList dataKey="label" position="top" />}
               </Bar>
               <Line type="linear" dataKey="total" stroke={LINE_COLOR} strokeWidth={2} dot={true} />
             </BarChart>
@@ -249,8 +260,7 @@ const BusinessStatus = () => {
           return (
             <>
               <div className="sales-amount">
-                今日銷售額：
-                <span className="sales-amount-number">${totalAmount}</span>
+                今日銷售額：<span className="sales-amount-number">${totalAmount}</span>
               </div>
               <table className="sales-table">
                 <thead>

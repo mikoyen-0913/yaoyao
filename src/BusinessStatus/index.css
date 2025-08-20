@@ -8,7 +8,6 @@
 }
 
 /* === 🔵 回首頁按鈕樣式區塊 === */
-
 .go-home-button {
   font-weight: bold;
   background-color: #5fbdfb !important;
@@ -25,12 +24,7 @@
   margin-left: 10px;
   margin-top: 0;
 }
-
-.go-home-button:hover {
-  background-color: #4ea4eb !important;
-}
-
-
+.go-home-button:hover { background-color: #4ea4eb !important; }
 
 /* === 🔴 提醒框區塊 === */
 .alert-box {
@@ -40,21 +34,20 @@
   padding: 16px 30px;
   margin: -20px auto;
   text-align: left;
-  font-size: 22px;
+  font-size: 20px;           /* 原 22 → 20，提升可讀性 */
   color: #4b2e1f;
   max-width: 700px;
   width: 90%;
   box-sizing: border-box;
   position: relative;
-  line-height: 1.6;
+  line-height: 1.55;         /* 原 1.6 微調 */
 }
 
 .alert-title {
-  font-size: 36px;
+  font-size: 32px;           /* 原 36 → 32，與內容層級一致 */
   color: #ff0000;
   font-weight: bold;
   display: inline-block;
-  margin-bottom: 10px;
 }
 
 .alert-date {
@@ -64,7 +57,7 @@
 }
 
 .alert-button-container {
-  margin-top: 25px;
+  margin-top: 18px;          /* 原 25 → 18，與卡片間距協調 */
   text-align: right;
 }
 
@@ -85,9 +78,69 @@
   cursor: pointer;
   transition: 0.3s;
 }
+.alert-box .nav-button:hover { background-color: #ffb758; }
 
-.alert-box .nav-button:hover {
-  background-color: #ffb758;
+/* ✅ 新增：提醒清單（單欄固定版） */
+.alert-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alert-item {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr auto; /* 左：品名／中：訊息／右：數量膠囊 */
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid #efd2c9;
+  border-radius: 10px;
+  background: #fff6f2;
+}
+
+.item-name {
+  font-weight: 700;
+  color: #5a2e1f;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-msg {
+  color: #6b4a3b;
+  font-weight: 500;
+  opacity: .95;
+}
+
+/* 右側數量膠囊 */
+.item-amt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid #e1d5c8;
+  border-radius: 999px;
+  padding: 6px 10px;
+}
+
+.amt {
+  display: inline-block;
+  min-width: 5ch;                       /* 位數不同也不跳 */
+  text-align: center;
+  font-variant-numeric: tabular-nums;   /* 等寬數字 */
+  font-feature-settings: "tnum";
+  color: #2b2b2b;
+  font-weight: 700;
+}
+
+.unit {
+  min-width: 3em;                       /* 單位齊 */
+  text-align: left;
+  color: #5a2e1f;
+  font-weight: 600;
 }
 
 /* === 🟡 圖表區塊 === */
@@ -95,32 +148,27 @@
   margin-top: 50px;
   text-align: center;
 }
-
 .section-title {
   font-size: 24px;
   font-weight: bold;
   color: #4b2e1f;
   margin-bottom: 20px;
 }
-
 .chart-container {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
-
 .chart-image {
   width: 100%;
   max-width: 700px;
 }
-
 .button-group {
   margin-top: 20px;
   display: flex;
   justify-content: center;
   gap: 110px;
 }
-
 .nav-button {
   display: inline-flex;
   align-items: center;
@@ -137,26 +185,12 @@
   cursor: pointer;
   transition: 0.3s;
 }
-
-.nav-button:hover {
-  background-color: #ffb758;
-}
+.nav-button:hover { background-color: #ffb758; }
 
 /* === 🟢 今日總覽區塊 === */
-.summary-section {
-  margin-top: 50px;
-  text-align: center;
-}
-
-.sales-amount {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
-.sales-amount-number {
-  color: #ff0000;
-  font-weight: bold;
-}
+.summary-section { margin-top: 50px; text-align: center; }
+.sales-amount { font-size: 20px; margin-bottom: 20px; }
+.sales-amount-number { color: #ff0000; font-weight: bold; }
 
 /* ✅ 已完成訂單用共用表格樣式：與今日總覽一致 */
 .sales-table {
@@ -176,13 +210,8 @@
 }
 
 /* ✅ 表格欄位寬度統一設定（上下表格共用） */
-.sales-table .col-wide {
-  width: 40%;
-}
-
-.sales-table .col-narrow {
-  width: 20%;
-}
+.sales-table .col-wide { width: 40%; }
+.sales-table .col-narrow { width: 20%; }
 
 /* === 🟣 完成訂單樣式卡片 === */
 .completed-order-card {
@@ -210,4 +239,11 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.alert-subtitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
 }

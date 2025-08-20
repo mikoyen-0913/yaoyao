@@ -8,11 +8,13 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
   useEffect(() => {
     const suggestion = {};
     Object.entries(shortages).forEach(([name, info]) => {
+      const shortageInt = Math.round(Number(info.shortage || 0));
       suggestion[name] = {
         name,
         unit: info.unit || "克",
-        shortage: info.shortage,
-        restock: info.shortage,
+        // 顯示用與邏輯用都先轉為整數
+        shortage: shortageInt,
+        restock: shortageInt,
         expiration_date: "",
       };
     });
@@ -33,11 +35,28 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
   }, [onClose]);
 
   const handleChange = (name, field, value) => {
+    // 僅對 restock 做整數處理；其餘欄位照原樣
+    if (field === "restock") {
+      // 允許空字串（清空輸入時），其餘轉為 >= 0 的整數
+      let v = value === "" ? "" : parseInt(value, 10);
+      if (Number.isNaN(v)) v = 0;
+      if (v < 0) v = 0;
+
+      setRestockData((prev) => ({
+        ...prev,
+        [name]: {
+          ...prev[name],
+          restock: v,
+        },
+      }));
+      return;
+    }
+
     setRestockData((prev) => ({
       ...prev,
       [name]: {
         ...prev[name],
-        [field]: field === "restock" ? Number(value) : value,
+        [field]: value,
       },
     }));
   };
@@ -51,6 +70,9 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
       return;
     }
 
+    // 確保送出整數
+    const qty = Math.round(Number(data.restock || 0));
+
     try {
       const response = await fetch(`${API_URL}/add_ingredient`, {
         method: "POST",
@@ -60,7 +82,7 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
         },
         body: JSON.stringify({
           name: data.name,
-          quantity: data.restock,
+          quantity: qty,
           unit: data.unit,
           expiration_date: data.expiration_date,
           price: 0,
@@ -92,6 +114,8 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
           return;
         }
 
+        const qty = Math.round(Number(item.restock || 0));
+
         await fetch(`${API_URL}/add_ingredient`, {
           method: "POST",
           headers: {
@@ -100,7 +124,7 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
           },
           body: JSON.stringify({
             name: item.name,
-            quantity: item.restock,
+            quantity: qty,
             unit: item.unit,
             expiration_date: item.expiration_date,
             price: 0,
@@ -140,11 +164,13 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
                 {Object.entries(restockData).map(([name, item]) => (
                   <tr key={name}>
                     <td>{item.name}</td>
-                    <td>{item.shortage} {item.unit}</td>
+                    <td>{Math.round(Number(item.shortage || 0))} {item.unit}</td>
                     <td>
                       <div className="cell-center">
                         <input
                           type="number"
+                          inputMode="numeric"
+                          step="1"
                           min="0"
                           value={item.restock}
                           onChange={(e) => handleChange(name, "restock", e.target.value)}
