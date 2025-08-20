@@ -1,3 +1,6 @@
+/* =========================
+   版面與容器
+   ========================= */
 .homepage-container {
   background-color: #fffbe2;
   padding: 30px;
@@ -7,7 +10,9 @@
   text-align: center;
 }
 
-/* === 🔵 回首頁按鈕樣式區塊 === */
+/* =========================
+     通用按鈕：回首頁
+     ========================= */
 .go-home-button {
   font-weight: bold;
   background-color: #5fbdfb !important;
@@ -24,43 +29,64 @@
   margin-left: 10px;
   margin-top: 0;
 }
-.go-home-button:hover { background-color: #4ea4eb !important; }
 
-/* === 🔴 提醒框區塊 === */
+.go-home-button:hover {
+  background-color: #4ea4eb !important;
+}
+
+/* =========================
+     缺料提醒：外框、標題、副標
+     ========================= */
 .alert-box {
+  padding-top: 20px !important;
   background-color: #fff0f0;
   border: 2px solid #ff6666;
   border-radius: 12px;
   padding: 16px 30px;
   margin: -20px auto;
   text-align: left;
-  font-size: 20px;           /* 原 22 → 20，提升可讀性 */
+  font-size: 20px;
   color: #4b2e1f;
   max-width: 700px;
   width: 90%;
   box-sizing: border-box;
   position: relative;
-  line-height: 1.55;         /* 原 1.6 微調 */
+  line-height: 1.55;
 }
 
+/* 標題 */
 .alert-title {
-  font-size: 32px;           /* 原 36 → 32，與內容層級一致 */
+  font-size: 32px;
   color: #ff0000;
-  font-weight: bold;
+  font-weight: 800;
   display: inline-block;
+  margin-bottom: 2px;
+  /* 標題與副標間距 */
 }
 
+/* 副標 */
+.alert-subtitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ff0000;
+  margin: 0 0 10px 0;
+  /* 副標與清單間距 */
+}
+
+/* 補充資訊（可用時開啟） */
 .alert-date {
   color: #ff6666;
   font-weight: bold;
   font-size: 22px;
 }
 
+/* 操作按鈕容器 */
 .alert-button-container {
-  margin-top: 18px;          /* 原 25 → 18，與卡片間距協調 */
+  margin-top: 18px;
   text-align: right;
 }
 
+/* 操作按鈕 */
 .alert-box .nav-button {
   display: inline-flex;
   align-items: center;
@@ -73,14 +99,31 @@
   border: 3px solid #a47551;
   background-color: #fbdd79;
   color: #4b2e1f;
-  font-weight: bold;
+  font-weight: 700;
   border-radius: 12px;
   cursor: pointer;
   transition: 0.3s;
 }
-.alert-box .nav-button:hover { background-color: #ffb758; }
 
-/* ✅ 新增：提醒清單（單欄固定版） */
+.alert-box .nav-button:hover {
+  background-color: #ffb758;
+}
+
+/* 標題與副標之間間距 */
+.alert-title {
+  display: block;
+  line-height: 1;
+  margin-bottom: 0;
+}
+
+.alert-subtitle {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/* =========================
+     缺料清單：品名 + 數字膠囊
+     ========================= */
 .alert-list {
   list-style: none;
   margin: 0;
@@ -90,9 +133,10 @@
   gap: 10px;
 }
 
+/* 單列佈局 */
 .alert-item {
   display: grid;
-  grid-template-columns: 1.2fr 1fr auto; /* 左：品名／中：訊息／右：數量膠囊 */
+  grid-template-columns: 1fr auto;
   align-items: center;
   gap: 8px;
   padding: 10px 14px;
@@ -101,74 +145,83 @@
   background: #fff6f2;
 }
 
+/* 品名 */
 .item-name {
-  font-weight: 700;
+  font-weight: 600;
   color: #5a2e1f;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.item-msg {
-  color: #6b4a3b;
-  font-weight: 500;
-  opacity: .95;
-}
-
-/* 右側數量膠囊 */
+/* 數字膠囊容器 */
 .item-amt {
   display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 8px;
   background: #fff;
   border: 1px solid #e1d5c8;
   border-radius: 999px;
-  padding: 6px 10px;
+  padding: 6px 12px;
+  min-width: 100px;
+  white-space: nowrap;
+  line-height: 1;
+  margin-right: 24px;
 }
 
+/* 數字 */
 .amt {
   display: inline-block;
-  min-width: 5ch;                       /* 位數不同也不跳 */
-  text-align: center;
-  font-variant-numeric: tabular-nums;   /* 等寬數字 */
+  text-align: left;
+  font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
   color: #2b2b2b;
-  font-weight: 700;
+  font-weight: 600;
+  line-height: 1;
 }
 
+/* 單位 */
 .unit {
-  min-width: 3em;                       /* 單位齊 */
   text-align: left;
   color: #5a2e1f;
-  font-weight: 600;
+  font-weight: 500;
+  line-height: 1;
 }
 
-/* === 🟡 圖表區塊 === */
+/* =========================
+     圖表區塊
+     ========================= */
 .status-section {
   margin-top: 50px;
   text-align: center;
 }
+
 .section-title {
   font-size: 24px;
   font-weight: bold;
   color: #4b2e1f;
   margin-bottom: 20px;
 }
+
 .chart-container {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
+
 .chart-image {
   width: 100%;
   max-width: 700px;
 }
+
 .button-group {
   margin-top: 20px;
   display: flex;
   justify-content: center;
   gap: 110px;
 }
+
 .nav-button {
   display: inline-flex;
   align-items: center;
@@ -185,14 +238,29 @@
   cursor: pointer;
   transition: 0.3s;
 }
-.nav-button:hover { background-color: #ffb758; }
 
-/* === 🟢 今日總覽區塊 === */
-.summary-section { margin-top: 50px; text-align: center; }
-.sales-amount { font-size: 20px; margin-bottom: 20px; }
-.sales-amount-number { color: #ff0000; font-weight: bold; }
+.nav-button:hover {
+  background-color: #ffb758;
+}
 
-/* ✅ 已完成訂單用共用表格樣式：與今日總覽一致 */
+/* =========================
+     今日總覽與表格
+     ========================= */
+.summary-section {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.sales-amount {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.sales-amount-number {
+  color: #ff0000;
+  font-weight: bold;
+}
+
 .sales-table {
   width: 100%;
   max-width: 700px;
@@ -200,6 +268,7 @@
   border-collapse: collapse;
   margin-top: 20px;
 }
+
 .sales-table th,
 .sales-table td {
   border: 1px solid #000;
@@ -209,11 +278,17 @@
   line-height: 1.5;
 }
 
-/* ✅ 表格欄位寬度統一設定（上下表格共用） */
-.sales-table .col-wide { width: 40%; }
-.sales-table .col-narrow { width: 20%; }
+.sales-table .col-wide {
+  width: 40%;
+}
 
-/* === 🟣 完成訂單樣式卡片 === */
+.sales-table .col-narrow {
+  width: 20%;
+}
+
+/* =========================
+     卡片與 Loading
+     ========================= */
 .completed-order-card {
   background-color: #fff6e5;
   padding: 16px 20px;
@@ -226,7 +301,6 @@
   line-height: 1.6;
 }
 
-/* === ⏳ loading 動畫 === */
 .loading-spinner {
   margin: 40px auto;
   border: 8px solid #f3f3f3;
@@ -236,14 +310,13 @@
   height: 60px;
   animation: spin 1s linear infinite;
 }
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 
-.alert-subtitle {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 15px;
-  color: #333;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
