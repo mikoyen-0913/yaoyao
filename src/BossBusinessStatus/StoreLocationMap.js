@@ -1,15 +1,36 @@
 import React from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// 修正預設圖標問題
+// 修正預設圖標
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
+
+// 進入地圖啟用滾輪縮放、離開地圖關閉滾輪縮放（避免整頁滑走）
+function WheelToggle() {
+  const map = useMap();
+
+  // 預設關閉（避免頁面一載入就能滾）
+  React.useEffect(() => {
+    map.scrollWheelZoom.disable();
+  }, [map]);
+
+  useMapEvents({
+    mouseover() {
+      map.scrollWheelZoom.enable();
+    },
+    mouseout() {
+      map.scrollWheelZoom.disable();
+    },
+  });
+
+  return null;
+}
 
 const StoreLocationMap = ({ storeLocations }) => {
   if (!storeLocations || !Array.isArray(storeLocations)) {
@@ -33,7 +54,15 @@ const StoreLocationMap = ({ storeLocations }) => {
     <div className="chart-card" style={{ width: "100%" }}>
       <h2 className="section-title">分店分布地圖</h2>
       <div style={{ height: 360, width: "100%", borderRadius: 12, overflow: "hidden" }}>
-        <MapContainer center={center} zoom={12} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }}>
+        <MapContainer
+          center={center}
+          zoom={12}
+          // 這裡給 true，實際啟用/關閉交給 WheelToggle 控制
+          scrollWheelZoom={true}
+          style={{ height: "100%", width: "100%" }}
+        >
+          <WheelToggle />
+
           <TileLayer
             attribution="&copy; OpenStreetMap contributors"
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

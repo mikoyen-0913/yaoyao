@@ -67,7 +67,7 @@ const BossBusinessStatus = () => {
 
   // 分店營收排行（右側獨立元件）
   const [revenueMonth, setRevenueMonth] = useState(dayjs().format("YYYY-MM"));
-  const [storeRevenueRank, setStoreRevenueRank] = useState([]);
+  const [storeRevenueRank, /* eslint-disable no-unused-vars */ setStoreRevenueRank] = useState([]);
 
   const token = localStorage.getItem("token");
 
@@ -236,7 +236,14 @@ const BossBusinessStatus = () => {
                 <Tooltip formatter={(value) => `$${value}`} />
                 {chartData.length > 0 &&
                   storeNames.map((store) => (
-                    <Line key={store} type="linear" dataKey={store} stroke={getColorForStore(store)} strokeWidth={2} dot={{ r: 3 }} />
+                    <Line
+                      key={store}
+                      type="linear"
+                      dataKey={store}
+                      stroke={getColorForStore(store)}
+                      strokeWidth={2}
+                      dot={{ r: 3 }}
+                    />
                   ))}
               </LineChart>
             </ResponsiveContainer>
@@ -263,6 +270,20 @@ const BossBusinessStatus = () => {
           value={flavorMonth}
           onChange={(e) => setFlavorMonth(e.target.value)}
         />
+
+        {/* ✅ 全域口味圖例（放在區塊上方一次顯示） */}
+        <div className="store-legend">
+          {Object.keys(FLAVOR_COLORS).map((name) => (
+            <div className="legend-item" key={name}>
+              <span
+                className="legend-color"
+                style={{ backgroundColor: FLAVOR_COLORS[name] || "#CCCCCC" }}
+              />
+              <span className="legend-text">{name}</span>
+            </div>
+          ))}
+        </div>
+
         <div className="pie-grid">
           {Object.entries(pieData).map(([store, flavors]) => {
             const total = flavors.reduce((sum, item) => sum + item.value, 0);
