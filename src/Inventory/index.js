@@ -3,8 +3,8 @@ import "./index.css";
 import AddInventory from "../components/AddInventory";
 import EditInventory from "../components/EditInventory";
 
-const API_URL = "http://127.0.0.1:5000";
-
+const API_HOST = window.location.hostname; // 可能是 "localhost" 或 "127.0.0.1"
+const API_URL = `http://${API_HOST}:5000`;
 const Inventory = () => {
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
@@ -53,23 +53,43 @@ const Inventory = () => {
     setIsEditPopupOpen(true);
   };
 
-  const handleUpdateItem = async (updatedItem) => {
-    try {
-      const response = await fetch(`${API_URL}/update_ingredient/${updatedItem.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(updatedItem),
-      });
-      if (!response.ok) throw new Error("更新食材失敗");
-      fetchIngredients();
-      setIsEditPopupOpen(false);
-    } catch (error) {
-      console.error(error);
+ const handleUpdateItem = async (updatedItem) => {
+  try {
+    // 僅挑允許欄位；日期欄位統一成 expiration_date
+    const payload = {
+      ...(updatedItem.name != null && { name: updatedItem.name }),
+      ...(updatedItem.quantity != null && { quantity: Number(updatedItem.quantity) }),
+      ...(updatedItem.unit != null && { unit: updatedItem.unit }),
+      ...(updatedItem.price != null && { price: Number(updatedItem.price) }),
+      ...(updatedItem.expiration_date != null && { expiration_date: updatedItem.expiration_date }),
+      // 有些編輯表單會用 expiry_date，這裡順手對齊
+      ...(updatedItem.expiry_date != null && { expiration_date: updatedItem.expiry_date }),
+    };
+
+    const res = await fetch(`${API_URL}/update_ingredient/${updatedItem.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify(payload),
+    });
+
+    // 額外把錯誤訊息印出來，方便你在 DevTools 看到後端回傳
+    const text = await res.text();
+    if (!res.ok) {
+      console.error("更新失敗 Response:", res.status, text);
+      throw new Error(`更新食材失敗（${res.status}）`);
     }
-  };
+
+    // 成功就重抓清單並關閉彈窗
+    await fetchIngredients();
+    setIsEditPopupOpen(false);
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+};
 
   const handleDeleteItem = async (id) => {
     try {
