@@ -24,13 +24,28 @@ const OrdersPage = () => {
       });
       if (!response.ok) throw new Error("取得訂單失敗");
       const data = await response.json();
-      const sortedOrders = [...data.orders].sort((a, b) => {
+
+      // === 計算今天日期 (台灣時區 YYYY-MM-DD) ===
+      const now = new Date();
+      const taiwanOffset = 8 * 60; // +08:00
+      now.setMinutes(now.getMinutes() + now.getTimezoneOffset() + taiwanOffset);
+      const todayStr = now.toISOString().slice(0, 10);
+
+      // === 過濾今天的訂單 ===
+      const todayOrders = data.orders.filter((order) => {
+        const orderDate = new Date(order.timestamp || order.created_at);
+        const orderDateStr = orderDate.toISOString().slice(0, 10);
+        return orderDateStr === todayStr;
+      });
+
+      // === 按時間排序 ===
+      const sortedOrders = [...todayOrders].sort((a, b) => {
         const aTime = new Date(a.timestamp || a.created_at).getTime();
         const bTime = new Date(b.timestamp || b.created_at).getTime();
         return aTime - bTime;
       });
-      setOrders(sortedOrders);
 
+      setOrders(sortedOrders);
     } catch (error) {
       console.error("讀取訂單錯誤:", error);
     }
@@ -129,9 +144,9 @@ const OrdersPage = () => {
 
   return (
     <div className="orders-container">
-      {/* ✅ 標題與按鈕 */}
+      {/* 標題與按鈕 */}
       <div className="orders-header">
-        <h2>顯示訂單</h2>
+        <h2>顯示訂單（今日）</h2>
         <div className="icon-group">
           <button
             className="primary-button"
@@ -206,7 +221,6 @@ const OrdersPage = () => {
                 一次完成五筆訂單
               </button>
             )}
-
           </React.Fragment>
         ))}
       </div>
