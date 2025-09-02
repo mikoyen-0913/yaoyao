@@ -261,3 +261,270 @@
   margin-bottom: 30px;
   gap: 215px;
 }
+/* ============================= */
+/* 主畫面區塊：容器、標題、卡片列表 */
+/* ============================= */
+
+/* 外層容器樣式 */
+.orders-container {
+  background-color: #fff9e6;
+  padding: 30px;
+  max-width: 1000px;
+  margin: 30px auto;
+  position: relative;
+}
+
+/* 標題樣式 */
+.orders-header h2 {
+  color: #4b2e1f;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* 上方工具列按鈕 */
+.icon-group button {
+  font-weight: bold;
+  background-color: #5fbdfb;
+  color: #ffffff;
+  border: 3px solid #2f8ac6;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.icon-group button:hover {
+  background-color: #4ea4eb;
+}
+
+/* 食譜卡片列表容器 */
+.orders-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 50px;
+  margin-top: 20px;
+  justify-items: center;
+}
+
+
+/* ============================= */
+/* 食譜卡片樣式（單張卡片） */
+/* ============================= */
+
+.order-card {
+  border: 2px solid #000;
+  width: 180px;
+  padding: 10px;
+  background-color: #ffffff;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.order-items {
+  flex-grow: 1;
+  white-space: pre-wrap;
+  font-size: 15px;
+  font-weight: bold;
+  color: #333;
+  margin: 4px 0 8px 0;
+  text-align: left;
+}
+
+.order-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: auto;
+  margin-bottom: 10px;
+}
+
+/* 編輯按鈕樣式 */
+.modify-button {
+  background-color: #ffe38a;
+  color: #4b2e1f;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 6px 0;
+  border-radius: 10px;
+  border: 2px solid #4b2e1f;
+  cursor: pointer;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.modify-button:hover {
+  background-color: #e8ad61;
+}
+
+/* 刪除按鈕樣式 */
+.remove-button {
+  background-color: #e74c3c;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 6px 0;
+  border-radius: 10px;
+  border: 2px solid #4b2e1f;
+  cursor: pointer;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.remove-button:hover {
+  background-color: #b92c27;
+}
+
+
+/* ============================= */
+/* 彈出視窗樣式（新增／編輯） */
+/* ============================= */
+
+/* 遮罩背景 */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 40px 16px;
+  box-sizing: border-box;
+}
+
+/* 彈出視窗本體 */
+.popup {
+  background: #fff9e6;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 520px;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.popup h2 {
+  font-size: 24px;
+  color: #4b2e1f;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+/* ============================= */
+/* 表單欄位樣式（一般欄位＋配方欄） */
+/* ============================= */
+
+/* 單一欄位區塊 */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 2px solid #c8b898;
+  border-radius: 6px;
+}
+
+/* 一列配方欄（食材 + 數量 + 單位） */
+.recipe-input-row {
+  display: flex;
+  gap: 30px;
+  max-width: 450px;
+  margin-left: 25px;
+  box-sizing: border-box;
+}
+
+.recipe-input-row input {
+  flex: 1;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 2px solid #c8b898;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+
+/* ============================= */
+/* 下方控制按鈕（返回、新增、送出） */
+/* ============================= */
+
+/* 新增配方按鈕 */
+.recipe-add-btn {
+  background-color: #ffe38a;
+  color: #4b2e1f;
+  font-weight: bold;
+  border: 3px solid #e8982f;
+  font-size: 16px;
+  cursor: pointer;
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* 三個按鈕的對齊容器（返回、新增、送出） */
+.recipe-add-btn-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  margin-left: calc((100% - (120px + 215px + 120px)) / 2);
+}
+
+/* 返回按鈕 */
+.recipe-cancel-btn {
+  background-color: #f2f2f2;
+  color: #333;
+  border: 3px solid #bbb;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 送出按鈕 */
+.recipe-submit-btn {
+  background-color: #5fbdfb;
+  color: #ffffff;
+  border: 3px solid #2f8ac6;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 返回＋送出按鈕區塊的對齊方式 */
+.recipe-edit-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  gap: 215px;
+}

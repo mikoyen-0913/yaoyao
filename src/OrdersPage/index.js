@@ -146,7 +146,7 @@ const OrdersPage = () => {
     <div className="orders-container">
       {/* 標題與按鈕 */}
       <div className="orders-header">
-        <h2>顯示訂單（今日）</h2>
+        <h2>顯示訂單</h2>
         <div className="icon-group">
           <button
             className="primary-button"

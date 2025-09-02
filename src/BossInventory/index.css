@@ -1,14 +1,7 @@
-/* === 🌐 區塊一：全域設定（body, html, 容器） === */
-
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
+/* === 全域設定 === */
 html,
 body {
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -26,16 +19,13 @@ body {
   overflow-x: hidden;
 }
 
-
-/* === 🧱 區塊二：上方標題與按鈕區塊（包含回首頁） === */
-
+/* === 標題與上方容器 === */
 .inventory-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 8px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 0 10px;
   gap: 20px;
 }
 
@@ -54,116 +44,61 @@ body {
   padding-bottom: 8px;
 }
 
-
-/* === 🎯 區塊三：按鈕群組與樣式（新增、更新、編輯、刪除、回首頁） === */
-
+/* === 上方功能按鈕區 === */
 .top-action-buttons {
-  display: flex;              /* ✅ 加上這行才會有效控制 */
-  justify-content: flex-start;
-  margin-left: 0px !important;
-  margin-top: 10px;           /* ✅ 拉整排下來一點 */
-  gap: 10px;
-}
-
-.add-button,
-.refresh-button {
-  color: white;
-  border: 2px solid transparent;
-  padding: 5px 0;
-  width: 120px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 6px;
-}
-
-.add-button {
-  background-color: #5fbdfb;
-  border: 3px solid #2f8ac6;
-}
-
-.add-button:hover {
-  background-color: #4ea4eb;
-}
-
-.refresh-button {
-  background-color: #f0b067;
-  border: 3px solid #c67d1d;
-}
-
-.refresh-button:hover {
-  background-color: #ec9641;
-}
-
-.edit-button {
-  background-color: #ffe38a;
-  border: 3px solid #e8982f;
-  color: #4b2e1f;
-  padding: 5px 0;
-  width: 120px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-}
-
-.edit-button:hover {
-  background-color: #ffc170;
-}
-
-.delete-button {
-  background-color: #d9534f;
-  border: 3px solid #961a16;
-  color: white;
-  padding: 5px 0;
-  width: 120px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-}
-
-.delete-button:hover {
-  background-color: #b92c27;
-}
-
-.home-button {
-  font-weight: bold;
-  background-color: #5fbdfb;
-  color: #ffffff;
-  border: 3px solid #2f8ac6;
-  padding: 8px 16px;
-  font-size: 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  display: inline-flex;
+  display: flex !important;
+  flex-direction: row !important;
   align-items: center;
-  justify-content: center;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 60px;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+/* === 搜尋與下拉選單 === */
+.input-section {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.store-selector,
+.search-box {
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #a98f72;
+  border-radius: 8px;
+  background-color: white;
+  box-sizing: border-box;
   height: 40px;
-  margin-left: 10px;
-  margin-top: 0;
 }
 
-.home-button:hover {
-  background-color: #4ea4eb;
+.store-selector {
+  margin-right: 10px;
+  width: 180px;
 }
 
-.fixed-home-button {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  z-index: 10;
+.search-box {
+  margin-top: 10px;
+  margin-right: 10px;
+  width: 2000px;
 }
 
+.store-wrapper,
+.search-wrapper {
+  display: flex;
+  flex-direction: column;
+}
 
-/* === 📊 區塊四：表格樣式與置中 === */
+.search-wrapper {
+  margin-top: -10px;
+}
 
+/* === 表格樣式 === */
 .table-wrapper {
   overflow-x: auto;
   margin: 0 auto;
@@ -194,29 +129,12 @@ th {
   background-color: rgb(231, 231, 230);
 }
 
-.col-name {
-  width: 25%;
-}
-
-.col-qty {
-  width: 15%;
-}
-
-.col-unit {
-  width: 10%;
-}
-
-.col-price {
-  width: 20%;
-}
-
-.col-actions {
-  width: 30%;
-  text-align: left;
-}
-
-
-/* === 🛠️ 區塊五：操作欄位按鈕排列 === */
+.col-name { width: 25%; }
+.col-qty { width: 15%; }
+.col-unit { width: 10%; }
+.col-price { width: 20%; }
+.col-actions { width: 30%; text-align: left; }
+.col-store { width: 15%; }
 
 th.col-actions {
   text-align: left;
@@ -238,76 +156,191 @@ td.col-actions {
   margin-top: 0px;
 }
 
+/* === 分店列背景色 === */
+.store-color-0 { background-color: #fff6e6; }
+.store-color-1 { background-color: #e6f7ff; }
+.store-color-2 { background-color: #f0ffe6; }
+.store-color-3 { background-color: #f9e6ff; }
+.store-color-4 { background-color: #fff0f0; }
 
-/* === 🧭 各分店頁：搜尋欄位與下拉選單 === */
-
-.store-selector {
-  padding: 8px;
-  font-size: 16px;
-  border: 2px solid #a98f72;
-  border-radius: 8px;
-  outline: none;
-  margin-right: 10px;
-  width: 180px;
-  height: 40px;
-  background-color: white;
-  box-sizing: border-box;
-}
-
-
-.search-box {
-  padding: 8px;
-  font-size: 16px;
-  border: 2px solid #a98f72;
-  border-radius: 8px;
-  outline: none;
-  margin-top: 10px;
-  margin-right: 10px;   
-  width: 2000px;
-  height: 40px;
-  background-color: white;
-  box-sizing: border-box;
-}
-
-/* === 🧭 新增：下拉與搜尋分開區塊 === */
-.input-section {
+/* === Modal 彈窗區 === */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.modal-content {
+  background: #fff9e6;
+  width: 750px;
+  max-width: min(90vw, 750px);
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .28);
+  border: 2px solid #eadfbe;
+  overflow: hidden;
+   padding-bottom: 20px; 
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 10px;
+  justify-content: center;
+  padding: 18px 22px 8px 22px;
 }
 
-.store-wrapper,
-.search-wrapper {
+.modal-content h2,
+.modal-header h2 {
+  margin: 0;
+  color: #4b2e1f;
+  font-size: 22px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.modal-body {
+  padding: 10px 28px 4px 28px;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "srcSearch srcSelect"
+    "toStore   qty"
+    "note      note";
+  gap: 18px 80px;
+}
+
+.modal-field {
   display: flex;
   flex-direction: column;
+  gap: 6px;
 }
 
-.search-wrapper {
+.field-src-search { grid-area: srcSearch; }
+.field-src-select { grid-area: srcSelect; }
+.field-to-store { grid-area: toStore; }
+.field-qty { grid-area: qty; }
+.field-note { grid-area: note; grid-column: 1 / 3 !important; }
+
+.modal-field label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #6a4a36;
+  letter-spacing: .5px;
+}
+
+.modal-field select,
+.modal-field input[type="number"],
+.modal-field input[type="text"],
+.modal-ing-search {
+  width: 100%;
+  height: 40px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 2px solid #c8b898;
+  border-radius: 10px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.modal-field select:focus,
+.modal-field input:focus {
+  outline: none;
+  border-color: #e8982f;
+  box-shadow: 0 0 0 3px rgba(232, 152, 47, .18);
+}
+
+.field-note input[type="text"] {
+  width: 100% !important;
+}
+
+.modal-actions {
   display: flex;
-  flex-direction: column;
-  margin-top: -10px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 20px 120px 20px !important;
 }
 
-.col-store {
-  width: 15%;
+.modal-actions button {
+  width: 120px;
+  height: 40px;
+  font-weight: 800;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border: 3px solid transparent;
 }
 
-/* 🎨 每間分店的列背景顏色 */
-.store-color-0 {
-  background-color: #fff6e6; /* 淡橘 */
+/* === Modal 內按鈕樣式 === */
+.modal-actions .btn-cancel {
+  background: #f2f2f2;
+  color: #333;
+  border-color: #bbb;
 }
-.store-color-1 {
-  background-color: #e6f7ff; /* 淡藍 */
+
+.modal-actions .btn-cancel:hover {
+  background: #e9e9e9;
 }
-.store-color-2 {
-  background-color: #f0ffe6; /* 淡綠 */
+
+.modal-actions .btn-submit {
+  background: #5fbdfb;
+  color: #ffffff;
+  border-color: #2f8ac6;
 }
-.store-color-3 {
-  background-color: #f9e6ff; /* 淡紫 */
+
+.modal-actions .btn-submit:hover {
+  background: #4ea4eb;
 }
-.store-color-4 {
-  background-color: #fff0f0; /* 淡紅 */
+
+/* === 專用按鈕樣式 === */
+.btn-transfer,
+.btn-transfer-log,
+.btn-home {
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  font-size: 16px;
+}
+
+.btn-transfer,
+.btn-transfer-log {
+  min-width: 120px;
+  padding: 0 14px;
+  background-color: #5fbdfb;
+  border: 3px solid #2f8ac6;
+  color: white;
+}
+
+.btn-transfer:hover,
+.btn-transfer-log:hover {
+  background-color: #4ea4eb;
+}
+
+.btn-home {
+  background-color: #5fbdfb;
+  color: #ffffff;
+  border: 3px solid #2f8ac6;
+  padding: 8px 16px;
+  font-size: 14px;
+  margin-top: 0 !important;
+}
+
+.btn-home:hover {
+  background-color: #4ea4eb;
 }

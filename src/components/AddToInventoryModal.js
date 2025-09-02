@@ -12,7 +12,6 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
       suggestion[name] = {
         name,
         unit: info.unit || "克",
-        // 顯示用與邏輯用都先轉為整數
         shortage: shortageInt,
         restock: shortageInt,
         expiration_date: "",
@@ -21,7 +20,6 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
     setRestockData(suggestion);
   }, [shortages]);
 
-  // ✅ 按下 Esc 關閉視窗
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
@@ -35,13 +33,10 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
   }, [onClose]);
 
   const handleChange = (name, field, value) => {
-    // 僅對 restock 做整數處理；其餘欄位照原樣
     if (field === "restock") {
-      // 允許空字串（清空輸入時），其餘轉為 >= 0 的整數
       let v = value === "" ? "" : parseInt(value, 10);
       if (Number.isNaN(v)) v = 0;
       if (v < 0) v = 0;
-
       setRestockData((prev) => ({
         ...prev,
         [name]: {
@@ -70,7 +65,6 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
       return;
     }
 
-    // 確保送出整數
     const qty = Math.round(Number(data.restock || 0));
 
     try {
@@ -144,12 +138,13 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
     <div className="modal-overlay">
       <div className="modal-window">
         <h2 className="modal-title">確認缺料補貨</h2>
-        <div className="modal-content">
-          {Object.keys(restockData).length === 0 ? (
-            <div style={{ textAlign: "center", fontSize: "18px", color: "#333" }}>
-              ✅ 目前原料充足，不須補貨！
-            </div>
-          ) : (
+
+        {Object.keys(restockData).length === 0 ? (
+          <div style={{ textAlign: "center", fontSize: "18px", color: "#333" }}>
+            ✅ 目前原料充足，不須補貨！
+          </div>
+        ) : (
+          <div style={{ maxHeight: "420px", overflowY: "auto" }}>
             <table className="modal-table">
               <thead>
                 <tr>
@@ -194,8 +189,8 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
                 ))}
               </tbody>
             </table>
-          )}
-        </div>
+          </div>
+        )}
 
         <div className="modal-buttons">
           <button className="cancel-button" onClick={onClose}>取消</button>

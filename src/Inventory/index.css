@@ -1,17 +1,14 @@
-/* === 🌐 區塊一：全域設定（body, html, 容器） === */
-
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
+/* === 全域設定（版面、容器寬度、背景） === */
 html,
 body {
   margin: 0;
   padding: 0;
   width: 100%;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+}
+
+body {
   overflow-x: hidden;
 }
 
@@ -20,15 +17,13 @@ body {
   padding: 20px;
   min-height: 100vh;
   width: 100%;
-  max-width: 1400px;   /* ✅ 控制整體寬度 */
-  margin: 0 auto;       /* ✅ 置中 */
+  max-width: 1400px;
+  margin: 0 auto;
   box-sizing: border-box;
   overflow-x: hidden;
 }
 
-
-/* === 🧱 區塊二：上方標題與按鈕區塊（包含回首頁） === */
-
+/* === 頁首區塊（標題與上方按鈕） === */
 .inventory-header {
   display: flex;
   justify-content: space-between;
@@ -37,6 +32,7 @@ body {
   padding-left: 10px;
   padding-right: 10px;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .inventory-header > div {
@@ -45,17 +41,15 @@ body {
   align-items: flex-start;
 }
 
-.inventory-container h2 {
+.inventory-container h1 {
   color: #4b2e1f;
-  font-size: 32px;
+  font-size: 32px !important;
   font-weight: bold;
   margin: 0;
-  padding-bottom: 8px;
+  padding-bottom: 10px;
 }
 
-
-/* === 🎯 區塊三：按鈕群組與樣式（新增、更新、編輯、刪除、回首頁） === */
-
+/* === 上方功能按鈕樣式（新增、更新） === */
 .top-action-buttons {
   justify-content: flex-start;
   margin-left: 0px !important;
@@ -66,7 +60,7 @@ body {
   color: white;
   border: 2px solid transparent;
   padding: 5px 0;
-  width: 120px;
+  width: 140px;
   font-size: 16px;
   font-weight: bold;
   border-radius: 10px;
@@ -93,73 +87,7 @@ body {
   background-color: #ec9641;
 }
 
-.edit-button {
-  background-color: #ffe38a;
-  border: 3px solid #e8982f;
-  color: #4b2e1f;
-  padding: 5px 0;
-  width: 120px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-}
-
-.edit-button:hover {
-  background-color: #ffc170;
-}
-
-.delete-button {
-  background-color: #d9534f;
-  border: 3px solid #961a16;
-  color: white;
-  padding: 5px 0;
-  width: 120px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-}
-
-.delete-button:hover {
-  background-color: #b92c27;
-}
-
-.home-button {
-  font-weight: bold;
-  background-color: #5fbdfb;
-  color: #ffffff;
-  border: 3px solid #2f8ac6;
-  padding: 8px 16px;
-  font-size: 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  margin-left: 10px;
-  margin-top: 0;
-}
-
-.home-button:hover {
-  background-color: #4ea4eb;
-}
-
-.fixed-home-button {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  z-index: 10;
-}
-
-
-/* === 📊 區塊四：表格樣式與置中 === */
-
+/* === 表格樣式（整體排版與欄寬） === */
 .table-wrapper {
   overflow-x: auto;
   margin: 0 auto;
@@ -211,9 +139,7 @@ th {
   text-align: left;
 }
 
-
-/* === 🛠️ 區塊五：操作欄位按鈕排列 === */
-
+/* === 操作欄按鈕樣式與對齊設定 === */
 th.col-actions {
   text-align: left;
   padding-left: 12px;
@@ -232,4 +158,61 @@ td.col-actions {
   gap: 10px;
   margin-left: 5px;
   margin-top: 0px;
+}
+
+/* === 各操作按鈕樣式（編輯、刪除、回首頁） === */
+.edit-button {
+  background-color: #ffe38a;
+  border: 3px solid #e8982f;
+  color: #4b2e1f;
+  padding: 5px 0;
+  width: 120px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.edit-button:hover {
+  background-color: #ffc170;
+}
+
+.delete-button {
+  background-color: #d9534f;
+  border: 3px solid #961a16;
+  color: white;
+  padding: 5px 0;
+  width: 120px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.delete-button:hover {
+  background-color: #b92c27;
+}
+
+.home-button {
+  font-weight: bold;
+  background-color: #5fbdfb;
+  color: #ffffff;
+  border: 3px solid #2f8ac6;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  margin-top: 20px !important;
+}
+
+.home-button:hover {
+  background-color: #4ea4eb;
 }

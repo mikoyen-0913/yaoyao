@@ -1,4 +1,6 @@
-/* Modal 外層與視窗 */
+/* ==============================
+   Modal 視窗整體樣式（背景與主體）
+   ============================== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -21,7 +23,9 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Modal 標題與內容 */
+/* ==============================
+   Modal 標題樣式
+   ============================== */
 .modal-title {
   font-size: 22px;
   color: #c91b00;
@@ -31,18 +35,16 @@
   margin-top: -6px;
 }
 
-.modal-content {
-  max-height: 420px;
-  overflow-y: auto;
-  margin-bottom: 18px;
-}
-
-/* 表格樣式 */
+/* ==============================
+   Modal 內部表格樣式（表頭、表格本體）
+   ============================== */
 .modal-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-  margin: 0 auto;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 90% !important;
+  max-width: 1000px;
 }
 
 .modal-table th,
@@ -54,10 +56,10 @@
   padding: 10px 12px;
 }
 
-/* 預設把儲存格中的直接子元素置中 */
-.modal-table td > * {
-  margin-left: auto;
-  margin-right: auto;
+.modal-table th {
+  background-color: #e6e7e7 !important;
+  font-weight: bold;
+  color: #4b2e1f;
 }
 
 .modal-table tr {
@@ -65,13 +67,9 @@
   min-height: 44px;
 }
 
-.modal-table th {
-  background-color: #e6e7e7 !important;
-  font-weight: bold;
-  color: #4b2e1f;
-}
-
-/* 表格欄寬 */
+/* ==============================
+   表格欄位寬度設定
+   ============================== */
 .modal-table .col-name {
   width: 250px;
 }
@@ -81,7 +79,7 @@
 }
 
 .modal-table .col-restock {
-  width: 0px; /* 加寬，讓數字+單位更靠右一些 */
+  width: 0px;
 }
 
 .modal-table .col-expire {
@@ -92,20 +90,18 @@
   width: 250px;
 }
 
-/* 輸入框：數字與日期（通用） */
-.modal-table input[type="number"] {
-  margin: 0;
-  padding: 6px 8px;
-  font-size: 16px;
-  width: 130px;
-  height: 34px;
-  border: 1px solid #bfbfbf;
-  border-radius: 8px;
-  text-align: center;
-  display: inline-block;
-  box-sizing: border-box;
+/* ==============================
+   表格儲存格：輸入元件與對齊設定
+   ============================== */
+
+/* 將儲存格子元素置中 */
+.modal-table td > * {
+  margin-left: auto;
+  margin-right: auto;
 }
 
+/* 數字與日期輸入框樣式 */
+.modal-table input[type="number"],
 .modal-table input[type="date"] {
   margin: 0;
   padding: 6px 8px;
@@ -115,49 +111,45 @@
   border: 1px solid #bfbfbf;
   border-radius: 8px;
   text-align: center;
+  display: inline-block;
   box-sizing: border-box;
 }
 
+/* 單位文字樣式 */
 .unit-span {
   margin-left: 6px;
   font-size: 16px;
   display: inline-block;
-}
-
-/* ====== 數字對齊＆視覺齊邊（補貨數量格）====== */
-
-/* 讓容器用 grid 排版：左邊固定數字欄、右邊是單位 */
-.cell-center {
-  display: grid;                     /* 取代原本 flex */
-  grid-template-columns: 10ch auto;  /* 數字固定 10 字元寬，右邊單位自動 */
-  column-gap: 8px;
-  align-items: center;               /* 垂直置中 */
-  justify-content: end;              /* 內容靠右對齊 */
-}
-
-/* 覆蓋預設的置中，讓整組內容往右移一點（非貼齊） */
-.modal-table td > .cell-center {
-  margin-left: -15px !important;
-  margin-right: 25px !important;     /* 往右推一點點，調整視覺平衡 */
-}
-
-/* 數字輸入框：靠右對齊＋使用等寬數字樣式 */
-.modal-table input[type="number"] {
-  width: 10ch;                       /* 與 grid 的 10ch 一致，確保齊邊 */
-  text-align: center;                 /* 數字靠右 */
-  font-variant-numeric: tabular-nums;/* 等寬數字 */
-  font-feature-settings: "tnum";     /* 某些字型需這行啟用 */
-}
-
-/* 單位欄固定最小寬度，避免不同字數造成跳動 */
-.unit-span {
-  min-width: 3.5em;                  /* 依你最長單位字長調整，如「毫升」等 */
+  min-width: 3.5em;
   text-align: left;
-  display: inline-block;
 }
 
-/* 底部按鈕區 */
+/* 補貨數量欄位的輸入框與單位對齊方式 */
+.cell-center {
+  display: grid;
+  grid-template-columns: 10ch auto;
+  column-gap: 8px;
+  align-items: center;
+  justify-content: end;
+}
+
+.modal-table td > .cell-center {
+  margin-right: 20px !important;
+}
+
+/* 固定寬度字體（數字對齊美觀） */
+.modal-table input[type="number"] {
+  width: 10ch;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* ==============================
+   Modal 下方按鈕列
+   ============================== */
 .modal-buttons {
+  margin-top: 24px;
   display: flex;
   justify-content: flex-end;
   gap: 14px;
