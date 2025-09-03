@@ -29,7 +29,7 @@ body {
   gap: 20px;
 }
 
-.inventory-header > div {
+.inventory-header>div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -129,12 +129,30 @@ th {
   background-color: rgb(231, 231, 230);
 }
 
-.col-name { width: 25%; }
-.col-qty { width: 15%; }
-.col-unit { width: 10%; }
-.col-price { width: 20%; }
-.col-actions { width: 30%; text-align: left; }
-.col-store { width: 15%; }
+.col-name {
+  width: 25%;
+}
+
+.col-qty {
+  width: 15%;
+}
+
+.col-unit {
+  width: 10%;
+}
+
+.col-price {
+  width: 20%;
+}
+
+.col-actions {
+  width: 15%;
+  text-align: center;
+}
+
+.col-store {
+  width: 10%;
+}
 
 th.col-actions {
   text-align: left;
@@ -157,181 +175,27 @@ td.col-actions {
 }
 
 /* === 分店列背景色 === */
-.store-color-0 { background-color: #fff6e6; }
-.store-color-1 { background-color: #e6f7ff; }
-.store-color-2 { background-color: #f0ffe6; }
-.store-color-3 { background-color: #f9e6ff; }
-.store-color-4 { background-color: #fff0f0; }
-
-/* === Modal 彈窗區 === */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 24px;
-  box-sizing: border-box;
+.store-color-0 {
+  background-color: #fff6e6;
 }
 
-.modal-content {
-  background: #fff9e6;
-  width: 750px;
-  max-width: min(90vw, 750px);
-  border-radius: 16px;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, .28);
-  border: 2px solid #eadfbe;
-  overflow: hidden;
-   padding-bottom: 20px; 
+.store-color-1 {
+  background-color: #e6f7ff;
 }
 
-.modal-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  justify-content: center;
-  padding: 18px 22px 8px 22px;
+.store-color-2 {
+  background-color: #f0ffe6;
 }
 
-.modal-content h2,
-.modal-header h2 {
-  margin: 0;
-  color: #4b2e1f;
-  font-size: 22px;
-  font-weight: 800;
-  text-align: center;
+.store-color-3 {
+  background-color: #f9e6ff;
 }
 
-.modal-body {
-  padding: 10px 28px 4px 28px;
+.store-color-4 {
+  background-color: #fff0f0;
 }
 
-.modal-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas:
-    "srcSearch srcSelect"
-    "toStore   qty"
-    "note      note";
-  gap: 18px 80px;
-}
-
-.modal-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.field-src-search { grid-area: srcSearch; }
-.field-src-select { grid-area: srcSelect; }
-.field-to-store { grid-area: toStore; }
-.field-qty { grid-area: qty; }
-.field-note { grid-area: note; grid-column: 1 / 3 !important; }
-
-.modal-field label {
-  font-size: 13px;
-  font-weight: 700;
-  color: #6a4a36;
-  letter-spacing: .5px;
-}
-
-.modal-field select,
-.modal-field input[type="number"],
-.modal-field input[type="text"],
-.modal-ing-search {
-  width: 100%;
-  height: 40px;
-  padding: 8px 12px;
-  font-size: 14px;
-  border: 2px solid #c8b898;
-  border-radius: 10px;
-  background: #fff;
-  box-sizing: border-box;
-}
-
-.modal-field select:focus,
-.modal-field input:focus {
-  outline: none;
-  border-color: #e8982f;
-  box-shadow: 0 0 0 3px rgba(232, 152, 47, .18);
-}
-
-.field-note input[type="text"] {
-  width: 100% !important;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 14px;
-  padding: 20px 20px 120px 20px !important;
-}
-
-.modal-actions button {
-  width: 120px;
-  height: 40px;
-  font-weight: 800;
-  border-radius: 10px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  border: 3px solid transparent;
-}
-
-/* === Modal 內按鈕樣式 === */
-.modal-actions .btn-cancel {
-  background: #f2f2f2;
-  color: #333;
-  border-color: #bbb;
-}
-
-.modal-actions .btn-cancel:hover {
-  background: #e9e9e9;
-}
-
-.modal-actions .btn-submit {
-  background: #5fbdfb;
-  color: #ffffff;
-  border-color: #2f8ac6;
-}
-
-.modal-actions .btn-submit:hover {
-  background: #4ea4eb;
-}
-
-/* === 專用按鈕樣式 === */
-.btn-transfer,
-.btn-transfer-log,
-.btn-home {
-  font-weight: bold;
-  border-radius: 10px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  font-size: 16px;
-}
-
-.btn-transfer,
-.btn-transfer-log {
-  min-width: 120px;
-  padding: 0 14px;
-  background-color: #5fbdfb;
-  border: 3px solid #2f8ac6;
-  color: white;
-}
-
-.btn-transfer:hover,
-.btn-transfer-log:hover {
-  background-color: #4ea4eb;
-}
-
+/* === 按鈕：回首頁（保留） === */
 .btn-home {
   background-color: #5fbdfb;
   color: #ffffff;
@@ -339,8 +203,35 @@ td.col-actions {
   padding: 8px 16px;
   font-size: 14px;
   margin-top: 0 !important;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
 }
 
 .btn-home:hover {
   background-color: #4ea4eb;
+}
+
+/* === 調貨按鈕 === */
+.btn-transfer {
+  background-color: #ffe38a;
+  border: 3px solid #e8982f;
+  color: #4b2e1f;
+  padding: 5px 0;
+  width: 120px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.btn-transfer:hover {
+  background-color: #ffc170;
 }

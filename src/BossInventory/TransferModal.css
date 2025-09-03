@@ -1,0 +1,100 @@
+/* 遮罩 */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* 彈窗 */
+.popup {
+  background: #fff9e6;
+  padding: 30px 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  font-family: "Segoe UI", sans-serif;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.popup h2 {
+  font-size: 24px;
+  color: #4b2e1f;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 0 10px 0;
+}
+
+/* 表單 */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.form-group > * {
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+}
+.form-group label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+.form-group input,
+.form-group select {
+  padding: 10px 12px;
+  font-size: 16px;
+  height: 44px;
+  border: 2px solid #b79f8b;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #6d4b31;
+  outline: none;
+}
+
+/* 按鈕區 */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  margin-top: 15px;
+}
+.edit-submit-btn,
+.cancel-btn {
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  border: 3px solid transparent;
+}
+.edit-submit-btn {
+  background-color: #4faeea;
+  color: #fff;
+  border-color: #248fd4;
+}
+.edit-submit-btn:hover {
+  background-color: #4ea4eb;
+}
+.cancel-btn {
+  background-color: #f2f2f2;
+  color: #333;
+  border-color: #bbb;
+}
+.cancel-btn:hover {
+  background-color: #e0e0e0;
+}
