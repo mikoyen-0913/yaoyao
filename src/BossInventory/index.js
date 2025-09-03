@@ -1,9 +1,7 @@
-// index.js — BossInventory
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import TransferModal from "./TransferModal";
-
-const API_URL = "http://localhost:5000";
+import { apiBaseUrl } from "../settings"; // ✅ 改用環境變數
 
 const BossInventory = () => {
   const [storeList, setStoreList] = useState([]);
@@ -17,7 +15,7 @@ const BossInventory = () => {
 
   const fetchStores = async () => {
     try {
-      const res = await fetch(`${API_URL}/get_my_stores`, {
+      const res = await fetch(`${apiBaseUrl}/get_my_stores`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -38,7 +36,7 @@ const BossInventory = () => {
         let allData = [];
         for (const store of storeList) {
           const res = await fetch(
-            `${API_URL}/get_inventory_by_store?store=${store}`,
+            `${apiBaseUrl}/get_inventory_by_store?store=${store}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           const data = await res.json();
@@ -53,7 +51,7 @@ const BossInventory = () => {
         setIngredients(allData);
       } else {
         const res = await fetch(
-          `${API_URL}/get_inventory_by_store?store=${storeName}`,
+          `${apiBaseUrl}/get_inventory_by_store?store=${storeName}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const data = await res.json();
@@ -123,10 +121,9 @@ const BossInventory = () => {
         </div>
 
         <div className="top-action-buttons">
-          {/* 只保留回首頁 */}
           <button
             className="btn-home"
-            onClick={() => (window.location.href = "http://localhost:3000/home")}
+            onClick={() => (window.location.href = "/home")}
           >
             回首頁
           </button>
@@ -179,7 +176,6 @@ const BossInventory = () => {
         </table>
       </div>
 
-      {/* 調貨彈窗 */}
       {transferOpen && (
         <TransferModal
           open={transferOpen}
@@ -188,8 +184,6 @@ const BossInventory = () => {
           onClose={() => setTransferOpen(false)}
           onSubmit={(payload) => {
             console.log("TODO 調貨送出 payload:", payload);
-            // 之後在這裡串後端 API，成功後可視需要重新載入當前分店庫存：
-            // fetchIngredients(selectedStore);
             setTransferOpen(false);
           }}
         />

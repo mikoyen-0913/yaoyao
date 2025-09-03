@@ -1,14 +1,13 @@
-// frontend/src/pages/BusinessStatus.js
+// src/pages/BusinessStatus.js
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import AddToInventoryModal from "../components/AddToInventoryModal";
-
 import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip,
   CartesianGrid, ResponsiveContainer, LabelList
 } from "recharts";
+import { apiBaseUrl } from "../settings"; // ✅ 改用環境變數
 
-const API_URL = "http://127.0.0.1:5000";
 const BAR_COLOR = "#2f8ac6";
 const LINE_COLOR = "#ff6666";
 
@@ -18,13 +17,12 @@ const BusinessStatus = () => {
   const [showRestockModal, setShowRestockModal] = useState(false);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [shortages, setShortages] = useState({});
-  const [expiringSoon, setExpiringSoon] = useState([]); // 即將到期 / 已過期
+  const [expiringSoon, setExpiringSoon] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
 
-  // 取得銷售資料
   const fetchSalesSummary = (days) => {
-    fetch(`${API_URL}/get_sales_summary?days=${days}`, {
+    fetch(`${apiBaseUrl}/get_sales_summary?days=${days}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -49,10 +47,9 @@ const BusinessStatus = () => {
     fetchSalesSummary(chart === "week" ? 7 : chart === "14days" ? 14 : 30);
   }, [chart, token]);
 
-  // 取得缺料 + 即將過期
   useEffect(() => {
     setLoading(true);
-    fetch(`${API_URL}/check_inventory`, {
+    fetch(`${apiBaseUrl}/check_inventory`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -82,9 +79,8 @@ const BusinessStatus = () => {
       });
   }, [token]);
 
-  // 取得已完成訂單
   useEffect(() => {
-    fetch(`${API_URL}/get_completed_orders`, {
+    fetch(`${apiBaseUrl}/get_completed_orders`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -92,13 +88,11 @@ const BusinessStatus = () => {
       .catch((err) => console.error("讀取已完成訂單失敗", err));
   }, [token]);
 
-  // 數量顯示格式
   const formatAmount = (n) => {
     const v = Math.round(Number(n || 0) * 10) / 10;
     return Number.isInteger(v) ? v.toString() : v.toFixed(1);
-  };
+    };
 
-  // 單位轉換（克/毫升 → 公斤/公升）
   const convertAmountAndUnit = (value, unit) => {
     let displayValue = Number(value || 0);
     let displayUnit = unit || "";
@@ -112,7 +106,6 @@ const BusinessStatus = () => {
     return { displayValue, displayUnit };
   };
 
-  // 補貨送出
   const handleRestockSubmit = async (restockData) => {
     try {
       const newShortages = { ...shortages };
@@ -120,7 +113,7 @@ const BusinessStatus = () => {
         const amount = Number(restockData[id].restock);
         if (amount <= 0) continue;
 
-        const response = await fetch(`${API_URL}/update_ingredient/${id}`, {
+        const response = await fetch(`${apiBaseUrl}/update_ingredient/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -150,7 +143,7 @@ const BusinessStatus = () => {
         <button className="go-home-button" onClick={() => (window.location.href = "/home")}>回首頁</button>
       </div>
 
-      {/* 🔴 缺料提醒 */}
+      {/* 缺料提醒 */}
       {loading ? (
         <div className="loading-spinner"></div>
       ) : Object.keys(shortages).length > 0 ? (
@@ -184,7 +177,7 @@ const BusinessStatus = () => {
         </div>
       )}
 
-      {/* 🟠 即將到期 / 已過期 提醒 */}
+      {/* 即將到期 / 已過期 */}
       {!loading && expiringSoon.length > 0 && (
         <div className="alert-box" style={{ backgroundColor: "#fff6e5", borderColor: "#f0ad4e", marginTop: "18px" }}>
           <strong className="alert-title" style={{ color: "#b36b00" }}>提醒！</strong>
@@ -213,7 +206,7 @@ const BusinessStatus = () => {
         </div>
       )}
 
-      {/* 📈 銷售圖表 */}
+      {/* 銷售圖表 */}
       <div className="status-section">
         <h2 className="section-title">查看營業狀態</h2>
         <div className="chart-container" style={{ width: "100%", height: 300 }}>
@@ -251,7 +244,7 @@ const BusinessStatus = () => {
         </div>
       </div>
 
-      {/* 🟢 今日營業總覽 */}
+      {/* 今日營業總覽 */}
       <div className="summary-section">
         <h2 className="section-title">今日營業總覽</h2>
         {(() => {
@@ -304,7 +297,7 @@ const BusinessStatus = () => {
         })()}
       </div>
 
-      {/* 🟣 今日已完成訂單 */}
+      {/* 今日已完成訂單 */}
       <div className="summary-section">
         <h2 className="section-title">今日已完成訂單</h2>
         {completedOrders.length === 0 ? (
@@ -350,11 +343,10 @@ const BusinessStatus = () => {
         )}
       </div>
 
-      {/* 🔘 補貨視窗 */}
+      {/* 補貨視窗 */}
       {showRestockModal && (
         <AddToInventoryModal
           shortages={shortages}
-          onSubmit={handleRestockSubmit}
           onClose={() => setShowRestockModal(false)}
         />
       )}

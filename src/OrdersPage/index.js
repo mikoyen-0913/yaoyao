@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "./index.css";
 import OrderForm from "../components/OrderForm";
 import "../style/components/OrderForm.css";
+import { apiBaseUrl } from "../settings"; // ✅ 改用環境變數
 
 const HOME_PATH = "/home";
-const API_URL = "http://127.0.0.1:5000";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
@@ -17,7 +17,7 @@ const OrdersPage = () => {
 
   const fetchOrders = useCallback(async () => {
     try {
-      const response = await fetch(`${API_URL}/get_orders`, {
+      const response = await fetch(`${apiBaseUrl}/get_orders`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -56,7 +56,7 @@ const OrdersPage = () => {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`${API_URL}/complete_order/${id}`, {
+      const response = await fetch(`${apiBaseUrl}/complete_order/${id}`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -72,7 +72,7 @@ const OrdersPage = () => {
   const handleCompleteFive = async () => {
     const idsToComplete = orders.slice(0, 5).map((order) => order.id);
     try {
-      const response = await fetch(`${API_URL}/complete_multiple_orders`, {
+      const response = await fetch(`${apiBaseUrl}/complete_multiple_orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const OrdersPage = () => {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`${API_URL}/delete_order/${id}`, {
+      const response = await fetch(`${apiBaseUrl}/delete_order/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -110,8 +110,8 @@ const OrdersPage = () => {
 
     try {
       const url = isEdit
-        ? `${API_URL}/update_order/${updatedOrder.id}`
-        : `${API_URL}/place_order`;
+        ? `${apiBaseUrl}/update_order/${updatedOrder.id}`
+        : `${apiBaseUrl}/place_order`;
 
       const method = isEdit ? "PUT" : "POST";
 

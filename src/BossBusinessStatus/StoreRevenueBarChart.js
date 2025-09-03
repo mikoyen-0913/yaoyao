@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, LabelList } from "recharts";
-
-const API_URL = "http://127.0.0.1:5000";
+import { apiBaseUrl } from "../settings"; // ✅ 改用環境變數
 
 const StoreRevenueBarChart = () => {
   const [data, setData] = useState([]);
@@ -16,7 +15,7 @@ const StoreRevenueBarChart = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`${API_URL}/get_store_revenue_rank?month=${month}`, {
+      const res = await axios.get(`${apiBaseUrl}/get_store_revenue_rank?month=${month}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setData(res.data);
@@ -27,7 +26,7 @@ const StoreRevenueBarChart = () => {
 
   useEffect(() => {
     fetchData();
-  }, [month]);
+  }, [month]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="chart-card">

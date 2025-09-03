@@ -1,9 +1,10 @@
+// src/components/AddToInventoryModal.js
 import React, { useState, useEffect } from "react";
 import "../style/components/AddToInventoryModal.css";
+import { apiBaseUrl } from "../settings"; // ✅
 
 const AddToInventoryModal = ({ onClose, shortages }) => {
   const [restockData, setRestockData] = useState({});
-  const API_URL = "http://127.0.0.1:5000";
 
   useEffect(() => {
     const suggestion = {};
@@ -21,15 +22,9 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
   }, [shortages]);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
-    };
+    const handleKeyDown = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
   const handleChange = (name, field, value) => {
@@ -37,23 +32,10 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
       let v = value === "" ? "" : parseInt(value, 10);
       if (Number.isNaN(v)) v = 0;
       if (v < 0) v = 0;
-      setRestockData((prev) => ({
-        ...prev,
-        [name]: {
-          ...prev[name],
-          restock: v,
-        },
-      }));
+      setRestockData((prev) => ({ ...prev, [name]: { ...prev[name], restock: v } }));
       return;
     }
-
-    setRestockData((prev) => ({
-      ...prev,
-      [name]: {
-        ...prev[name],
-        [field]: value,
-      },
-    }));
+    setRestockData((prev) => ({ ...prev, [name]: { ...prev[name], [field]: value } }));
   };
 
   const addSingleIngredient = async (name) => {
@@ -68,7 +50,7 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
     const qty = Math.round(Number(data.restock || 0));
 
     try {
-      const response = await fetch(`${API_URL}/add_ingredient`, {
+      const response = await fetch(`${apiBaseUrl}/add_ingredient`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +92,7 @@ const AddToInventoryModal = ({ onClose, shortages }) => {
 
         const qty = Math.round(Number(item.restock || 0));
 
-        await fetch(`${API_URL}/add_ingredient`, {
+        await fetch(`${apiBaseUrl}/add_ingredient`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

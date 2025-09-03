@@ -8,8 +8,7 @@ import {
 import "./index.css";
 import StoreRevenueBarChart from "./StoreRevenueBarChart";
 import StoreLocationMap from "./StoreLocationMap";
-
-const API_URL = "http://127.0.0.1:5000";
+import { apiBaseUrl } from "../settings"; // ✅ 改用環境變數
 
 const FLAVOR_COLORS = {
   "OREO鮮奶油": "#A28EFF",
@@ -72,7 +71,7 @@ const BossBusinessStatus = () => {
   const token = localStorage.getItem("token");
 
   const fetchRevenue = async () => {
-    let url = `${API_URL}/get_all_store_revenue?range=${range}`;
+    let url = `${apiBaseUrl}/get_all_store_revenue?range=${range}`;
     if (range === "month") url += `&month=${selectedDate}`;
     if (range === "year") url += `&year=${selectedYear}`;
 
@@ -98,7 +97,7 @@ const BossBusinessStatus = () => {
 
   const fetchFlavorSales = async () => {
     try {
-      const res = await axios.get(`${API_URL}/get_store_flavor_sales?month=${flavorMonth}`, {
+      const res = await axios.get(`${apiBaseUrl}/get_store_flavor_sales?month=${flavorMonth}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPieData(res.data);
@@ -109,7 +108,7 @@ const BossBusinessStatus = () => {
 
   const fetchSummary = async () => {
     try {
-      const res = await axios.get(`${API_URL}/get_summary_this_month`, {
+      const res = await axios.get(`${apiBaseUrl}/get_summary_this_month`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setSummary(res.data);
@@ -121,7 +120,7 @@ const BossBusinessStatus = () => {
   // 依照 topMonth 取得排行榜資料（與圓餅圖分開）
   const fetchTopFlavors = async () => {
     try {
-      const res = await axios.get(`${API_URL}/get_top_flavors?month=${topMonth}`, {
+      const res = await axios.get(`${apiBaseUrl}/get_top_flavors?month=${topMonth}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setTopFlavors(res.data);
@@ -146,7 +145,7 @@ const BossBusinessStatus = () => {
   useEffect(() => {
     const fetchStoreRevenueRank = async () => {
       try {
-        const res = await axios.get(`${API_URL}/get_store_revenue_rank?month=${revenueMonth}`, {
+        const res = await axios.get(`${apiBaseUrl}/get_store_revenue_rank?month=${revenueMonth}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setStoreRevenueRank(res.data);
@@ -160,7 +159,7 @@ const BossBusinessStatus = () => {
   // 地圖分店座標
   const fetchStoreLocations = async () => {
     try {
-      const res = await axios.get(`${API_URL}/get_store_locations`, {
+      const res = await axios.get(`${apiBaseUrl}/get_store_locations`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStoreData(res.data);

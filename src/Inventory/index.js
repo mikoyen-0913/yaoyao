@@ -1,207 +1,384 @@
-import React, { useState, useEffect } from "react";
-import "./index.css";
-import AddInventory from "../components/AddInventory";
-import EditInventory from "../components/EditInventory";
+// src/pages/Inventory/index.js  （依你的實際路徑命名）
+// 完整覆蓋版：改用 apiBaseUrl、一鍵切換 dev/prod API
 
-const API_HOST = window.location.hostname; // 可能是 "localhost" 或 "127.0.0.1"
-const API_URL = `http://${API_HOST}:5000`;
-const Inventory = () => {
-  const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
-  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
-  const [editData, setEditData] = useState(null);
-  const [inventory, setInventory] = useState([]);
+import React, { useEffect, useMemo, useState } from "react";
+import "./index.css";
+import { apiBaseUrl } from "../settings"; // ✅ 改用環境變數
+// 如果你的 settings.js 在 src/ 直下，且此檔在 src/pages/Inventory/，相對路徑應是 ../../settings
+
+const InventoryPage = () => {
+  const [ingredients, setIngredients] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [keyword, setKeyword] = useState("");
+  const [editing, setEditing] = useState(null); // { id, name, quantity, unit, expiration_date, price? }
+  const [creating, setCreating] = useState({ name: "", quantity: "", unit: "克", expiration_date: "", price: "" });
+
+  const token = useMemo(() => localStorage.getItem("token"), []);
+
+  const authHeader = useMemo(
+    () => ({ Authorization: `Bearer ${token}` }),
+    [token]
+  );
 
   const fetchIngredients = async () => {
     try {
-      const response = await fetch(`${API_URL}/get_ingredients`, {
-        headers: {
-          "Authorization": `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      if (!response.ok) throw new Error("無法獲取資料");
-      const data = await response.json();
-      setInventory(data.ingredients);
-    } catch (error) {
-      console.error("取得食材失敗:", error);
+      setLoading(true);
+      setError("");
+      const res = await fetch(`${apiBaseUrl}/get_ingredients`, { headers: authHeader });
+      if (!res.ok) throw new Error(`取得庫存失敗 (${res.status})`);
+      const data = await res.json();
+      setIngredients(Array.isArray(data.ingredients) ? data.ingredients : []);
+    } catch (e) {
+      console.error(e);
+      setError(e.message || "讀取庫存失敗");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchIngredients();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleAddItem = async (newItem) => {
+  const resetCreate = () => setCreating({ name: "", quantity: "", unit: "克", expiration_date: "", price: "" });
+
+  const handleCreate = async () => {
+    if (!creating.name || !creating.quantity || !creating.expiration_date) {
+      alert("請輸入品名、數量與有效期限");
+      return;
+    }
     try {
-      const response = await fetch(`${API_URL}/add_ingredient`, {
+      setBusy(true);
+      setError("");
+      const body = {
+        name: creating.name,
+        quantity: Number(creating.quantity),
+        unit: creating.unit || "克",
+        expiration_date: creating.expiration_date,
+        price: Number(creating.price || 0),
+      };
+      const res = await fetch(`${apiBaseUrl}/add_ingredient`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(newItem),
+        headers: { "Content-Type": "application/json", ...authHeader },
+        body: JSON.stringify(body),
       });
-      if (!response.ok) throw new Error("新增食材失敗");
-      fetchIngredients();
-      setIsAddPopupOpen(false);
-    } catch (error) {
-      console.error(error);
+      if (!res.ok) throw new Error(`新增失敗 (${res.status})`);
+      await fetchIngredients();
+      resetCreate();
+      alert("新增成功");
+    } catch (e) {
+      console.error(e);
+      setError(e.message || "新增失敗");
+    } finally {
+      setBusy(false);
     }
   };
 
-  const handleEditItem = (ingredient) => {
-    setEditData(ingredient);
-    setIsEditPopupOpen(true);
-  };
-
- const handleUpdateItem = async (updatedItem) => {
-  try {
-    // 僅挑允許欄位；日期欄位統一成 expiration_date
-    const payload = {
-      ...(updatedItem.name != null && { name: updatedItem.name }),
-      ...(updatedItem.quantity != null && { quantity: Number(updatedItem.quantity) }),
-      ...(updatedItem.unit != null && { unit: updatedItem.unit }),
-      ...(updatedItem.price != null && { price: Number(updatedItem.price) }),
-      ...(updatedItem.expiration_date != null && { expiration_date: updatedItem.expiration_date }),
-      // 有些編輯表單會用 expiry_date，這裡順手對齊
-      ...(updatedItem.expiry_date != null && { expiration_date: updatedItem.expiry_date }),
-    };
-
-    const res = await fetch(`${API_URL}/update_ingredient/${updatedItem.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem('token')}`
-      },
-      body: JSON.stringify(payload),
+  const startEdit = (item) => {
+    setEditing({
+      id: item.id,
+      name: item.name,
+      quantity: item.quantity,
+      unit: item.unit || "克",
+      expiration_date: item.expiration_date || "",
+      price: item.price || 0,
     });
+  };
 
-    // 額外把錯誤訊息印出來，方便你在 DevTools 看到後端回傳
-    const text = await res.text();
-    if (!res.ok) {
-      console.error("更新失敗 Response:", res.status, text);
-      throw new Error(`更新食材失敗（${res.status}）`);
+  const cancelEdit = () => setEditing(null);
+
+  const handleUpdate = async () => {
+    if (!editing) return;
+    if (!editing.name || editing.quantity === "" || !editing.id) {
+      alert("請完整填寫品名與數量");
+      return;
     }
-
-    // 成功就重抓清單並關閉彈窗
-    await fetchIngredients();
-    setIsEditPopupOpen(false);
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
-};
-
-  const handleDeleteItem = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/delete_ingredient/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Authorization": `Bearer ${localStorage.getItem('token')}`
-        }
+      setBusy(true);
+      setError("");
+      const body = {
+        name: editing.name,
+        quantity: Number(editing.quantity),
+        unit: editing.unit || "克",
+        expiration_date: editing.expiration_date || null,
+        price: Number(editing.price || 0),
+      };
+      const res = await fetch(`${apiBaseUrl}/update_ingredient/${editing.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", ...authHeader },
+        body: JSON.stringify(body),
       });
-      if (!response.ok) throw new Error("刪除食材失敗");
-      fetchIngredients();
-    } catch (error) {
-      console.error(error);
+      if (!res.ok) throw new Error(`更新失敗 (${res.status})`);
+      await fetchIngredients();
+      setEditing(null);
+      alert("更新成功");
+    } catch (e) {
+      console.error(e);
+      setError(e.message || "更新失敗");
+    } finally {
+      setBusy(false);
     }
   };
 
-  const handleRefreshInventory = async () => {
+  const handleDelete = async (id, name) => {
+    if (!window.confirm(`確定刪除「${name}」？`)) return;
     try {
-      const response = await fetch(`${API_URL}/refresh_inventory_by_sales`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${localStorage.getItem('token')}`
-        }
+      setBusy(true);
+      setError("");
+      const res = await fetch(`${apiBaseUrl}/delete_ingredient/${id}`, {
+        method: "DELETE",
+        headers: authHeader,
       });
-      const result = await response.json();
-      if (response.ok) {
-        alert("✅ 即時庫存已更新");
-        fetchIngredients();
-      } else {
-        alert("❌ 更新失敗：" + result.error);
-      }
-    } catch (error) {
-      console.error("更新庫存失敗:", error);
-      alert("❌ 發生錯誤：" + error.message);
+      if (!res.ok) throw new Error(`刪除失敗 (${res.status})`);
+      await fetchIngredients();
+      alert("刪除成功");
+    } catch (e) {
+      console.error(e);
+      setError(e.message || "刪除失敗");
+    } finally {
+      setBusy(false);
     }
+  };
+
+  // 依據銷售紀錄刷新庫存（後端會計算並回寫）
+  const refreshBySales = async () => {
+    if (!window.confirm("根據銷售紀錄刷新庫存？")) return;
+    try {
+      setBusy(true);
+      setError("");
+      const res = await fetch(`${apiBaseUrl}/refresh_inventory_by_sales`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeader },
+      });
+      if (!res.ok) throw new Error(`刷新失敗 (${res.status})`);
+      await fetchIngredients();
+      alert("已刷新庫存");
+    } catch (e) {
+      console.error(e);
+      setError(e.message || "刷新庫存失敗");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const filtered = useMemo(() => {
+    if (!keyword) return ingredients;
+    const k = keyword.trim();
+    if (!k) return ingredients;
+    // 同時支援「空白分隔多關鍵字」與全形空白
+    const keys = k.replace(/\u3000/g, " ").split(/\s+/).filter(Boolean);
+    return ingredients.filter((it) =>
+      keys.every((kk) => `${it.name}`.toLowerCase().includes(kk.toLowerCase()))
+    );
+  }, [ingredients, keyword]);
+
+  const fmt = (n, digits = 0) => {
+    const v = Number(n || 0);
+    return v.toLocaleString("zh-TW", { minimumFractionDigits: digits, maximumFractionDigits: digits });
   };
 
   return (
     <div className="inventory-container">
-      <div className="inventory-header">
-        <div>
-          <h1>庫存管理</h1>
-          <div className="action-buttons top-action-buttons">
-            <button onClick={() => setIsAddPopupOpen(true)} className="add-button">
-              新增食材
-            </button>
-            <button onClick={handleRefreshInventory} className="refresh-button">
-              更新庫存數據
-            </button>
-          </div>
-        </div>
-
-        <button className="home-button" onClick={() => window.location.href = 'http://localhost:3000/home'}>
+      <div className="top-right-button">
+        <button className="go-home-button" onClick={() => (window.location.href = "/home")}>
           回首頁
         </button>
       </div>
 
-      <div className="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th className="col-name">品項</th>
-              <th className="col-qty">庫存數量</th>
-              <th className="col-unit">單位</th>
-              <th className="col-date">保存期限</th>
-              <th className="col-actions">操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            {inventory.map((item) => (
-              <tr key={item.id}>
-                <td>{item.name}</td>
-                <td>{parseFloat(item.quantity).toFixed(2)}</td>
-                <td>{item.unit}</td>
-                <td>{item.expiration_date ? item.expiration_date.slice(0, 10) : "—"}</td>
-                <td className="col-actions">
-                  <div className="action-buttons">
-                    <button onClick={() => handleEditItem(item)} className="edit-button">編輯</button>
-                    <button
-                      onClick={() => {
-                        if (window.confirm("您確定要刪除這筆資料嗎？")) {
-                          handleDeleteItem(item.id);
-                        }
-                      }}
-                      className="delete-button"
-                    >
-                      刪除
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <h1 className="page-title">庫存管理</h1>
+
+      <div className="toolbar">
+        <input
+          className="search-input"
+          placeholder="搜尋品名…"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+        <button className="nav-button" onClick={refreshBySales} disabled={busy}>
+          根據銷售刷新庫存
+        </button>
+        <button className="nav-button" onClick={fetchIngredients} disabled={busy}>
+          重新整理
+        </button>
       </div>
 
-      {isAddPopupOpen && (
-        <AddInventory
-          onClose={() => setIsAddPopupOpen(false)}
-          onSave={handleAddItem}
-        />
+      {error && (
+        <div className="alert-box" style={{ backgroundColor: "#fff0f0", borderColor: "#e57373", marginBottom: 12 }}>
+          <strong style={{ color: "#c62828" }}>錯誤</strong>
+          <div style={{ marginTop: 6 }}>{error}</div>
+        </div>
       )}
 
-      {isEditPopupOpen && (
-        <EditInventory
-          onClose={() => setIsEditPopupOpen(false)}
-          onSave={handleUpdateItem}
-          data={editData}
-        />
+      {/* 新增區塊 */}
+      <div className="card">
+        <h2 className="section-title">新增原料</h2>
+        <div className="form-grid">
+          <label>品名</label>
+          <input
+            value={creating.name}
+            onChange={(e) => setCreating((p) => ({ ...p, name: e.target.value }))}
+            placeholder="例如：鮮奶油"
+          />
+
+          <label>數量</label>
+          <input
+            type="number"
+            min="0"
+            step="1"
+            value={creating.quantity}
+            onChange={(e) => setCreating((p) => ({ ...p, quantity: e.target.value }))}
+          />
+
+          <label>單位</label>
+          <select
+            value={creating.unit}
+            onChange={(e) => setCreating((p) => ({ ...p, unit: e.target.value }))}
+          >
+            <option value="克">克</option>
+            <option value="公斤">公斤</option>
+            <option value="毫升">毫升</option>
+            <option value="公升">公升</option>
+            <option value="顆">顆</option>
+            <option value="份">份</option>
+          </select>
+
+          <label>有效期限</label>
+          <input
+            type="date"
+            value={creating.expiration_date}
+            onChange={(e) => setCreating((p) => ({ ...p, expiration_date: e.target.value }))}
+          />
+
+          <label>價格（可選）</label>
+          <input
+            type="number"
+            min="0"
+            step="1"
+            value={creating.price}
+            onChange={(e) => setCreating((p) => ({ ...p, price: e.target.value }))}
+            placeholder="0"
+          />
+        </div>
+
+        <div className="button-group">
+          <button className="primary-button" onClick={handleCreate} disabled={busy}>新增</button>
+          <button className="secondary-button" onClick={resetCreate} disabled={busy}>清空</button>
+        </div>
+      </div>
+
+      {/* 列表 */}
+      <div className="card">
+        <h2 className="section-title">原料清單</h2>
+
+        {loading ? (
+          <div className="loading-spinner" />
+        ) : filtered.length === 0 ? (
+          <div style={{ padding: 12, color: "#666" }}>沒有符合的資料。</div>
+        ) : (
+          <div className="table-wrap">
+            <table className="inventory-table">
+              <thead>
+                <tr>
+                  <th>品名</th>
+                  <th>數量</th>
+                  <th>單位</th>
+                  <th>效期</th>
+                  <th>價格</th>
+                  <th style={{ width: 160 }}>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((it) => (
+                  <tr key={it.id}>
+                    <td>{it.name}</td>
+                    <td>{fmt(it.quantity)}</td>
+                    <td>{it.unit || "—"}</td>
+                    <td>{it.expiration_date || "—"}</td>
+                    <td>{it.price != null ? `$${fmt(it.price)}` : "—"}</td>
+                    <td>
+                      <div className="row-actions">
+                        <button className="table-button" onClick={() => startEdit(it)} disabled={busy}>編輯</button>
+                        <button
+                          className="table-button danger"
+                          onClick={() => handleDelete(it.id, it.name)}
+                          disabled={busy}
+                        >
+                          刪除
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* 編輯彈窗 */}
+      {editing && (
+        <div className="modal-overlay">
+          <div className="modal-window">
+            <h3 className="modal-title">編輯原料</h3>
+
+            <div className="form-grid">
+              <label>品名</label>
+              <input
+                value={editing.name}
+                onChange={(e) => setEditing((p) => ({ ...p, name: e.target.value }))}
+              />
+
+              <label>數量</label>
+              <input
+                type="number"
+                min="0"
+                step="1"
+                value={editing.quantity}
+                onChange={(e) => setEditing((p) => ({ ...p, quantity: e.target.value }))}
+              />
+
+              <label>單位</label>
+              <select
+                value={editing.unit}
+                onChange={(e) => setEditing((p) => ({ ...p, unit: e.target.value }))}
+              >
+                <option value="克">克</option>
+                <option value="公斤">公斤</option>
+                <option value="毫升">毫升</option>
+                <option value="公升">公升</option>
+                <option value="顆">顆</option>
+                <option value="份">份</option>
+              </select>
+
+              <label>有效期限</label>
+              <input
+                type="date"
+                value={editing.expiration_date || ""}
+                onChange={(e) => setEditing((p) => ({ ...p, expiration_date: e.target.value }))}
+              />
+
+              <label>價格（可選）</label>
+              <input
+                type="number"
+                min="0"
+                step="1"
+                value={editing.price}
+                onChange={(e) => setEditing((p) => ({ ...p, price: e.target.value }))}
+              />
+            </div>
+
+            <div className="modal-buttons">
+              <button className="cancel-button" onClick={cancelEdit} disabled={busy}>取消</button>
+              <button className="confirm-button" onClick={handleUpdate} disabled={busy}>儲存</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
 };
 
-export default Inventory;
+export default InventoryPage;
