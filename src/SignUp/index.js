@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.css';
+import { apiBaseUrl } from '../settings'; // ✅ 改用環境變數
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ const SignUp = () => {
 
     const handleSignUp = () => {
         setError('');
-        fetch('http://localhost:5000/signup', {
+        fetch(`${apiBaseUrl}/signup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

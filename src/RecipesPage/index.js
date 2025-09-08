@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
+import { apiBaseUrl } from "../settings"; // ✅ 改用環境變數
 
-const API_URL = "http://127.0.0.1:5000";
 const HOME_PATH = "/home";
 
 const RecipesPage = () => {
@@ -31,7 +31,7 @@ const RecipesPage = () => {
     if (!confirmed) return;
 
     try {
-      await fetch(`${API_URL}/recipes/${name}`, {
+      await fetch(`${apiBaseUrl}/recipes/${name}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ const RecipesPage = () => {
 
   const fetchRecipes = async () => {
     try {
-      const response = await fetch(`${API_URL}/recipes`, {
+      const response = await fetch(`${apiBaseUrl}/recipes`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -83,7 +83,7 @@ const RecipesPage = () => {
         ingredients,
       };
 
-      const response = await fetch(`${API_URL}/recipes`, {
+      const response = await fetch(`${apiBaseUrl}/recipes`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -210,7 +210,6 @@ const RecipesPage = () => {
                 新增食材
               </button>
             </div>
-
 
             <div className="recipe-edit-buttons">
               <button className="recipe-cancel-btn" onClick={() => setEditingRecipe(false)}>

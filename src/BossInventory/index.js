@@ -1,10 +1,7 @@
-// C:\Users\s8102\yaoyao\src\BossInventory\index.js — BossInventory
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import TransferModal from "./TransferModal";
-
-const API_HOST = window.location.hostname; // 本機為 localhost
-const API_URL = `http://${API_HOST}:5000`;
+import { apiBaseUrl } from "../settings"; // 由設定檔控制 API
 
 const BossInventory = () => {
   const [storeList, setStoreList] = useState([]);
@@ -18,62 +15,60 @@ const BossInventory = () => {
   // 取得我的分店清單
   const fetchStores = async () => {
     try {
-      const res = await fetch(`${API_URL}/get_my_stores`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const res = await fetch(`${apiBaseUrl}/get_my_stores`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
       const data = await res.json();
       if (Array.isArray(data.stores)) {
         setStoreList(data.stores);
         if (data.stores.length > 0) setSelectedStore("ALL");
+      } else {
+        setStoreList([]);
       }
     } catch (err) {
       console.error("載入分店失敗", err);
+      setStoreList([]);
     }
   };
 
-  // 依分店載入庫存（ALL 表示載入所有分店並合併）
+  // 依分店載入庫存（ALL：載入所有分店並合併）
   const fetchIngredients = async (storeName) => {
     try {
       if (!storeName) return;
+
       if (storeName === "ALL") {
-        let allData = [];
-        for (const store of storeList) {
-          const res = await fetch(
-            `${API_URL}/get_inventory_by_store?store=${encodeURIComponent(
-              store
-            )}`,
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          const data = await res.json();
-          if (data.inventory) {
-            const storeItems = data.inventory.map((item) => ({
-              ...item,
-              store,
-            }));
-            allData = allData.concat(storeItems);
-          }
+        if (!Array.isArray(storeList) || storeList.length === 0) {
+          setIngredients([]);
+          return;
         }
-        setIngredients(allData);
+
+        // 並行抓資料，比逐店 await 快
+        const tasks = storeList.map((store) =>
+          fetch(`${apiBaseUrl}/get_inventory_by_store?store=${encodeURIComponent(store)}`, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+          })
+            .then((r) => r.json())
+            .then((data) => {
+              const rows = Array.isArray(data?.inventory) ? data.inventory : [];
+              return rows.map((item) => ({ ...item, store }));
+            })
+            .catch(() => [])
+        );
+
+        const results = await Promise.all(tasks);
+        setIngredients(results.flat());
       } else {
         const res = await fetch(
-          `${API_URL}/get_inventory_by_store?store=${encodeURIComponent(
-            storeName
-          )}`,
-          { headers: { Authorization: `Bearer ${token}` } }
+          `${apiBaseUrl}/get_inventory_by_store?store=${encodeURIComponent(storeName)}`,
+          { headers: token ? { Authorization: `Bearer ${token}` } : {} }
         );
         const data = await res.json();
-        if (data.inventory) {
-          const storeItems = data.inventory.map((item) => ({
-            ...item,
-            store: storeName,
-          }));
-          setIngredients(storeItems);
-        } else {
-          setIngredients([]);
-        }
+        const rows = Array.isArray(data?.inventory) ? data.inventory : [];
+        setIngredients(rows.map((item) => ({ ...item, store: storeName })));
       }
     } catch (err) {
       console.error("取得庫存失敗", err);
+      setIngredients([]);
     }
   };
 
@@ -88,16 +83,20 @@ const BossInventory = () => {
   }, [selectedStore, storeList.length]);
 
   const filteredIngredients = ingredients.filter((item) =>
-    (item.name || "").toString().toLowerCase().includes(searchKeyword.toLowerCase())
+    (item?.name ?? "").toString().toLowerCase().includes(searchKeyword.toLowerCase())
   );
 
   const formatDate = (val) => {
     if (!val) return "—";
     if (typeof val === "string") return val.slice(0, 10);
-    // Firestore Timestamp 物件
     if (val && typeof val === "object" && "seconds" in val)
       return new Date(val.seconds * 1000).toISOString().slice(0, 10);
     return "—";
+    };
+
+  const formatQty = (q) => {
+    const num = Number(q);
+    return Number.isFinite(num) ? num.toFixed(2) : "—";
   };
 
   return (
@@ -136,7 +135,7 @@ const BossInventory = () => {
         <div className="top-action-buttons">
           <button
             className="btn-home"
-            onClick={() => (window.location.href = "http://localhost:3000/home")}
+            onClick={() => (window.location.href = "/home")}
           >
             回首頁
           </button>
@@ -166,7 +165,7 @@ const BossInventory = () => {
                 <tr key={`${item.id || item.name}-${index}`} className={rowClass}>
                   {selectedStore === "ALL" && <td>{item.store}</td>}
                   <td>{item.name}</td>
-                  <td>{parseFloat(item.quantity).toFixed(2)}</td>
+                  <td>{formatQty(item.quantity)}</td>
                   <td>{item.unit}</td>
                   <td>{formatDate(item.expiration_date)}</td>
                   <td className="col-actions">
@@ -187,7 +186,6 @@ const BossInventory = () => {
         </table>
       </div>
 
-      {/* 調貨彈窗（內部會自己呼叫 /superadmin/transfer） */}
       {transferOpen && (
         <TransferModal
           open={transferOpen}
@@ -197,11 +195,14 @@ const BossInventory = () => {
             setTransferOpen(false);
             setTransferItem(null);
           }}
-          onSubmit={() => {
-            // 調貨成功回呼：關閉並刷新目前檢視
+          onSubmit={async (payload) => {
+            // 這裡接你的調貨 API，如果尚未實作就先關閉並刷新
+            // 例：
+            // await fetch(`${apiBaseUrl}/superadmin/transfer`, { method: 'POST', headers: {...}, body: JSON.stringify(payload) })
+            console.log("調貨 payload:", payload);
             setTransferOpen(false);
             setTransferItem(null);
-            fetchIngredients(selectedStore);
+            await fetchIngredients(selectedStore);
           }}
         />
       )}

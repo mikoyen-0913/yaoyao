@@ -1,14 +1,13 @@
-// BusinessStatus.js
+// src/pages/BusinessStatus.js
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import AddToInventoryModal from "../components/AddToInventoryModal";
-
 import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip,
   CartesianGrid, ResponsiveContainer, LabelList
-} from 'recharts';
+} from "recharts";
+import { apiBaseUrl } from "../settings"; // ✅ 改用環境變數
 
-const API_URL = "http://127.0.0.1:5000";
 const BAR_COLOR = "#2f8ac6";
 const LINE_COLOR = "#ff6666";
 
@@ -18,12 +17,12 @@ const BusinessStatus = () => {
   const [showRestockModal, setShowRestockModal] = useState(false);
   const [completedOrders, setCompletedOrders] = useState([]);
   const [shortages, setShortages] = useState({});
+  const [expiringSoon, setExpiringSoon] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
 
-  // 取得銷售資料
   const fetchSalesSummary = (days) => {
-    fetch(`${API_URL}/get_sales_summary?days=${days}`, {
+    fetch(`${apiBaseUrl}/get_sales_summary?days=${days}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -48,10 +47,9 @@ const BusinessStatus = () => {
     fetchSalesSummary(chart === "week" ? 7 : chart === "14days" ? 14 : 30);
   }, [chart, token]);
 
-  // 取得缺料
   useEffect(() => {
     setLoading(true);
-    fetch(`${API_URL}/check_inventory`, {
+    fetch(`${apiBaseUrl}/check_inventory`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -63,22 +61,26 @@ const BusinessStatus = () => {
         const shortagesObj = data.shortage_report || {};
         const filtered = {};
         Object.entries(shortagesObj).forEach(([key, value]) => {
-          if (value.status === "缺料") {
-            filtered[key] = value;
-          }
+          if (value.status === "缺料") filtered[key] = value;
         });
         setShortages(filtered);
+
+        const soon = (data.expiring_soon && Array.isArray(data.expiring_soon.items))
+          ? data.expiring_soon.items
+          : [];
+        soon.sort((a, b) => Number(a.days_left) - Number(b.days_left) || a.ingredient.localeCompare(b.ingredient));
+        setExpiringSoon(soon);
+
         setLoading(false);
       })
       .catch((err) => {
-        console.error("取得缺料資訊失敗", err);
+        console.error("取得缺料/即將過期資訊失敗", err);
         setLoading(false);
       });
   }, [token]);
 
-  // 取得已完成訂單
   useEffect(() => {
-    fetch(`${API_URL}/get_completed_orders`, {
+    fetch(`${apiBaseUrl}/get_completed_orders`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -86,13 +88,24 @@ const BusinessStatus = () => {
       .catch((err) => console.error("讀取已完成訂單失敗", err));
   }, [token]);
 
-  // 數量顯示格式：移除無意義 .0，最多一位小數
   const formatAmount = (n) => {
     const v = Math.round(Number(n || 0) * 10) / 10;
     return Number.isInteger(v) ? v.toString() : v.toFixed(1);
+    };
+
+  const convertAmountAndUnit = (value, unit) => {
+    let displayValue = Number(value || 0);
+    let displayUnit = unit || "";
+    if (displayUnit === "克" && displayValue >= 1000) {
+      displayValue = displayValue / 1000;
+      displayUnit = "公斤";
+    } else if (displayUnit === "毫升" && displayValue >= 1000) {
+      displayValue = displayValue / 1000;
+      displayUnit = "公升";
+    }
+    return { displayValue, displayUnit };
   };
 
-  // 補貨送出
   const handleRestockSubmit = async (restockData) => {
     try {
       const newShortages = { ...shortages };
@@ -100,7 +113,7 @@ const BusinessStatus = () => {
         const amount = Number(restockData[id].restock);
         if (amount <= 0) continue;
 
-        const response = await fetch(`${API_URL}/update_ingredient/${id}`, {
+        const response = await fetch(`${apiBaseUrl}/update_ingredient/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -111,13 +124,9 @@ const BusinessStatus = () => {
           }),
         });
 
-        if (response.ok) {
-          delete newShortages[id];
-        } else {
-          console.error(`更新 ${restockData[id].name} 失敗`);
-        }
+        if (response.ok) delete newShortages[id];
+        else console.error(`更新 ${restockData[id].name} 失敗`);
       }
-
       setShortages(newShortages);
       alert("庫存已更新！");
     } catch (err) {
@@ -131,38 +140,23 @@ const BusinessStatus = () => {
   return (
     <div className="homepage-container">
       <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "30px", marginRight: "50px" }}>
-        <button className="go-home-button" onClick={() => window.location.href = "/home"}>回首頁</button>
+        <button className="go-home-button" onClick={() => (window.location.href = "/home")}>回首頁</button>
       </div>
 
-      {/* 🔴 缺料提醒 */}
+      {/* 缺料提醒 */}
       {loading ? (
         <div className="loading-spinner"></div>
       ) : Object.keys(shortages).length > 0 ? (
         <div className="alert-box">
           <strong className="alert-title">提醒！</strong>
-          {/* ✅ 新增副標題（統一說明一次） */}
           <p className="alert-subtitle">以下食材庫存告急！請盡速叫貨!</p>
-
           <ul className="alert-list">
             {Object.entries(shortages).map(([name, detail]) => {
               const value = Number(detail.shortage || 0);
-              const originalUnit = detail.unit || "";
-              let displayValue = value;
-              let displayUnit = originalUnit;
-
-              // 簡單單位轉換
-              if (originalUnit === "克" && value >= 1000) {
-                displayValue = value / 1000;
-                displayUnit = "公斤";
-              } else if (originalUnit === "毫升" && value >= 1000) {
-                displayValue = value / 1000;
-                displayUnit = "公升";
-              }
-
+              const { displayValue, displayUnit } = convertAmountAndUnit(value, detail.unit || "");
               return (
                 <li key={name} className="alert-item">
                   <span className="item-name">{name}</span>
-                  {/* 移除每個品項的重複訊息，僅保留「名稱 + 數量 + 單位」 */}
                   <span className="item-amt">
                     <b className="amt">{formatAmount(displayValue)}</b>
                     <span className="unit">{displayUnit}</span>
@@ -171,7 +165,6 @@ const BusinessStatus = () => {
               );
             })}
           </ul>
-
           <div className="alert-button-container">
             <button className="nav-button" onClick={() => setShowRestockModal(true)}>
               已叫貨，幫我新增到庫存
@@ -184,7 +177,36 @@ const BusinessStatus = () => {
         </div>
       )}
 
-      {/* 📈 銷售圖表 */}
+      {/* 即將到期 / 已過期 */}
+      {!loading && expiringSoon.length > 0 && (
+        <div className="alert-box" style={{ backgroundColor: "#fff6e5", borderColor: "#f0ad4e", marginTop: "18px" }}>
+          <strong className="alert-title" style={{ color: "#b36b00" }}>提醒！</strong>
+          <p className="alert-subtitle">以下食材即將到期 / 已過期，請盡速使用或下架！</p>
+          <ul className="alert-list">
+            {expiringSoon.map((item, idx) => {
+              const { displayValue, displayUnit } = convertAmountAndUnit(item.available, item.unit || "");
+              const isExpired = Number(item.days_left) < 0;
+              const days = Math.abs(Number(item.days_left));
+              return (
+                <li key={`${item.ingredient}-${idx}`} className="alert-item">
+                  <span className="item-name">
+                    {item.ingredient}
+                    <span style={{ fontSize: 14, color: isExpired ? "#b22222" : "#b36b00", marginLeft: 8 }}>
+                      {isExpired ? `（已過期 ${days} 天）` : `（${days} 天後到期）`}
+                    </span>
+                  </span>
+                  <span className="item-amt">
+                    <b className="amt">{formatAmount(displayValue)}</b>
+                    <span className="unit">{displayUnit}</span>
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+
+      {/* 銷售圖表 */}
       <div className="status-section">
         <h2 className="section-title">查看營業狀態</h2>
         <div className="chart-container" style={{ width: "100%", height: 300 }}>
@@ -196,14 +218,12 @@ const BusinessStatus = () => {
               <Tooltip
                 content={({ active, payload, label }) => {
                   if (active && payload && payload.length) {
-                    const barData = payload.find(item =>
-                      item.dataKey === "total" && item.color === BAR_COLOR
-                    );
+                    const barData = payload.find((item) => item.dataKey === "total" && item.color === "#2f8ac6");
                     if (!barData) return null;
                     return (
                       <div style={{ background: "#fff", border: "1px solid #ccc", padding: 10 }}>
                         <p>{label}</p>
-                        <p style={{ color: BAR_COLOR }}>total：${barData.value}</p>
+                        <p style={{ color: "#2f8ac6" }}>total：${barData.value}</p>
                       </div>
                     );
                   }
@@ -224,7 +244,7 @@ const BusinessStatus = () => {
         </div>
       </div>
 
-      {/* 🟢 今日營業總覽 */}
+      {/* 今日營業總覽 */}
       <div className="summary-section">
         <h2 className="section-title">今日營業總覽</h2>
         {(() => {
@@ -232,26 +252,18 @@ const BusinessStatus = () => {
           let totalAmount = 0;
 
           completedOrders.forEach((order) => {
-            const completeDate = new Date(order.completed_at);
-            const today = new Date();
-            const isToday =
-              completeDate.getFullYear() === today.getFullYear() &&
-              completeDate.getMonth() === today.getMonth() &&
-              completeDate.getDate() === today.getDate();
-
+            const d = new Date(order.completed_at);
+            const t = new Date();
+            const isToday = d.getFullYear() === t.getFullYear() && d.getMonth() === t.getMonth() && d.getDate() === t.getDate();
             if (!isToday) return;
 
             totalAmount += order.total_price;
-
             order.items.forEach((item) => {
               const name = item.menu_name;
               const quantity = item.quantity;
               const unit_price = item.unit_price || 0;
 
-              if (!salesByFlavor[name]) {
-                salesByFlavor[name] = { quantity: 0, total: 0 };
-              }
-
+              if (!salesByFlavor[name]) salesByFlavor[name] = { quantity: 0, total: 0 };
               salesByFlavor[name].quantity += quantity;
               salesByFlavor[name].total += unit_price * quantity;
             });
@@ -285,7 +297,7 @@ const BusinessStatus = () => {
         })()}
       </div>
 
-      {/* 🟣 今日已完成訂單 */}
+      {/* 今日已完成訂單 */}
       <div className="summary-section">
         <h2 className="section-title">今日已完成訂單</h2>
         {completedOrders.length === 0 ? (
@@ -304,13 +316,9 @@ const BusinessStatus = () => {
               {completedOrders
                 .filter((order) => {
                   if (!order.completed_at) return false;
-                  const completeDate = new Date(order.completed_at);
-                  const today = new Date();
-                  return (
-                    completeDate.getFullYear() === today.getFullYear() &&
-                    completeDate.getMonth() === today.getMonth() &&
-                    completeDate.getDate() === today.getDate()
-                  );
+                  const d = new Date(order.completed_at);
+                  const t = new Date();
+                  return d.getFullYear() === t.getFullYear() && d.getMonth() === t.getMonth() && d.getDate() === t.getDate();
                 })
                 .sort((a, b) => new Date(b.completed_at) - new Date(a.completed_at))
                 .map((order) => {
@@ -321,14 +329,9 @@ const BusinessStatus = () => {
                     const mm = String(d.getMinutes()).padStart(2, "0");
                     return `${hh}:${mm}`;
                   };
-
                   return (
                     <tr key={order.id}>
-                      <td>
-                        {order.items.map((item, index) => (
-                          <div key={index}>{item.menu_name} × {item.quantity}</div>
-                        ))}
-                      </td>
+                      <td>{order.items.map((item, i) => (<div key={i}>{item.menu_name} × {item.quantity}</div>))}</td>
                       <td>{formatTime(order.created_at)}</td>
                       <td>{formatTime(order.completed_at)}</td>
                       <td>${order.total_price}</td>
@@ -340,11 +343,10 @@ const BusinessStatus = () => {
         )}
       </div>
 
-      {/* 🔘 補貨視窗 */}
+      {/* 補貨視窗 */}
       {showRestockModal && (
         <AddToInventoryModal
           shortages={shortages}
-          onSubmit={handleRestockSubmit}
           onClose={() => setShowRestockModal(false)}
         />
       )}

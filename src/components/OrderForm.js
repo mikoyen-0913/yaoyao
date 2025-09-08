@@ -1,18 +1,16 @@
+// src/components/OrderForm.js
 import React, { useEffect, useState } from "react";
 import "../style/components/OrderForm.css";
+import { apiBaseUrl } from "../settings"; // ✅
 
 const OrderForm = ({ orderData, onClose, onSave }) => {
   const [items, setItems] = useState([]);
   const [menus, setMenus] = useState([]);
-
   const token = localStorage.getItem("token");
 
-  // 取得菜單資料
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/get_menus", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    fetch(`${apiBaseUrl}/get_menus`, {
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
         if (!res.ok) throw new Error("授權失敗");
@@ -22,7 +20,6 @@ const OrderForm = ({ orderData, onClose, onSave }) => {
       .catch((err) => console.error("無法載入菜單資料", err));
   }, [token]);
 
-  // 初始化項目
   useEffect(() => {
     if (orderData && Array.isArray(orderData.items)) {
       setItems(orderData.items);
@@ -31,13 +28,8 @@ const OrderForm = ({ orderData, onClose, onSave }) => {
     }
   }, [orderData]);
 
-  // ✅ 加入鍵盤監聽 Escape 鍵
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
-    };
+    const handleKeyDown = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
@@ -55,10 +47,7 @@ const OrderForm = ({ orderData, onClose, onSave }) => {
   };
 
   const handleAddItem = () => {
-    setItems([
-      ...items,
-      { menu_id: "", menu_name: "", quantity: 1, unit_price: 0 },
-    ]);
+    setItems([...items, { menu_id: "", menu_name: "", quantity: 1, unit_price: 0 }]);
   };
 
   const handleMenuChange = (index, menuId) => {
@@ -131,22 +120,15 @@ const OrderForm = ({ orderData, onClose, onSave }) => {
                 type="number"
                 min="1"
                 value={item.quantity}
-                onChange={(e) =>
-                  updateItem(idx, "quantity", parseInt(e.target.value))
-                }
+                onChange={(e) => updateItem(idx, "quantity", parseInt(e.target.value))}
               />
-              <button
-                className="remove-btn"
-                onClick={() => removeItem(idx)}
-                title="移除此品項"
-              >
+              <button className="remove-btn" onClick={() => removeItem(idx)} title="移除此品項">
                 ✕
               </button>
             </div>
           </div>
         ))}
 
-        {/* ✅ 新增品項按鈕外層容器，對齊返回按鈕位置 */}
         <div className="order-edit-add-btn-container">
           <button className="order-edit-add-btn" onClick={handleAddItem}>
             新增品項
@@ -156,12 +138,8 @@ const OrderForm = ({ orderData, onClose, onSave }) => {
         <div className="total-price">預估總金額：${totalPrice}</div>
 
         <div className="edit-buttons">
-          <button className="order-edit-cancel-btn" onClick={onClose}>
-            返回
-          </button>
-          <button className="order-edit-submit-btn" onClick={handleSave}>
-            送出
-          </button>
+          <button className="order-edit-cancel-btn" onClick={onClose}>返回</button>
+          <button className="order-edit-submit-btn" onClick={handleSave}>送出</button>
         </div>
       </div>
     </div>
