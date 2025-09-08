@@ -1,38 +1,88 @@
 // C:\Users\s8102\yaoyao\src\BossInventory\TransferModal.js
 import React, { useEffect, useState } from "react";
-import "./TransferModal.css"; // 跟 js 同一層
+import "./TransferModal.css";
+
+const API_HOST = window.location.hostname; // 例：localhost
+const API_URL = `http://${API_HOST}:5000`;
 
 const TransferModal = ({ open, onClose, onSubmit, data, storeList = [] }) => {
   const [toStore, setToStore] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
+  // 開啟時初始化
   useEffect(() => {
     if (!open) return;
     setQuantity("");
+    // 預設目標分店：清單中第一個且不等於目前分店
     const defaultTarget = (storeList || []).find((s) => s !== data?.store) || "";
     setToStore(defaultTarget);
   }, [open, data, storeList]);
 
   if (!open) return null;
 
-  const handleSubmit = () => {
-    if (!toStore || !quantity) {
-      alert("請選擇目標分店並填寫調貨數量");
-      return;
-    }
+  const handleOverlayClick = (e) => {
+    if (e.target.classList.contains("popup-overlay")) onClose?.();
+  };
+
+  const handleSubmit = async () => {
+    // 前端檢查
+    if (!toStore) return alert("請選擇目標分店");
+    if (!quantity) return alert("請填寫調貨數量");
+    const n = Number(quantity);
+    if (!Number.isFinite(n) || n <= 0) return alert("調貨數量需為正數");
+    if (toStore === data?.store) return alert("來源與目標分店不能相同");
+
+    // 對齊後端需要的欄位
     const payload = {
-      item_id: data?.id,
-      item_name: data?.name,
-      unit: data?.unit,
       from_store: data?.store,
       to_store: toStore,
-      transfer_qty: Number(quantity),
+      ingredient_id: data?.id,       // <- 原本是 item_id
+      ingredient_name: data?.name,   // <- 原本是 item_name
+      unit: data?.unit,
+      quantity: n,                   // <- 原本是 transfer_qty
     };
-    onSubmit?.(payload);
+
+    try {
+      setSubmitting(true);
+      const res = await fetch(`${API_URL}/superadmin/transfer`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const text = await res.text(); // 方便除錯
+      if (!res.ok) {
+        console.error("Transfer failed:", res.status, text);
+        let msg = "調貨失敗";
+        try {
+          msg = JSON.parse(text).error || msg;
+        } catch {}
+        throw new Error(msg);
+      }
+
+      // 成功：通知父層（可用來刷新列表）、關閉視窗
+      try {
+        const result = JSON.parse(text);
+        onSubmit?.({ ok: true, request: payload, response: result });
+      } catch {
+        onSubmit?.({ ok: true, request: payload });
+      }
+      alert("✅ 調貨成功");
+      onClose?.();
+    } catch (err) {
+      console.error(err);
+      alert(err.message || "調貨失敗");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
-    <div className="popup-overlay">
+    <div className="popup-overlay" onClick={handleOverlayClick}>
       <div className="popup">
         <div className="item-form">
           <h2>調貨</h2>
@@ -49,7 +99,10 @@ const TransferModal = ({ open, onClose, onSubmit, data, storeList = [] }) => {
 
           <div className="form-group">
             <label>目標分店</label>
-            <select value={toStore} onChange={(e) => setToStore(e.target.value)}>
+            <select
+              value={toStore}
+              onChange={(e) => setToStore(e.target.value)}
+            >
               <option value="" disabled>
                 請選擇
               </option>
@@ -81,11 +134,15 @@ const TransferModal = ({ open, onClose, onSubmit, data, storeList = [] }) => {
           </div>
 
           <div className="buttons">
-            <button className="cancel-btn" onClick={onClose}>
+            <button className="cancel-btn" onClick={onClose} disabled={submitting}>
               返回
             </button>
-            <button className="edit-submit-btn" onClick={handleSubmit}>
-              送出
+            <button
+              className="edit-submit-btn"
+              onClick={handleSubmit}
+              disabled={submitting}
+            >
+              {submitting ? "送出中…" : "送出"}
             </button>
           </div>
         </div>
