@@ -1,9 +1,10 @@
-// index.js — BossInventory
+// C:\Users\s8102\yaoyao\src\BossInventory\index.js — BossInventory
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import TransferModal from "./TransferModal";
 
-const API_URL = "http://localhost:5000";
+const API_HOST = window.location.hostname; // 本機為 localhost
+const API_URL = `http://${API_HOST}:5000`;
 
 const BossInventory = () => {
   const [storeList, setStoreList] = useState([]);
@@ -12,9 +13,9 @@ const BossInventory = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [transferOpen, setTransferOpen] = useState(false);
   const [transferItem, setTransferItem] = useState(null);
-
   const token = localStorage.getItem("token");
 
+  // 取得我的分店清單
   const fetchStores = async () => {
     try {
       const res = await fetch(`${API_URL}/get_my_stores`, {
@@ -23,22 +24,24 @@ const BossInventory = () => {
       const data = await res.json();
       if (Array.isArray(data.stores)) {
         setStoreList(data.stores);
-        if (data.stores.length > 0) {
-          setSelectedStore("ALL");
-        }
+        if (data.stores.length > 0) setSelectedStore("ALL");
       }
     } catch (err) {
       console.error("載入分店失敗", err);
     }
   };
 
+  // 依分店載入庫存（ALL 表示載入所有分店並合併）
   const fetchIngredients = async (storeName) => {
     try {
+      if (!storeName) return;
       if (storeName === "ALL") {
         let allData = [];
         for (const store of storeList) {
           const res = await fetch(
-            `${API_URL}/get_inventory_by_store?store=${store}`,
+            `${API_URL}/get_inventory_by_store?store=${encodeURIComponent(
+              store
+            )}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           const data = await res.json();
@@ -53,7 +56,9 @@ const BossInventory = () => {
         setIngredients(allData);
       } else {
         const res = await fetch(
-          `${API_URL}/get_inventory_by_store?store=${storeName}`,
+          `${API_URL}/get_inventory_by_store?store=${encodeURIComponent(
+            storeName
+          )}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const data = await res.json();
@@ -63,6 +68,8 @@ const BossInventory = () => {
             store: storeName,
           }));
           setIngredients(storeItems);
+        } else {
+          setIngredients([]);
         }
       }
     } catch (err) {
@@ -76,18 +83,22 @@ const BossInventory = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedStore) {
-      fetchIngredients(selectedStore);
-    }
+    if (selectedStore) fetchIngredients(selectedStore);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedStore]);
+  }, [selectedStore, storeList.length]);
 
   const filteredIngredients = ingredients.filter((item) =>
-    (item.name || "")
-      .toString()
-      .toLowerCase()
-      .includes(searchKeyword.toLowerCase())
+    (item.name || "").toString().toLowerCase().includes(searchKeyword.toLowerCase())
   );
+
+  const formatDate = (val) => {
+    if (!val) return "—";
+    if (typeof val === "string") return val.slice(0, 10);
+    // Firestore Timestamp 物件
+    if (val && typeof val === "object" && "seconds" in val)
+      return new Date(val.seconds * 1000).toISOString().slice(0, 10);
+    return "—";
+  };
 
   return (
     <div className="inventory-container">
@@ -123,7 +134,6 @@ const BossInventory = () => {
         </div>
 
         <div className="top-action-buttons">
-          {/* 只保留回首頁 */}
           <button
             className="btn-home"
             onClick={() => (window.location.href = "http://localhost:3000/home")}
@@ -148,9 +158,7 @@ const BossInventory = () => {
           <tbody>
             {filteredIngredients.map((item, index) => {
               const colorClassIndex =
-                selectedStore === "ALL"
-                  ? storeList.indexOf(item.store) % 5
-                  : -1;
+                selectedStore === "ALL" ? storeList.indexOf(item.store) % 5 : -1;
               const rowClass =
                 selectedStore === "ALL" ? `store-color-${colorClassIndex}` : "";
 
@@ -160,7 +168,7 @@ const BossInventory = () => {
                   <td>{item.name}</td>
                   <td>{parseFloat(item.quantity).toFixed(2)}</td>
                   <td>{item.unit}</td>
-                  <td>{item.expiration_date}</td>
+                  <td>{formatDate(item.expiration_date)}</td>
                   <td className="col-actions">
                     <button
                       className="btn-transfer"
@@ -179,18 +187,21 @@ const BossInventory = () => {
         </table>
       </div>
 
-      {/* 調貨彈窗 */}
+      {/* 調貨彈窗（內部會自己呼叫 /superadmin/transfer） */}
       {transferOpen && (
         <TransferModal
           open={transferOpen}
           data={transferItem}
           storeList={storeList}
-          onClose={() => setTransferOpen(false)}
-          onSubmit={(payload) => {
-            console.log("TODO 調貨送出 payload:", payload);
-            // 之後在這裡串後端 API，成功後可視需要重新載入當前分店庫存：
-            // fetchIngredients(selectedStore);
+          onClose={() => {
             setTransferOpen(false);
+            setTransferItem(null);
+          }}
+          onSubmit={() => {
+            // 調貨成功回呼：關閉並刷新目前檢視
+            setTransferOpen(false);
+            setTransferItem(null);
+            fetchIngredients(selectedStore);
           }}
         />
       )}
