@@ -10,6 +10,18 @@ const BossInventory = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [transferOpen, setTransferOpen] = useState(false);
   const [transferItem, setTransferItem] = useState(null);
+
+  // 新增：調貨紀錄彈窗
+  const [logOpen, setLogOpen] = useState(false);
+  const [logs, setLogs] = useState([]);
+  const [logsLoading, setLogsLoading] = useState(false);
+  const [logFilters, setLogFilters] = useState({
+    from_store: "",
+    to_store: "",
+    ingredient: "",
+    limit: 100,
+  });
+
   const token = localStorage.getItem("token");
 
   // 取得我的分店清單
@@ -42,14 +54,20 @@ const BossInventory = () => {
           return;
         }
 
-        // 並行抓資料，比逐店 await 快
         const tasks = storeList.map((store) =>
-          fetch(`${apiBaseUrl}/get_inventory_by_store?store=${encodeURIComponent(store)}`, {
-            headers: token ? { Authorization: `Bearer ${token}` } : {},
-          })
+          fetch(
+            `${apiBaseUrl}/get_inventory_by_store?store=${encodeURIComponent(
+              store
+            )}`,
+            {
+              headers: token ? { Authorization: `Bearer ${token}` } : {},
+            }
+          )
             .then((r) => r.json())
             .then((data) => {
-              const rows = Array.isArray(data?.inventory) ? data.inventory : [];
+              const rows = Array.isArray(data?.inventory)
+                ? data.inventory
+                : [];
               return rows.map((item) => ({ ...item, store }));
             })
             .catch(() => [])
@@ -59,7 +77,9 @@ const BossInventory = () => {
         setIngredients(results.flat());
       } else {
         const res = await fetch(
-          `${apiBaseUrl}/get_inventory_by_store?store=${encodeURIComponent(storeName)}`,
+          `${apiBaseUrl}/get_inventory_by_store?store=${encodeURIComponent(
+            storeName
+          )}`,
           { headers: token ? { Authorization: `Bearer ${token}` } : {} }
         );
         const data = await res.json();
@@ -92,11 +112,49 @@ const BossInventory = () => {
     if (val && typeof val === "object" && "seconds" in val)
       return new Date(val.seconds * 1000).toISOString().slice(0, 10);
     return "—";
-    };
+  };
 
   const formatQty = (q) => {
     const num = Number(q);
     return Number.isFinite(num) ? num.toFixed(2) : "—";
+  };
+
+  // === 調貨紀錄：呼叫後端 ===
+  const fetchLogs = async (filters = logFilters) => {
+    try {
+      setLogsLoading(true);
+
+      // encode 參數（中文/特殊字元）
+      const query = [];
+      if (filters.from_store) {
+        query.push(`from_store=${encodeURIComponent(filters.from_store)}`);
+      }
+      if (filters.to_store) {
+        query.push(`to_store=${encodeURIComponent(filters.to_store)}`);
+      }
+      if (filters.ingredient) {
+        query.push(`ingredient=${encodeURIComponent(filters.ingredient)}`);
+      }
+      if (filters.limit) {
+        query.push(`limit=${encodeURIComponent(filters.limit)}`);
+      }
+
+      const url = `${apiBaseUrl}/superadmin/transfer_logs${
+        query.length ? "?" + query.join("&") : ""
+      }`;
+
+      const res = await fetch(url, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+
+      const data = await res.json();
+      setLogs(Array.isArray(data?.logs) ? data.logs : []);
+    } catch (e) {
+      console.error("載入調貨紀錄失敗", e);
+      setLogs([]);
+    } finally {
+      setLogsLoading(false);
+    }
   };
 
   return (
@@ -138,6 +196,18 @@ const BossInventory = () => {
             onClick={() => (window.location.href = "/home")}
           >
             回首頁
+          </button>
+
+          {/* 新增：調貨紀錄按鈕 */}
+          <button
+            className="btn-transfer"
+            onClick={async () => {
+              await fetchLogs();
+              setLogOpen(true);
+            }}
+            style={{ marginLeft: "12px" }}
+          >
+            調貨紀錄
           </button>
         </div>
       </div>
@@ -195,14 +265,29 @@ const BossInventory = () => {
             setTransferOpen(false);
             setTransferItem(null);
           }}
-          onSubmit={async (payload) => {
-            // 這裡接你的調貨 API，如果尚未實作就先關閉並刷新
-            // 例：
-            // await fetch(`${apiBaseUrl}/superadmin/transfer`, { method: 'POST', headers: {...}, body: JSON.stringify(payload) })
-            console.log("調貨 payload:", payload);
+          onSubmit={async () => {
             setTransferOpen(false);
             setTransferItem(null);
             await fetchIngredients(selectedStore);
+          }}
+        />
+      )}
+
+      {/* 調貨紀錄彈窗 */}
+      {logOpen && (
+        <TransferLogModal
+          open={logOpen}
+          onClose={() => setLogOpen(false)}
+          logs={logs}
+          loading={logsLoading}
+          filters={logFilters}
+          onChangeFilters={setLogFilters}
+          onSearch={async () => fetchLogs()}
+          storeList={storeList}
+          onReset={async () => {
+            const next = { from_store: "", to_store: "", ingredient: "", limit: 100 };
+            setLogFilters(next);
+            await fetchLogs(next);
           }}
         />
       )}
@@ -211,3 +296,134 @@ const BossInventory = () => {
 };
 
 export default BossInventory;
+
+/* ================== 下面是內嵌的調貨紀錄彈窗 ================== */
+
+const TransferLogModal = ({
+  open,
+  onClose,
+  logs,
+  loading,
+  filters,
+  onChangeFilters,
+  onSearch,
+  onReset,
+  storeList = [],
+}) => {
+  if (!open) return null;
+
+  const handleOverlayClick = (e) => {
+    if (e.target.classList.contains("popup-overlay")) onClose?.();
+  };
+
+  const fmtTime = (s) => {
+    if (!s) return "—";
+    try {
+      // 後端傳 ISO；顯示到秒
+      return new Date(s).toLocaleString();
+    } catch {
+      return s;
+    }
+  };
+
+  return (
+    <div className="popup-overlay" onClick={handleOverlayClick}>
+      <div className="popup" style={{ maxWidth: 900 }}>
+        <div className="item-form">
+          <h2>調貨紀錄</h2>
+
+          {/* 篩選列 */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto auto", gap: 8, marginBottom: 12 }}>
+            <select
+              value={filters.from_store}
+              onChange={(e) => onChangeFilters((p) => ({ ...p, from_store: e.target.value }))}
+            >
+              <option value="">來源分店（全部）</option>
+              {storeList.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+
+            <select
+              value={filters.to_store}
+              onChange={(e) => onChangeFilters((p) => ({ ...p, to_store: e.target.value }))}
+            >
+              <option value="">目標分店（全部）</option>
+              {storeList.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+
+            <input
+              type="text"
+              placeholder="品項名稱（完整比對）"
+              value={filters.ingredient}
+              onChange={(e) => onChangeFilters((p) => ({ ...p, ingredient: e.target.value }))}
+            />
+
+            <input
+              type="number"
+              min="1"
+              max="500"
+              value={filters.limit}
+              onChange={(e) => onChangeFilters((p) => ({ ...p, limit: Number(e.target.value || 100) }))}
+              title="筆數"
+              style={{ width: 90 }}
+            />
+
+            <div style={{ display: "flex", gap: 8 }}>
+              <button className="edit-submit-btn" onClick={onSearch} disabled={loading}>
+                {loading ? "查詢中…" : "查詢"}
+              </button>
+              <button className="cancel-btn" onClick={onReset} disabled={loading}>
+                重設
+              </button>
+            </div>
+          </div>
+
+          {/* 紀錄表格 */}
+          <div className="table-wrapper" style={{ maxHeight: 420, overflow: "auto" }}>
+            <table>
+              <thead>
+                <tr>
+                  <th>時間</th>
+                  <th>來源分店</th>
+                  <th>目標分店</th>
+                  <th>品項</th>
+                  <th>數量</th>
+                  <th>單位</th>
+                  <th>建立者</th>
+                  <th>狀態</th>
+                  <th>ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                {logs.length === 0 ? (
+                  <tr><td colSpan="9" style={{ textAlign: "center" }}>{loading ? "載入中…" : "沒有資料"}</td></tr>
+                ) : (
+                  logs.map((row) => (
+                    <tr key={row.id}>
+                      <td>{fmtTime(row.created_at)}</td>
+                      <td>{row.from_store || "—"}</td>
+                      <td>{row.to_store || "—"}</td>
+                      <td>{row.ingredient_name || "—"}</td>
+                      <td>{row.quantity ?? "—"}</td>
+                      <td>{row.unit || "—"}</td>
+                      <td>{row.created_by || "—"}</td>
+                      <td>{row.status || "—"}</td>
+                      <td title={row.id}>{row.id}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="buttons" style={{ marginTop: 12 }}>
+            <button className="cancel-btn" onClick={onClose}>關閉</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

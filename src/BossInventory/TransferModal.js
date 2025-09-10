@@ -1,4 +1,3 @@
-// C:\Users\s8102\yaoyao\src\BossInventory\TransferModal.js
 import React, { useEffect, useState } from "react";
 import "./TransferModal.css";
 
@@ -37,15 +36,16 @@ const TransferModal = ({ open, onClose, onSubmit, data, storeList = [] }) => {
     const payload = {
       from_store: data?.store,
       to_store: toStore,
-      ingredient_id: data?.id,       // <- 原本是 item_id
-      ingredient_name: data?.name,   // <- 原本是 item_name
+      ingredient_id: data?.id,       // 可供後端比對來源/目的的食材文件
+      ingredient_name: data?.name,   // 名稱也提供，提高比對成功率
       unit: data?.unit,
-      quantity: n,                   // <- 原本是 transfer_qty
+      quantity: n,
     };
 
     try {
       setSubmitting(true);
-      const res = await fetch(`${API_URL}/superadmin/transfer`, {
+      // ★ 打到 /superadmin/transfer_ingredient（後端真正處理的端點）
+      const res = await fetch(`${API_URL}/superadmin/transfer_ingredient`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const TransferModal = ({ open, onClose, onSubmit, data, storeList = [] }) => {
         throw new Error(msg);
       }
 
-      // 成功：通知父層（可用來刷新列表）、關閉視窗
+      // 成功：通知父層、關閉視窗
       try {
         const result = JSON.parse(text);
         onSubmit?.({ ok: true, request: payload, response: result });
