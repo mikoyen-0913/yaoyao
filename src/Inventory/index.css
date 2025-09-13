@@ -35,7 +35,7 @@ body {
   flex-wrap: wrap;
 }
 
-.inventory-header > div {
+.inventory-header>div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -127,17 +127,19 @@ th {
 }
 
 .col-unit {
-  width: 10%;
+  width: 15%;
 }
 
-.col-price {
-  width: 20%;
+.col-expiry {
+  width: 15%;
 }
 
 .col-actions {
   width: 30%;
   text-align: left;
+  padding-right: 20px;
 }
+
 
 /* === 操作欄按鈕樣式與對齊設定 === */
 th.col-actions {
