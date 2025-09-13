@@ -38,7 +38,7 @@ const SignIn = () => {
 
     return (
         <div className="SignIn">
-            <h1>後場小幫手</h1>
+            <h1>豆趣智慧雲管家</h1>
 
             <input
                 type="text"
