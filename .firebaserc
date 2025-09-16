@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "yaoyaoproject-88907"
+  },
+  "targets": {
+    "yaoyaoproject-88907": {
+      "hosting": {
+        "admin": [
+          "yaoyao-admin"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
