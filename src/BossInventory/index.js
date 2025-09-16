@@ -205,7 +205,6 @@ const BossInventory = () => {
               await fetchLogs();
               setLogOpen(true);
             }}
-            style={{ marginLeft: "12px" }}
           >
             調貨紀錄
           </button>
@@ -297,7 +296,7 @@ const BossInventory = () => {
 
 export default BossInventory;
 
-/* ================== 下面是內嵌的調貨紀錄彈窗 ================== */
+/* ================== 內嵌的調貨紀錄彈窗 ================== */
 
 const TransferLogModal = ({
   open,
@@ -310,6 +309,15 @@ const TransferLogModal = ({
   onReset,
   storeList = [],
 }) => {
+  // ✅ Hooks 需在最上面
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") onClose?.();
+    };
+    if (open) document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [open, onClose]);
+
   if (!open) return null;
 
   const handleOverlayClick = (e) => {
@@ -319,7 +327,6 @@ const TransferLogModal = ({
   const fmtTime = (s) => {
     if (!s) return "—";
     try {
-      // 後端傳 ISO；顯示到秒
       return new Date(s).toLocaleString();
     } catch {
       return s;
@@ -333,24 +340,32 @@ const TransferLogModal = ({
           <h2>調貨紀錄</h2>
 
           {/* 篩選列 */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto auto", gap: 8, marginBottom: 12 }}>
+          <div className="log-filters">
             <select
               value={filters.from_store}
-              onChange={(e) => onChangeFilters((p) => ({ ...p, from_store: e.target.value }))}
+              onChange={(e) =>
+                onChangeFilters((p) => ({ ...p, from_store: e.target.value }))
+              }
             >
               <option value="">來源分店（全部）</option>
               {storeList.map((s) => (
-                <option key={s} value={s}>{s}</option>
+                <option key={s} value={s}>
+                  {s}
+                </option>
               ))}
             </select>
 
             <select
               value={filters.to_store}
-              onChange={(e) => onChangeFilters((p) => ({ ...p, to_store: e.target.value }))}
+              onChange={(e) =>
+                onChangeFilters((p) => ({ ...p, to_store: e.target.value }))
+              }
             >
               <option value="">目標分店（全部）</option>
               {storeList.map((s) => (
-                <option key={s} value={s}>{s}</option>
+                <option key={s} value={s}>
+                  {s}
+                </option>
               ))}
             </select>
 
@@ -358,7 +373,9 @@ const TransferLogModal = ({
               type="text"
               placeholder="品項名稱（完整比對）"
               value={filters.ingredient}
-              onChange={(e) => onChangeFilters((p) => ({ ...p, ingredient: e.target.value }))}
+              onChange={(e) =>
+                onChangeFilters((p) => ({ ...p, ingredient: e.target.value }))
+              }
             />
 
             <input
@@ -366,16 +383,29 @@ const TransferLogModal = ({
               min="1"
               max="500"
               value={filters.limit}
-              onChange={(e) => onChangeFilters((p) => ({ ...p, limit: Number(e.target.value || 100) }))}
+              onChange={(e) =>
+                onChangeFilters((p) => ({
+                  ...p,
+                  limit: Number(e.target.value || 100),
+                }))
+              }
               title="筆數"
               style={{ width: 90 }}
             />
 
             <div style={{ display: "flex", gap: 8 }}>
-              <button className="edit-submit-btn" onClick={onSearch} disabled={loading}>
+              <button
+                className="edit-submit-btn"
+                onClick={onSearch}
+                disabled={loading}
+              >
                 {loading ? "查詢中…" : "查詢"}
               </button>
-              <button className="cancel-btn" onClick={onReset} disabled={loading}>
+              <button
+                className="cancel-btn"
+                onClick={onReset}
+                disabled={loading}
+              >
                 重設
               </button>
             </div>
@@ -399,7 +429,11 @@ const TransferLogModal = ({
               </thead>
               <tbody>
                 {logs.length === 0 ? (
-                  <tr><td colSpan="9" style={{ textAlign: "center" }}>{loading ? "載入中…" : "沒有資料"}</td></tr>
+                  <tr>
+                    <td colSpan="9" style={{ textAlign: "center" }}>
+                      {loading ? "載入中…" : "沒有資料"}
+                    </td>
+                  </tr>
                 ) : (
                   logs.map((row) => (
                     <tr key={row.id}>
@@ -420,7 +454,9 @@ const TransferLogModal = ({
           </div>
 
           <div className="buttons" style={{ marginTop: 12 }}>
-            <button className="cancel-btn" onClick={onClose}>關閉</button>
+            <button className="cancel-btn" onClick={onClose}>
+              關閉
+            </button>
           </div>
         </div>
       </div>

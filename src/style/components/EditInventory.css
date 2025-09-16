@@ -137,3 +137,11 @@
 .cancel-btn:hover {
   background-color: #e0e0e0;
 }
+
+.buttons {
+  align-items: center; 
+}
+
+.buttons .cancel-btn {
+  margin-top: 0 !important; 
+}

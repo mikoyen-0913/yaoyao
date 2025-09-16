@@ -235,3 +235,13 @@ td.col-actions {
 .btn-transfer:hover {
   background-color: #ffc170;
 }
+
+.top-action-buttons .btn-transfer {
+  height: 40px;          
+  padding: 8px 16px;    
+  margin-top: 0;        
+  margin-bottom: 0;
+  display: inline-flex;   
+  align-items: center;
+  justify-content: center;
+}
