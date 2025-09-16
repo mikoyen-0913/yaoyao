@@ -8,7 +8,7 @@ import OrdersPage from './OrdersPage';
 import BusinessStatus from './BusinessStatus';
 import RecipesPage from './RecipesPage';
 import BossBusinessStatus from './BossBusinessStatus';
-import BossInventory from './BossInventory'; // ✅ 加這行
+import BossInventory from './BossInventory';
 
 const App = () => {
   return (
