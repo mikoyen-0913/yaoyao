@@ -17,7 +17,7 @@ const TransferModal = ({ open, onClose, onSubmit, data, storeList = [] }) => {
     setToStore(defaultTarget);
   }, [open, data, storeList]);
 
-  // ⛳ 監聽 Esc 鍵
+  // 監聽 Esc 鍵
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") onClose?.();

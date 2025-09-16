@@ -124,16 +124,12 @@ const BossInventory = () => {
     try {
       setLogsLoading(true);
 
-      // encode 參數（中文/特殊字元）
       const query = [];
       if (filters.from_store) {
         query.push(`from_store=${encodeURIComponent(filters.from_store)}`);
       }
       if (filters.to_store) {
         query.push(`to_store=${encodeURIComponent(filters.to_store)}`);
-      }
-      if (filters.ingredient) {
-        query.push(`ingredient=${encodeURIComponent(filters.ingredient)}`);
       }
       if (filters.limit) {
         query.push(`limit=${encodeURIComponent(filters.limit)}`);
@@ -148,7 +144,17 @@ const BossInventory = () => {
       });
 
       const data = await res.json();
-      setLogs(Array.isArray(data?.logs) ? data.logs : []);
+      let rows = Array.isArray(data?.logs) ? data.logs : [];
+
+      //  前端作「包含」過濾（不分大小寫）
+      const kw = (filters.ingredient || "").trim().toLowerCase();
+      if (kw) {
+        rows = rows.filter((row) =>
+          (row?.ingredient_name || "").toLowerCase().includes(kw)
+        );
+      }
+
+      setLogs(rows);
     } catch (e) {
       console.error("載入調貨紀錄失敗", e);
       setLogs([]);
@@ -309,7 +315,7 @@ const TransferLogModal = ({
   onReset,
   storeList = [],
 }) => {
-  // ✅ Hooks 需在最上面
+  // Hooks 需在最上面（支援 ESC 關閉）
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") onClose?.();
@@ -371,26 +377,11 @@ const TransferLogModal = ({
 
             <input
               type="text"
-              placeholder="品項名稱（完整比對）"
+              placeholder="品項關鍵字"
               value={filters.ingredient}
               onChange={(e) =>
                 onChangeFilters((p) => ({ ...p, ingredient: e.target.value }))
               }
-            />
-
-            <input
-              type="number"
-              min="1"
-              max="500"
-              value={filters.limit}
-              onChange={(e) =>
-                onChangeFilters((p) => ({
-                  ...p,
-                  limit: Number(e.target.value || 100),
-                }))
-              }
-              title="筆數"
-              style={{ width: 90 }}
             />
 
             <div style={{ display: "flex", gap: 8 }}>
