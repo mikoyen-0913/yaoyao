@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./TransferModal.css";
+import { apiBaseUrl } from "../../settings";
 
 const API_HOST = window.location.hostname;
-const API_URL = `http://${API_HOST}:5000`;
+const API_URL = apiBaseUrl;
 
 const TransferModal = ({ open, onClose, onSubmit, data, storeList = [] }) => {
   const [toStore, setToStore] = useState("");
