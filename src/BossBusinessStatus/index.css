@@ -1,3 +1,4 @@
+/* 頁面整體容器 */
 .homepage-container {
   background-color: #fffbe2;
   padding: 30px;
@@ -7,14 +8,14 @@
   text-align: center;
 }
 
-/* 🔼 上方操作按鈕（右上） */
+/* 上方操作按鈕群組 */
 .top-right-button {
   display: flex;
   justify-content: flex-end;
   margin-top: -10px;
 }
 
-/* 🔵 回首頁按鈕 */
+/* 回首頁按鈕 */
 .go-home-button {
   font-weight: bold;
   background-color: #5fbdfb !important;
@@ -36,8 +37,7 @@
   background-color: #4ea4eb !important;
 }
 
-
-/* 🟡 圖表標題 */
+/* 區塊標題 */
 .section-title {
   font-size: 28px;
   font-weight: bold;
@@ -45,7 +45,7 @@
   margin: 20px 0;
 }
 
-/* 🟣 折線圖容器 */
+/* 折線圖區域 */
 .chart-container {
   display: flex;
   justify-content: center;
@@ -57,7 +57,7 @@
   max-width: 700px;
 }
 
-/* ✅ 折線圖自訂圖例 */
+/* 折線圖圖例 */
 .store-legend {
   display: flex;
   flex-wrap: wrap;
@@ -85,13 +85,12 @@
   white-space: nowrap;
 }
 
-/* 🧁 分店口味圓餅圖 —— 兩兩並排（不貼外框、最易讀） */
+/* 圓餅圖區塊：兩兩排列卡片 */
 .pie-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
   gap: 24px;
   padding: 6px 4px;
-  /* 與外框留白，避免卡片貼邊 */
   align-items: stretch;
 }
 
@@ -100,12 +99,10 @@
   padding: 20px 30px;
   border-radius: 16px;
   box-sizing: border-box;
-  /* 邊框與內距都算在寬度內，避免撐爆 */
   border: 3px solid #a47551;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.06);
   text-align: center;
   min-height: 420px;
-  /* 高度一致，視覺整齊 */
 }
 
 .pie-wrapper {
@@ -114,7 +111,7 @@
   align-items: center;
 }
 
-/* 🟢 今日總覽 */
+/* 今日總覽區塊 */
 .summary-section {
   margin-top: 0;
   text-align: center;
@@ -130,7 +127,7 @@
   font-weight: bold;
 }
 
-/* 📅 日期輸入 */
+/* 日期與年份輸入框 */
 .date-input,
 .year-input {
   font-size: 16px;
@@ -142,7 +139,7 @@
   width: 100px;
 }
 
-/* 🟤 共用按鈕 */
+/* 共用按鈕樣式 */
 .nav-button {
   height: 50px;
   min-width: 120px;
@@ -161,7 +158,7 @@
   background-color: #ffb758;
 }
 
-/* ⚙️ 按鈕群組 */
+/* 按鈕群組排列 */
 .button-group {
   margin-top: 10px;
   display: flex;
@@ -169,7 +166,7 @@
   gap: 80px;
 }
 
-/* ✅ 卡片（除了總覽都用；內距加大避免貼邊） */
+/* 一般圖表卡片容器 */
 .chart-card {
   background-color: #ffffff;
   padding: 26px 34px;
@@ -181,7 +178,7 @@
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.06);
 }
 
-/* ✅ 圖表置中寬度：修正置中與拉長 */
+/* 圖表寬度調整與置中容器 */
 .center-wrap {
   display: flex;
   justify-content: center;
@@ -190,29 +187,23 @@
 
 .chart-wide {
   width: 92%;
-  /* ⬅ 讓折線圖容器更寬一些 */
   max-width: 1200px;
   margin: 0 auto;
-  /* ⬅ 強制置中 */
 }
 
 .chart-wider {
   width: 96%;
-  /* ⬅ 商品排行榜再稍微拉長 */
   max-width: 1350px;
   margin: 0 auto;
-  /* ⬅ 強制置中 */
 }
 
 .chart-narrow {
   width: 80%;
   max-width: 900px;
-  /* 分店營收排行榜：略短 */
   margin: 0 auto;
-  /* ⬅ 置中 */
 }
 
-/* 其他原有的表格、卡片、loading、完成訂單 */
+/* 銷售表格樣式 */
 .sales-table {
   width: 100%;
   max-width: 700px;
@@ -229,6 +220,7 @@
   line-height: 1.5;
 }
 
+/* 完成訂單卡片 */
 .completed-order-card {
   background-color: #fff6e5;
   padding: 16px 20px;
@@ -241,6 +233,7 @@
   line-height: 1.6;
 }
 
+/* 載入中動畫 */
 .loading-spinner {
   margin: 40px auto;
   border: 8px solid #f3f3f3;
@@ -261,7 +254,7 @@
   }
 }
 
-/* ✅ 地圖排版 */
+/* 地圖與圖表並排排版 */
 .map-and-chart-container {
   display: flex;
   justify-content: space-between;
@@ -281,15 +274,13 @@
   flex: 1;
 }
 
+/* 地圖與其他元件兩兩並排排版 */
 .side-by-side-section {
   display: flex;
   justify-content: center;
-  /* ✅ 整組置中 */
   align-items: flex-start;
   gap: 24px;
   flex-wrap: wrap;
-  /* ✅ 小螢幕自動換行 */
   width: min(96%, 1400px);
-  /* ✅ 與卡片同寬邏輯 */
   margin: 0 auto;
 }

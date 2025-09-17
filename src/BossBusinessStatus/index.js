@@ -8,7 +8,7 @@ import {
 import "./index.css";
 import StoreRevenueBarChart from "./StoreRevenueBarChart";
 import StoreLocationMap from "./StoreLocationMap";
-import { apiBaseUrl } from "../settings"; // ✅ 改用環境變數
+import { apiBaseUrl } from "../settings";
 
 const FLAVOR_COLORS = {
   "OREO鮮奶油": "#A28EFF",
@@ -53,20 +53,16 @@ const BossBusinessStatus = () => {
   const [selectedYear, setSelectedYear] = useState(dayjs().format("YYYY"));
   const [chartData, setChartData] = useState([]);
 
-  // 圓餅圖月份（各分店口味銷量圖）
   const [flavorMonth, setFlavorMonth] = useState(dayjs().format("YYYY-MM"));
   const [pieData, setPieData] = useState({});
 
-  // 本月營業總覽
   const [summary, setSummary] = useState({ total_sales: 0, total_orders: 0 });
 
-  // 全分店商品銷售排行榜（獨立月份）
   const [topMonth, setTopMonth] = useState(dayjs().format("YYYY-MM"));
   const [topFlavors, setTopFlavors] = useState([]);
 
-  // 分店營收排行（右側獨立元件）
   const [revenueMonth, setRevenueMonth] = useState(dayjs().format("YYYY-MM"));
-  const [storeRevenueRank, /* eslint-disable no-unused-vars */ setStoreRevenueRank] = useState([]);
+  const [storeRevenueRank, setStoreRevenueRank] = useState([]);
 
   const token = localStorage.getItem("token");
 
@@ -117,7 +113,6 @@ const BossBusinessStatus = () => {
     }
   };
 
-  // 依照 topMonth 取得排行榜資料（與圓餅圖分開）
   const fetchTopFlavors = async () => {
     try {
       const res = await axios.get(`${apiBaseUrl}/get_top_flavors?month=${topMonth}`, {
@@ -156,7 +151,6 @@ const BossBusinessStatus = () => {
     fetchStoreRevenueRank();
   }, [revenueMonth]);
 
-  // 地圖分店座標
   const fetchStoreLocations = async () => {
     try {
       const res = await axios.get(`${apiBaseUrl}/get_store_locations`, {
@@ -168,14 +162,12 @@ const BossBusinessStatus = () => {
     }
   };
 
-  // 初始/切換時同步抓資料（含地圖）
   useEffect(() => {
     fetchRevenue();
     fetchSummary();
     fetchStoreLocations();
   }, [range, selectedDate, selectedYear]);
 
-  // 取得分店清單供自訂圖例使用
   const storeNames = chartData.length > 0
     ? Object.keys(chartData[0]).filter(k => k !== "date")
     : [];
@@ -186,7 +178,6 @@ const BossBusinessStatus = () => {
         <button className="go-home-button" onClick={() => window.location.href = "/home"}>回首頁</button>
       </div>
 
-      {/* 本月營業總覽 —— 不使用卡片 */}
       <h2 className="section-title">本月營業總覽</h2>
       <div className="summary-section">
         <div className="sales-amount">
@@ -197,7 +188,6 @@ const BossBusinessStatus = () => {
         </div>
       </div>
 
-      {/* 各分店營收趨勢圖（卡片 + 自訂圖例在圖表下方） */}
       <div className="chart-card">
         <h2 className="section-title">各分店營收趨勢圖</h2>
         <div className="button-group">
@@ -227,7 +217,6 @@ const BossBusinessStatus = () => {
         <div className="center-wrap">
           <div className="chart-wide">
             <ResponsiveContainer width="100%" height={400}>
-              {/* 對稱邊距，避免視覺偏右 */}
               <LineChart data={chartData} margin={{ top: 30, right: 30, left: 30, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
@@ -249,7 +238,6 @@ const BossBusinessStatus = () => {
           </div>
         </div>
 
-        {/* 自訂圖例：顏色對應分店（置中、換行） */}
         <div className="store-legend">
           {storeNames.map((name) => (
             <div className="legend-item" key={name}>
@@ -260,7 +248,6 @@ const BossBusinessStatus = () => {
         </div>
       </div>
 
-      {/* 各分店口味銷量圖（兩兩並排） */}
       <div className="chart-card">
         <h2 className="section-title">各分店口味銷量圖</h2>
         <input
@@ -270,14 +257,10 @@ const BossBusinessStatus = () => {
           onChange={(e) => setFlavorMonth(e.target.value)}
         />
 
-        {/* ✅ 全域口味圖例（放在區塊上方一次顯示） */}
         <div className="store-legend">
           {Object.keys(FLAVOR_COLORS).map((name) => (
             <div className="legend-item" key={name}>
-              <span
-                className="legend-color"
-                style={{ backgroundColor: FLAVOR_COLORS[name] || "#CCCCCC" }}
-              />
+              <span className="legend-color" style={{ backgroundColor: FLAVOR_COLORS[name] || "#CCCCCC" }} />
               <span className="legend-text">{name}</span>
             </div>
           ))}
@@ -335,7 +318,6 @@ const BossBusinessStatus = () => {
         </div>
       </div>
 
-      {/* 全分店商品銷售排行榜 —— 置中且稍微拉長（修正左/右平衡） */}
       <div className="chart-card">
         <h2 className="section-title">全分店商品銷售排行榜</h2>
         <input
@@ -350,12 +332,10 @@ const BossBusinessStatus = () => {
               <BarChart
                 data={topFlavors}
                 layout="vertical"
-                /* 用右邊較大的 margin 抵銷左側 Y 軸寬度，視覺置中 */
                 margin={{ top: 20, right: 260, left: 20, bottom: 10 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
-                {/* 240 寬足夠顯示完整品名，並搭配右側 260 邊距達到視覺平衡 */}
                 <YAxis dataKey="name" type="category" width={240} />
                 <Tooltip formatter={(value) => `${value} 顆`} />
                 <Bar dataKey="value" fill="#a47551">
@@ -367,7 +347,6 @@ const BossBusinessStatus = () => {
         </div>
       </div>
 
-      {/* 右側：分店營收排行榜（內部卡片）＋ 分店地圖 */}
       <div className="side-by-side-section">
         <StoreRevenueBarChart />
         <StoreLocationMap storeLocations={storeData} />
