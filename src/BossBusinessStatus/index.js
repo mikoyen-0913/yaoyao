@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import {
@@ -49,8 +49,13 @@ const getColorForStore = (storeName) => {
 const BossBusinessStatus = () => {
   const [storeData, setStoreData] = useState([]);
   const [range, setRange] = useState("7days");
+
   const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYY-MM"));
+
+  // 年份改為「編輯值」與「實際套用值」分離：避免每次按鍵就打 API
   const [selectedYear, setSelectedYear] = useState(dayjs().format("YYYY"));
+  const [yearEditing, setYearEditing] = useState(dayjs().format("YYYY"));
+
   const [chartData, setChartData] = useState([]);
 
   const [flavorMonth, setFlavorMonth] = useState(dayjs().format("YYYY-MM"));
@@ -71,72 +76,69 @@ const BossBusinessStatus = () => {
     if (range === "month") url += `&month=${selectedDate}`;
     if (range === "year") url += `&year=${selectedYear}`;
 
-    try {
-      const res = await axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
-      const data = res.data;
-      if (Array.isArray(data)) {
-        const formatted = [];
-        const length = data[0]?.dates?.length || 0;
-        for (let i = 0; i < length; i++) {
-          const point = { date: data[0].dates[i] };
-          data.forEach((store) => {
-            point[store.store_name] = store.revenues[i];
-          });
-          formatted.push(point);
-        }
-        setChartData(formatted);
+    const res = await axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
+    const data = res.data;
+    if (Array.isArray(data)) {
+      const formatted = [];
+      const length = data[0]?.dates?.length || 0;
+      for (let i = 0; i < length; i++) {
+        const point = { date: data[0].dates[i] };
+        data.forEach((store) => {
+          point[store.store_name] = store.revenues[i];
+        });
+        formatted.push(point);
       }
-    } catch (err) {
-      console.error("載入營收資料失敗", err);
+      setChartData(formatted);
     }
   };
 
   const fetchFlavorSales = async () => {
-    try {
-      const res = await axios.get(`${apiBaseUrl}/get_store_flavor_sales?month=${flavorMonth}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setPieData(res.data);
-    } catch (err) {
-      console.error("載入圓餅圖資料失敗", err);
-    }
+    const res = await axios.get(`${apiBaseUrl}/get_store_flavor_sales?month=${flavorMonth}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    setPieData(res.data);
   };
 
   const fetchSummary = async () => {
-    try {
-      const res = await axios.get(`${apiBaseUrl}/get_summary_this_month`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setSummary(res.data);
-    } catch (err) {
-      console.error("載入本月總覽失敗", err);
-    }
+    const res = await axios.get(`${apiBaseUrl}/get_summary_this_month`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    setSummary(res.data);
   };
 
   const fetchTopFlavors = async () => {
-    try {
-      const res = await axios.get(`${apiBaseUrl}/get_top_flavors?month=${topMonth}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setTopFlavors(res.data);
-    } catch (err) {
-      console.error("載入排行榜失敗", err);
-    }
+    const res = await axios.get(`${apiBaseUrl}/get_top_flavors?month=${topMonth}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    setTopFlavors(res.data);
   };
 
-  useEffect(() => {
-    fetchRevenue();
-    fetchSummary();
-  }, [range, selectedDate, selectedYear]);
+  const fetchStoreLocations = async () => {
+    const res = await axios.get(`${apiBaseUrl}/get_store_locations`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    setStoreData(res.data);
+  };
 
+  // ---- 只在掛載時抓一次（避免重複打）----
   useEffect(() => {
-    fetchFlavorSales();
+    fetchStoreLocations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ---- 口味圓餅圖：月份變才抓 ----
+  useEffect(() => {
+    fetchFlavorSales().catch((err) => console.error("載入圓餅圖資料失敗", err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flavorMonth]);
 
+  // ---- 口味排行榜：月份變才抓 ----
   useEffect(() => {
-    fetchTopFlavors();
+    fetchTopFlavors().catch((err) => console.error("載入排行榜失敗", err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topMonth]);
 
+  // ---- 分店營收排行：月份變才抓 ----
   useEffect(() => {
     const fetchStoreRevenueRank = async () => {
       try {
@@ -149,23 +151,26 @@ const BossBusinessStatus = () => {
       }
     };
     fetchStoreRevenueRank();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [revenueMonth]);
 
-  const fetchStoreLocations = async () => {
-    try {
-      const res = await axios.get(`${apiBaseUrl}/get_store_locations`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setStoreData(res.data);
-    } catch (err) {
-      console.error("載入分店地圖失敗", err);
-    }
-  };
-
+  // ---- 營收折線圖 + 本月總覽：range / month / year 改變才抓，且做防抖 ----
+  const mountedRef = useRef(false); // 緩解 React.StrictMode 在開發時的雙呼叫
   useEffect(() => {
-    fetchRevenue();
-    fetchSummary();
-    fetchStoreLocations();
+    // 避免 StrictMode 初次雙呼叫造成重複打 API
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+    }
+
+    const t = setTimeout(() => {
+      // 這裡即使 StrictMode 再跑一次，也被 200ms 防抖合併
+      Promise.all([fetchRevenue(), fetchSummary()]).catch((err) => {
+        console.error("載入營收/本月總覽失敗", err);
+      });
+    }, 200);
+
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [range, selectedDate, selectedYear]);
 
   const storeNames = chartData.length > 0
@@ -181,10 +186,10 @@ const BossBusinessStatus = () => {
       <h2 className="section-title">本月營業總覽</h2>
       <div className="summary-section">
         <div className="sales-amount">
-          總銷售金額：<span className="sales-amount-number">${summary.total_sales.toLocaleString()}</span>
+          總銷售金額：<span className="sales-amount-number">${summary.total_sales?.toLocaleString?.() ?? 0}</span>
         </div>
         <div className="sales-amount">
-          總訂單數量：<span className="sales-amount-number">{summary.total_orders}</span> 筆
+          總訂單數量：<span className="sales-amount-number">{summary.total_orders ?? 0}</span> 筆
         </div>
       </div>
 
@@ -207,8 +212,9 @@ const BossBusinessStatus = () => {
           <input
             className="year-input"
             type="number"
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
+            value={yearEditing}
+            onChange={(e) => setYearEditing(e.target.value)}
+            onBlur={() => setSelectedYear(yearEditing)} // 只有在離開輸入框時才觸發真正查詢
             min="2020"
             max={dayjs().year()}
           />
