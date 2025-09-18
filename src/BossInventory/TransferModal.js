@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./TransferModal.css";
-import { apiBaseUrl } from "../../settings";
+import { apiBaseUrl } from "../settings";
 
 const API_HOST = window.location.hostname;
 const API_URL = apiBaseUrl;
