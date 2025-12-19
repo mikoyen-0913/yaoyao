@@ -1,20 +1,24 @@
 // src/Inventory/index.js
-// 價格欄位已移除；「新增食材／更新庫存數據」與表格左緣對齊；右上只保留「回首頁」
-
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./index.css";
 import { apiBaseUrl } from "../settings";
 import AddInventory from "../components/AddInventory";
 import EditInventory from "../components/EditInventory";
+import RestockInventory from "../components/RestockInventory"; // ✅ 引入新組件
 
 const InventoryPage = () => {
+  const navigate = useNavigate();
   const [ingredients, setIngredients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
   const [showAddModal, setShowAddModal] = useState(false);
-  const [editData, setEditData] = useState(null); // { id, name, quantity, unit, expiration_date, price? }
+  const [editData, setEditData] = useState(null);
+  
+  // ✅ 新增：控制補貨 Modal 的狀態
+  const [restockData, setRestockData] = useState(null);
 
   const token = useMemo(() => localStorage.getItem("token"), []);
   const authHeader = useMemo(() => ({ Authorization: `Bearer ${token}` }), [token]);
@@ -40,7 +44,7 @@ const InventoryPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 新增：由新增彈窗回傳
+  // 新增食材
   const handleCreateFromModal = async (payload) => {
     try {
       setBusy(true);
@@ -68,7 +72,7 @@ const InventoryPage = () => {
     }
   };
 
-  // 編輯：打開彈窗
+  // 編輯
   const startEdit = (item) => {
     setEditData({
       id: item.id,
@@ -80,12 +84,8 @@ const InventoryPage = () => {
     });
   };
 
-  // 編輯：由彈窗回傳
   const handleUpdateFromModal = async (ing) => {
-    if (!ing?.id) {
-      alert("缺少 id，無法更新");
-      return;
-    }
+    if (!ing?.id) return alert("缺少 id，無法更新");
     try {
       setBusy(true);
       setError("");
@@ -112,8 +112,9 @@ const InventoryPage = () => {
     }
   };
 
-  const handleDelete = async (id, name) => {
-    if (!window.confirm(`您確定要刪除這筆資料嗎？`)) return;
+  // 刪除
+  const handleDelete = async (id) => {
+    if (!window.confirm("您確定要刪除這筆資料嗎？")) return;
     try {
       setBusy(true);
       setError("");
@@ -132,6 +133,7 @@ const InventoryPage = () => {
     }
   };
 
+  // 刷新
   const refreshBySales = async () => {
     if (!window.confirm("您確定要根據銷售紀錄刷新庫存嗎？")) return;
     try {
@@ -141,44 +143,61 @@ const InventoryPage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json", ...authHeader },
       });
-      if (!res.ok) throw new Error(`❎️即時庫存更新失敗 (${res.status})`);
+      if (!res.ok) throw new Error(`即時庫存更新失敗 (${res.status})`);
       await fetchIngredients();
-      alert("✅即時庫存已更新");
+      alert("即時庫存已更新");
     } catch (e) {
       console.error(e);
-      setError(e.message || "❎️即時庫存更新失敗");
+      setError(e.message || "即時庫存更新失敗");
     } finally {
       setBusy(false);
     }
   };
 
-  const fmt = (n, digits = 0) => {
-    const v = Number(n || 0);
-    return v.toLocaleString("zh-TW", { minimumFractionDigits: digits, maximumFractionDigits: digits });
+  // ✅ 新增：處理補貨 Modal 送出
+  const handleRestockFromModal = async (payload) => {
+    try {
+      setBusy(true);
+      // 包裝成 items 陣列格式
+      const apiPayload = {
+        items: [payload]
+      };
+
+      const res = await fetch(`${apiBaseUrl}/restock_ingredients`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeader },
+        body: JSON.stringify(apiPayload),
+      });
+
+      if (!res.ok) throw new Error("補貨失敗");
+      
+      await fetchIngredients();
+      setRestockData(null); // 關閉視窗
+      alert("補貨成功！預備庫存已增加。");
+    } catch (e) {
+      console.error(e);
+      alert("補貨發生錯誤：" + e.message);
+    } finally {
+      setBusy(false);
+    }
   };
+
+  const fmt = (n) => Number(n || 0).toLocaleString("zh-TW");
 
   return (
     <div className="inventory-container">
-      {/* 頁首：左邊標題；右邊只保留「回首頁」 */}
       <div className="inventory-header">
         <div><h1>庫存管理</h1></div>
         <div>
-          <button className="home-button" onClick={() => (window.location.href = "/home")}>
+          <button className="home-button" onClick={() => navigate("/home")}>
             回首頁
           </button>
         </div>
       </div>
 
-      {/* 按鈕列：與表格左緣對齊*/}
       <div
         className="top-action-buttons"
-        style={{
-          width: 1350,
-            margin: "0 0 6px  40px",
-          display: "flex",
-          gap: 10,
-          justifyContent: "flex-start",
-        }}
+        style={{ width: 1350, margin: "0 0 6px 40px", display: "flex", gap: 10 }}
       >
         <button className="add-button" onClick={() => setShowAddModal(true)} disabled={busy}>
           新增食材
@@ -189,16 +208,15 @@ const InventoryPage = () => {
       </div>
 
       {error && (
-        <div className="alert-box" style={{ backgroundColor: "#fff0f0", border: "1.5px solid #e57373", marginBottom: 12 }}>
+        <div style={{ backgroundColor: "#fff0f0", border: "1.5px solid #e57373", marginBottom: 12, padding: 10 }}>
           <strong style={{ color: "#c62828" }}>錯誤</strong>
           <div style={{ marginTop: 6 }}>{error}</div>
         </div>
       )}
 
-      {/* 表格區*/}
       <div className="table-wrapper">
         {loading ? (
-          <div className="loading-spinner" />
+          <div>載入中…</div>
         ) : ingredients.length === 0 ? (
           <div style={{ padding: 12, color: "#666" }}>沒有資料。</div>
         ) : (
@@ -206,23 +224,52 @@ const InventoryPage = () => {
             <thead>
               <tr>
                 <th className="col-name">品項</th>
-                <th className="col-qty">庫存數量</th>
+                
+                {/* ✅ 修改欄位順序：使用中庫存 + 使用中效期 */}
+                <th className="col-qty">使用中庫存</th>
+                <th className="col-expiry">使用中效期</th>
+                
+                {/* ✅ 新增欄位：預備庫存 + 預備庫存效期 */}
+                <th className="col-qty">預備庫存</th>
+                <th className="col-expiry">預備庫存效期</th>
+
                 <th className="col-unit">單位</th>
-                <th className="col-expiry">保存期限</th>
-                <th className="col-actions">操作</th>
+                <th className="col-actions" style={{ width: 240 }}>操作</th>
               </tr>
             </thead>
             <tbody>
               {ingredients.map((it) => (
                 <tr key={it.id}>
                   <td>{it.name}</td>
+                  
+                  {/* 使用中 */}
                   <td>{fmt(it.quantity)}</td>
-                  <td>{it.unit || "—"}</td>
                   <td>{it.expiration_date || "—"}</td>
+
+                  {/* 預備 (亮綠色強調) */}
+                  <td style={{ color: it.reserved_quantity > 0 ? "#2e7d32" : "#999", fontWeight: "bold" }}>
+                    {fmt(it.reserved_quantity)}
+                  </td>
+                  {/* 預備效期 (顯示 API 回傳的最早日期) */}
+                  <td style={{ color: "#666", fontSize: "0.9rem" }}>
+                    {it.reserved_expiration_date || "—"}
+                  </td>
+
+                  <td>{it.unit || "—"}</td>
+                  
                   <td className="col-actions">
-                    <div className="action-buttons">
+                    <div className="action-buttons" style={{ gap: 5 }}>
+                      {/* ✅ 改用 Modal 開啟補貨 */}
+                      <button 
+                        className="edit-button" 
+                        style={{ backgroundColor: "#1976d2" }}
+                        onClick={() => setRestockData(it)} 
+                        disabled={busy}
+                      >
+                        補貨
+                      </button>
                       <button className="edit-button" onClick={() => startEdit(it)} disabled={busy}>編輯</button>
-                      <button className="delete-button" onClick={() => handleDelete(it.id, it.name)} disabled={busy}>刪除</button>
+                      <button className="delete-button" onClick={() => handleDelete(it.id)} disabled={busy}>刪除</button>
                     </div>
                   </td>
                 </tr>
@@ -232,14 +279,20 @@ const InventoryPage = () => {
         )}
       </div>
 
-      {/* 新增彈窗 */}
       {showAddModal && (
         <AddInventory onClose={() => setShowAddModal(false)} onSave={handleCreateFromModal} />
       )}
-
-      {/* 編輯彈窗 */}
       {editData && (
         <EditInventory data={editData} onClose={() => setEditData(null)} onSave={handleUpdateFromModal} />
+      )}
+      
+      {/* ✅ 渲染新的補貨 Modal */}
+      {restockData && (
+        <RestockInventory 
+            data={restockData} 
+            onClose={() => setRestockData(null)} 
+            onSave={handleRestockFromModal} 
+        />
       )}
     </div>
   );

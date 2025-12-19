@@ -225,7 +225,7 @@ const BossInventory = () => {
               <th className="col-name">品項</th>
               <th className="col-qty">庫存數量</th>
               <th className="col-unit">單位</th>
-              <th className="col-date">保存期限</th>
+              <th className="col-date">最早到期日</th>
               <th className="col-actions">操作</th>
             </tr>
           </thead>

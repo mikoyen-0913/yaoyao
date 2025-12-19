@@ -9,7 +9,7 @@ import BusinessStatus from './BusinessStatus';
 import RecipesPage from './RecipesPage';
 import BossBusinessStatus from './BossBusinessStatus';
 import BossInventory from './BossInventory';
-
+import InventoryOverview from './BossInventory/InventoryOverview';
 const App = () => {
   return (
     <Routes>
@@ -22,6 +22,7 @@ const App = () => {
       <Route path="/bossbusinessstatus" element={<BossBusinessStatus />} />
       <Route path="/recipe" element={<RecipesPage />} />
       <Route path="/bossinventory" element={<BossInventory />} /> {/* ✅ 新增這行 */}
+      <Route path="/boss/inventory-overview" element={<InventoryOverview />} />
     </Routes>
   );
 };
