@@ -434,7 +434,7 @@ const TransferLogModal = ({
                       <td>{row.ingredient_name || "—"}</td>
                       <td>{row.quantity ?? "—"}</td>
                       <td>{row.unit || "—"}</td>
-                      <td>{row.created_by || "—"}</td>
+                      <td>{row.created_by || row.operator_name || "-"}</td>
                       <td>{row.status || "—"}</td>
                       <td title={row.id}>{row.id}</td>
                     </tr>
