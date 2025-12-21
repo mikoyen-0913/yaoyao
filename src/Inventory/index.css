@@ -14,7 +14,7 @@ body {
 
 .inventory-container {
   background-color: #fffbe2;
-  padding: 12px 20px 20px;   /* ✅ 上方 padding 縮小，整體更貼 */
+  padding: 12px 20px 20px;  
   min-height: 100vh;
   width: 100%;
   max-width: 1400px;
@@ -29,7 +29,7 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 0;
-  margin-top: -10px;        /* ✅ 整個 header 往上拉 */
+  margin-top: -10px;     
   padding-left: 10px;
   padding-right: 10px;
   gap: 20px;
@@ -40,7 +40,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0 !important;       /* ✅ 不留 flex 間距 */
+  gap: 0 !important;   
 }
 
 /* === 標題（強制壓縮高度） === */
@@ -50,14 +50,14 @@ body {
   font-weight: bold;
   margin: 0 !important;
   padding: 0 !important;
-  line-height: 1 !important;   /* ✅ 壓縮標題本身高度 */
+  line-height: 1 !important;   
 }
 
-/* ✅ 標題下方功能按鈕（強制往上貼） */
+/* 標題下方功能按鈕 */
 .inventory-header > div > .top-action-buttons {
   display: flex;
   gap: 10px;
-  margin-top: 20px !important;  /* ✅ 關鍵：大幅縮短距離 */
+  margin-top: 20px !important;  
   padding-top: 0 !important;
 }
 
@@ -170,7 +170,7 @@ th {
   background-color: #b92c27;
 }
 
-/* ✅ 補貨：藍底、深藍框、白字 */
+/* 補貨：藍底、深藍框、白字 */
 .restock-button {
   background-color: #1976d2;
   border: 3px solid #0d47a1;

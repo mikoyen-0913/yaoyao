@@ -29,7 +29,7 @@ body {
   gap: 20px;
 }
 
-.inventory-header>div {
+.inventory-header > div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -49,12 +49,20 @@ body {
   display: flex !important;
   flex-direction: row !important;
   align-items: center;
-  gap: 15px;
   justify-content: flex-end;
   margin-top: 60px;
   flex-wrap: wrap;
   max-width: 100%;
+
+
 }
+
+/* 保底：第二顆按鈕開始加左側距離 */
+.top-action-buttons > button + button {
+  margin-left: 20px !important;
+}
+
+
 
 /* === 搜尋與下拉選單 === */
 .input-section {
@@ -195,7 +203,7 @@ td.col-actions {
   background-color: #fff0f0;
 }
 
-/* === 按鈕：回首頁（保留） === */
+/* === 按鈕：回首頁 === */
 .btn-home {
   background-color: #5fbdfb;
   color: #ffffff;
@@ -216,7 +224,7 @@ td.col-actions {
   background-color: #4ea4eb;
 }
 
-/* === 調貨按鈕 === */
+/* === 按鈕：調貨 === */
 .btn-transfer {
   background-color: #ffe38a;
   border: 3px solid #e8982f;
@@ -237,11 +245,11 @@ td.col-actions {
 }
 
 .top-action-buttons .btn-transfer {
-  height: 40px;          
-  padding: 8px 16px;    
-  margin-top: 0;        
+  height: 40px;
+  padding: 8px 16px;
+  margin-top: 0;
   margin-bottom: 0;
-  display: inline-flex;   
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }

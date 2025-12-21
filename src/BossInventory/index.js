@@ -135,9 +135,8 @@ const BossInventory = () => {
         query.push(`limit=${encodeURIComponent(filters.limit)}`);
       }
 
-      const url = `${apiBaseUrl}/superadmin/transfer_logs${
-        query.length ? "?" + query.join("&") : ""
-      }`;
+      const url = `${apiBaseUrl}/superadmin/transfer_logs${query.length ? "?" + query.join("&") : ""
+        }`;
 
       const res = await fetch(url, {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
@@ -197,14 +196,7 @@ const BossInventory = () => {
         </div>
 
         <div className="top-action-buttons">
-          <button
-            className="btn-home"
-            onClick={() => (window.location.href = "/home")}
-          >
-            回首頁
-          </button>
-
-          {/* 新增：調貨紀錄按鈕 */}
+          {/* 調貨紀錄放前面 */}
           <button
             className="btn-transfer"
             onClick={async () => {
@@ -214,7 +206,16 @@ const BossInventory = () => {
           >
             調貨紀錄
           </button>
+
+          {/* 回首頁放後面 */}
+          <button
+            className="btn-home"
+            onClick={() => (window.location.href = "/home")}
+          >
+            回首頁
+          </button>
         </div>
+
       </div>
 
       <div className="table-wrapper">
